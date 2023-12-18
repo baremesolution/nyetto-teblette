@@ -184,7 +184,7 @@ public class DataResumeDialog extends JDialog {
 
                 resultLittre.setText(String.valueOf(volumeRecipient));
                 m3Result.setText(String.valueOf(bareme.convertToVolumeDesired("m3", volumeRecipient)));
-                resultBaril.setText(String.valueOf(bareme.convertToVolumeDesired("gallon USA", volumeRecipient)));
+                resultBaril.setText(String.valueOf(bareme.convertToVolumeDesired("baril", volumeRecipient)));
 
                 volumeRecipient = bareme.convertToVolumeDesired(unit_vol, volumeRecipient);
 

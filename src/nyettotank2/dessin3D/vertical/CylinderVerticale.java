@@ -13,7 +13,7 @@ public class CylinderVerticale extends JPanel {
     private String extremiteFlecheGauche = "";
     private String extremiteFlecheDroite = "";
 
-    public CylinderVerticale(float diam, float longueur, float fleched, float flecheg) {
+    public CylinderVerticale(float diam, float longueur, float flecheg, float fleched) {
         this.diam = diam;
         this.longueur = longueur;
         this.fleched = fleched;

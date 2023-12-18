@@ -5,9 +5,9 @@ import com.lowagie.text.Cell;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
-import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
 import com.lowagie.text.PageSize;
+import com.lowagie.text.Rectangle;
 import com.lowagie.text.Table;
 import com.lowagie.text.pdf.PdfWriter;
 import java.awt.Color;
@@ -34,17 +34,12 @@ import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import nyettotank2.view.newIHM.DonneeGeometrique;
-import nyettotank2.view.newIHM.MainView;
 
 
 import static com.lowagie.text.Image.MIDDLE;
 
 //
-import com.lowagie.text.BadElementException;
-import com.lowagie.text.Cell;
-import com.lowagie.text.Chunk;
 //import com.lowagie.text.Element;
-import com.lowagie.text.FontFactory;
 //import java.awt.Color;
 //import java.awt.Component;
 //import java.io.File;
@@ -63,8 +58,6 @@ import com.lowagie.text.FontFactory;
 //import java.util.logging.Logger;
 //import javax.swing.JOptionPane;
 //import javax.swing.JPanel;
-import jxl.Workbook;
-import jxl.write.Label;
 //import jxl.write.WritableSheet;
 //import jxl.write.WritableWorkbook;
 //import jxl.write.WriteException;
@@ -73,51 +66,7 @@ import jxl.write.Label;
 //import org.apache.poi.xwpf.usermodel.Document;
 
 
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Font;
-import com.lowagie.text.Image;
-import com.lowagie.text.BadElementException;
-import com.lowagie.text.Cell;
-import com.lowagie.text.Chunk;
-import com.lowagie.text.Element;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.PageSize;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.Table;
-import com.lowagie.text.pdf.PdfWriter;
-import java.awt.Color;   
-import java.awt.Component;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import jxl.Workbook;
-import jxl.write.Label;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
-import jxl.write.WriteException;
-import nyettotank2.courbe.ZoneGeometrie;
-import nyettotank2.courbe.ZoneVolume;
 
-import com.lowagie.text.Paragraph;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
-import nyettotank2.view.newIHM.MainView;
 
 
 
@@ -388,21 +337,74 @@ public class BaremeArtisan {
                         nature_fond_d.toUpperCase(), data, t);
                         
             } else {
-                
-                if( synonymeForOrientationOblique(orientation)  ){
-                
-                
-                
-                } else{
-                
-                    double volume1 = 0d;
+
+                double volume1 = 0d;
                     double volume2 = 0d;
                     double volume3 = 0d;
                     String natureGauche = "", natureDroite = "";
+                
+                if( synonymeForOrientationOblique(orientation)  ){
+                
+                    if( synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle( nature_fond_d ) ){
+                       natureDroite = "Elliptique";
+                       if (  synonymeForNatureFlechePlatOfCylinder(nature_fond_g) ) {
+                                vol_fleche = volumeFormeCylindre(unit, orientation,
+                            "PLAT",
+                            natureDroite, data, t);
+                        } else {
+
+                               volume1 = volumeFormeCylindre(unit, orientation,
+                        "PLAT",
+                        natureDroite, data, t);
+                         
+                         volume2 = volumeFormeCylindre(unit, orientation,
+                        "PLAT",
+                        "PLAT", data, t);
+                         
+                         volume3 = volumeFormeCylindreByRayonCarre(unit, orientation, nature_fond_g,
+                        "PLAT",
+                         data, t);
+                        vol_fleche = volume1 + volume3 - volume2;
+
+                        } 
+
+                    } else if( synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle( nature_fond_g )  ) {
+                        natureGauche = "Elliptique";
+                        if (  synonymeForNatureFlechePlatOfCylinder(nature_fond_d) ) {
+                                vol_fleche = volumeFormeCylindre(unit, orientation,
+                            
+                            natureGauche, "PLAT", data, t);
+                        } else {
+
+                             volume1 = volumeFormeCylindre(unit, orientation, natureGauche,
+                        "PLAT",
+                         data, t);
+                         
+                         volume2 = volumeFormeCylindre(unit, orientation,
+                        "PLAT",
+                        "PLAT", data, t);
+                         
+                         volume3 = volumeFormeCylindreByRayonCarre(unit, orientation, 
+                        "PLAT", nature_fond_d,
+                         data, t);
+
+                        }
+
+                    }
+                
+                } else{
+                
+                    
                      if( synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle( nature_fond_d ) ){
-                     
                          natureDroite = "Elliptique";
-                         volume1 = volumeFormeCylindre(unit, orientation,
+
+                        if (  synonymeForNatureFlechePlatOfCylinder(nature_fond_g) ) {
+                                vol_fleche = volumeFormeCylindre(unit, orientation,
+                            "PLAT",
+                            natureDroite, data, t);
+                        } else {
+
+                            volume1 = volumeFormeCylindre(unit, orientation,
                         "PLAT",
                         natureDroite, data, t);
                          
@@ -412,29 +414,40 @@ public class BaremeArtisan {
                          
                          volume3 = volumeFormeCylindreByRayonCarre(unit, orientation,
                         "PLAT",
-                        natureDroite, data, t);
+                        nature_fond_g, data, t);
+                        vol_fleche = volume1 + volume3 - volume2;
+
+                        }
                          
                      }
                      else  if( synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle( nature_fond_g ) ) {
                      
                          natureGauche = "Elliptique";
 
-                          volume1 = volumeFormeCylindre(unit, orientation,
+                         if(  synonymeForNatureFlechePlatOfCylinder(nature_fond_d) ){
+                            vol_fleche = volumeFormeCylindre(unit, orientation,
+                            "PLAT",
+                            natureGauche, data, t);
+                         } else{
+
+                             volume1 = volumeFormeCylindre(unit, orientation, natureGauche,
                         "PLAT",
-                        natureGauche, data, t);
+                         data, t);
                          
                          volume2 = volumeFormeCylindre(unit, orientation,
                         "PLAT",
                         "PLAT", data, t);
                          
-                         volume3 = volumeFormeCylindreByRayonCarre(unit, orientation,
-                        "PLAT",
-                        natureGauche, data, t);
+                         volume3 = volumeFormeCylindreByRayonCarre(unit, orientation, nature_fond_d,
+                        "PLAT", data, t);
+
+                         vol_fleche = volume1 + volume3 - volume2;
+
+                         }
+
+                         
                      }
                      
-                     vol_fleche = volume1 + volume3 - volume2;
-                    
-                
                 }
                 
             }
@@ -1115,7 +1128,8 @@ public class BaremeArtisan {
         
                         }
         
-                    }
+                    } else 
+                        return 0;
         
                 }
            
@@ -2896,7 +2910,8 @@ if (t > condition ) {
 
                     }
 
-                }
+                } else
+                    return 0;
 
             } else {
 
@@ -4521,7 +4536,8 @@ if (t > condition ) {
     public boolean synonymeFormeCapaciteMultiLangueForEllpsoide(String formeCapacite) {
 
         if (formeCapacite.equalsIgnoreCase("Ellipsoide") || formeCapacite.equalsIgnoreCase("Elliptical")
-                || formeCapacite.equalsIgnoreCase("Elliptisch") || formeCapacite.equalsIgnoreCase("Elliptique")) {
+                || formeCapacite.equalsIgnoreCase("Elliptisch") || formeCapacite.equalsIgnoreCase("Elliptique") || 
+                formeCapacite.equalsIgnoreCase("Forme Non Conventionnelle") || formeCapacite.equalsIgnoreCase("No Conventional Forms") ) {
             return true;
         } else {
             return false;

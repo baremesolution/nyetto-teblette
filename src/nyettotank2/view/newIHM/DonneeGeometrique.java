@@ -1,8 +1,5 @@
 package nyettotank2.view.newIHM;
 
-import copienyetv2.Ellipsoide;
-import copienyetv2.Parallelipipede;
-import copienyetv2.Sphere;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -18,8 +15,11 @@ import javax.swing.JOptionPane;
 import nyettotank2.dessin3D.horizontal.CylindreHorizontale;
 import nyettotank2.dessin3D.incline.CylindreHorizontaleIncline;
 import nyettotank2.dessin3D.vertical.CylinderVerticale;
-import nyettotank2.metier.BaremeArtisan;
 import nyettotank2.utilitaires.FormValidator;
+import nyettotank.dessin3D.*;
+import nyettotank2.metier.BaremeArtisan;
+//import nyettotank.dessin3D;
+
 
 public class DonneeGeometrique extends javax.swing.JPanel {
 
@@ -1111,7 +1111,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                         fieldFlecheDroit.setText(String.valueOf(diametre / 2));
                     } else if (synonymeForNatureFlechePlatOfCylinder(comboNatureFDValueMoindreCarree.getSelectedItem().toString())) {
                         fieldFlecheDroit.setText("0");
-                    }
+                    } 
 
                     if (comboNatureFGValueMoindreCarree.getSelectedItem().toString().equalsIgnoreCase("BOMBER")) {
                         fieldFlecheGauche.setText(String.valueOf(diametre / 7));
@@ -1123,7 +1123,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                         fieldFlecheGauche.setText(String.valueOf(diametre / 2));
                     } else if (synonymeForNatureFlechePlatOfCylinder(comboNatureFGValueMoindreCarree.getSelectedItem().toString())) {
                         fieldFlecheGauche.setText("0");
-                    }
+                    } 
 
                     dessinerFormeRayonCarre(nature_fond_g, nature_fond_d);
 
@@ -1191,14 +1191,16 @@ public class DonneeGeometrique extends javax.swing.JPanel {
         if (nature_fond_d.equalsIgnoreCase("bomber")
                 || synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_d)
                 || synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_d) 
-                || synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle(nature_fond_d)) {
+                || synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle(nature_fond_d) 
+                || synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle(nature_fond_d) ) {
             nature_fond_d = "elliptique";
         }
 
         if (nature_fond_g.equalsIgnoreCase("bomber")
                 || synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g)
                 || synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g)
-                || synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle(nature_fond_g)) { 
+                || synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle(nature_fond_g)
+                || synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle(nature_fond_g) ) { 
             nature_fond_g = "elliptique";
         }
         dessinerForme(nature_fond_g, nature_fond_d);
@@ -1427,22 +1429,22 @@ public class DonneeGeometrique extends javax.swing.JPanel {
         }
 
         if (synonymeForOrientationOblique(comboOrientationValue.getSelectedItem().toString().toLowerCase())) {
-            if (Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldInclineAngle.getText()).matches()) {
+            if ( !fieldInclineAngle.getText().isEmpty() && !fieldInclineAngle.getText().isBlank() && Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldInclineAngle.getText()).matches()) {
                 angleInclinaison = true;
                 valueGeometryData.put("angle inclinaison", fieldInclineAngle.getText());
             }
 
-            if (Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldPositionx.getText()).matches()) {
+            if ( !fieldPositionx.getText().isBlank() && !fieldPositionx.getText().isEmpty() && Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldPositionx.getText()).matches()) {
                 positionX = true;
                 valueGeometryData.put("position x", fieldPositionx.getText());
             }
 
-            if (Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldPositiony.getText()).matches()) {
+            if ( !fieldPositiony.getText().isBlank() && !fieldPositiony.getText().isEmpty() && Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldPositiony.getText()).matches()) {
                 positionY = true;
                 valueGeometryData.put("position y", fieldPositiony.getText());
             }
 
-            if (Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldPositionz.getText()).matches()) {
+            if ( !fieldPositionz.getText().isEmpty() && !fieldPositionz.getText().isBlank() && Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldPositionz.getText()).matches()) {
                 positionZ = true;
                 valueGeometryData.put("position z", fieldPositionz.getText());
             }
@@ -1450,6 +1452,12 @@ public class DonneeGeometrique extends javax.swing.JPanel {
             //if (btnGrpTrigonometrie.getSelection().isSelected()) {
             //volumetrie = true;                
             valueGeometryData.put("valeur trigonometrique", btnGrpTrigonometrie.getSelection().toString());
+            
+            if( !angleInclinaison && !positionZ && !positionY && !positionX )
+                JOptionPane.showMessageDialog(null, "Une erreur s'est produite. Veuillez vérifier les valeurs du formulaire de vos champs qui correspondent à l'orientation oblique de la capacite. \n Parmi lesquels : l'angle d'inclinaison et les différentes positions en X, Y et Z", "Erreur", JOptionPane.ERROR_MESSAGE);
+            if( !angleInclinaison )
+                JOptionPane.showMessageDialog(null, "Une erreur s'est produite. La valeur de l'angle d'inclinaison n'est pas correcte. ", "Erreur", JOptionPane.ERROR_MESSAGE);
+
             //}
         }
 
@@ -1549,7 +1557,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
 
         }
         
-        if( synonymeForNatureFlecheConiqueOfCylinder( comboNatureFDValueMoindreCarree.getSelectedItem().toString() ) ){
+        if( synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle( comboNatureFGValueMoindreCarree.getSelectedItem().toString() ) ){
         
             if ( Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldFlecheGauche.getText()).matches()) {
             valueGeometryData.put("fleche cote gauche", fieldFlecheGauche.getText());
@@ -1647,7 +1655,8 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                         JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
                     }
 
-                } else if (synonymeFormeCapaciteMultiLangueForSphere(fondRight)) {
+                } 
+                else if (synonymeFormeCapaciteMultiLangueForSphere(fondRight)) {
                     CylindreHorizontale cylindreHorizontale = new CylindreHorizontale(diametre, longueur, diametre / 2, diametre / 2);
                     cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                     formsfigurePanel.add(cylindreHorizontale);
@@ -1855,7 +1864,8 @@ public class DonneeGeometrique extends javax.swing.JPanel {
 
             }
 
-        } else if (synonymeForOrientationVerticale(formeRecipentSelectionne)) {
+        } 
+        else if (synonymeForOrientationVerticale(formeRecipentSelectionne)) {
 
             if (fondLeft.equals(fondRight)) {
 
@@ -1913,21 +1923,23 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                         CylinderVerticale cylindreHorizontale = new CylinderVerticale(diametre, longueur, 0, diametre / 2);
                         cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                         formsfigurePanel.add(cylindreHorizontale);
-                    } else if (synonymeElliptiqueMultiLangue(fondRight)) {
+                    } 
+                    else if (synonymeElliptiqueMultiLangue(fondRight)) {
 
                         if (Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldFlecheDroit.getText()).matches()) {
 
                             fleched = Float.parseFloat(fieldFlecheDroit.getText());
                             fleched = baremeArtisan.convertToCentimeter(comboUniteLong.getSelectedItem().toString(), fleched);
 
-                            CylinderVerticale cylindreHorizontale = new CylinderVerticale(diametre, longueur, 0, fleched);
+                            CylinderVerticale cylindreHorizontale = new CylinderVerticale(diametre, longueur, 0, fleched );
                             cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                             formsfigurePanel.add(cylindreHorizontale);
                         } else {
                             JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
                         }
 
-                    } else if (synonymeForNatureFlecheConiqueOfCylinder(fondRight)) {
+                    } 
+                    else if (synonymeForNatureFlecheConiqueOfCylinder(fondRight)) {
 
                         if (Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldFlecheDroit.getText()).matches()) {
 
@@ -1947,7 +1959,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
 
                     if (synonymeFormeCapaciteMultiLangueForSphere(fondLeft)) {
 
-                        CylinderVerticale cylindreHorizontale = new CylinderVerticale(diametre, longueur, diametre / 2, 0);
+                        CylinderVerticale cylindreHorizontale = new CylinderVerticale(diametre, longueur,diametre / 2, 0);
                         cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                         formsfigurePanel.add(cylindreHorizontale);
                     } else if (synonymeElliptiqueMultiLangue(fondLeft)) {
@@ -2390,7 +2402,8 @@ public class DonneeGeometrique extends javax.swing.JPanel {
 
         if (formeCapacite.equalsIgnoreCase("Ellipsoide") || formeCapacite.equalsIgnoreCase("Elliptical") || formeCapacite.equalsIgnoreCase("Elliptisch") || formeCapacite.equalsIgnoreCase("Elliptique")
                 || formeCapacite.equalsIgnoreCase("torispherique") || formeCapacite.equalsIgnoreCase("hemispherique") || formeCapacite.equalsIgnoreCase("bomber")
-                || formeCapacite.equalsIgnoreCase("hemiSpherical") || formeCapacite.equalsIgnoreCase("halbkugelformig") || formeCapacite.equalsIgnoreCase("torispheric") || formeCapacite.equalsIgnoreCase("torispharisch")) {
+                || formeCapacite.equalsIgnoreCase("hemiSpherical") || formeCapacite.equalsIgnoreCase("halbkugelformig") || formeCapacite.equalsIgnoreCase("torispheric") || formeCapacite.equalsIgnoreCase("torispharisch")
+                || formeCapacite.equalsIgnoreCase("Forme Non Conventionnelle") || formeCapacite.equalsIgnoreCase("No Conventional Forms")) {
             return true;
         } else {
             return false;
