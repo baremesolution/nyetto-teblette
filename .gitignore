@@ -1,9 +1,9 @@
 /dist/
 
-build
+/build/
 
-lib
+/lib/
 
-test
+/test/
 
-nbproject
+/nbproject/
