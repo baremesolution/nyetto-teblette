@@ -11,20 +11,19 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import nyettotank2.model.InfoType;
+//import nyettotank2.model.InfoType;
 import nyettotank2.utilitaires.ConfigureImageButton;
 
 public class InfoTypeView extends javax.swing.JPanel {
 
-    private InfoType infoType = new InfoType();
-    private static InputStream logoImage;
+  private static InputStream logoImage;
     private static InputStream signatureImage;
     private static HashMap infoGenerale = new HashMap();
     Color DefaultColor, ClickedColor;
 
     public InfoTypeView() {
         initComponents();
-        mainPanel.setLayout(new FlowLayout());
+       mainPanel.setLayout(new FlowLayout());
         mainPanel.removeAll();
         mainPanel.add(allPanel);
 
@@ -74,7 +73,7 @@ public class InfoTypeView extends javax.swing.JPanel {
 
         }
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -139,11 +138,12 @@ public class InfoTypeView extends javax.swing.JPanel {
             .addGroup(datePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(datePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(debutTravauxValue, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
-                    .addComponent(finTravauxValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(finTravaux, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(debutTravaux, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(finTravaux, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(finTravauxValue, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(datePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(debutTravauxValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(debutTravaux, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         datePanelLayout.setVerticalGroup(
             datePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,7 +170,7 @@ public class InfoTypeView extends javax.swing.JPanel {
         });
 
         chefOperation.setBackground(new java.awt.Color(0, 0, 0));
-        chefOperation.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        chefOperation.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         chefOperation.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         chefOperation.setText("Chef des opérations");
 
@@ -186,18 +186,18 @@ public class InfoTypeView extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(chefOperation, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(chefOperationValue, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
+                .addGap(5, 5, 5)
+                .addComponent(chefOperation, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(chefOperationValue, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(chefOperationValue, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chefOperationValue, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(chefOperation, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 5, Short.MAX_VALUE))
         );
@@ -209,7 +209,7 @@ public class InfoTypeView extends javax.swing.JPanel {
             }
         });
 
-        lieuOperation.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        lieuOperation.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lieuOperation.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lieuOperation.setText("Lieu des opérations");
 
@@ -225,11 +225,11 @@ public class InfoTypeView extends javax.swing.JPanel {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(lieuOperation, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lieuOperationValue, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
+                .addGap(5, 5, 5)
+                .addComponent(lieuOperation, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lieuOperationValue, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -237,7 +237,7 @@ public class InfoTypeView extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lieuOperation, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lieuOperationValue, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lieuOperationValue, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -255,7 +255,7 @@ public class InfoTypeView extends javax.swing.JPanel {
             }
         });
 
-        agree.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        agree.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         agree.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         agree.setText("Agrée");
 
@@ -264,18 +264,18 @@ public class InfoTypeView extends javax.swing.JPanel {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(agree, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(agree, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(agreeValue, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
+                .addComponent(agreeValue, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(agreeValue, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(agreeValue, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(agree))
                 .addContainerGap())
         );
@@ -288,7 +288,7 @@ public class InfoTypeView extends javax.swing.JPanel {
         });
 
         adresseClient.setBackground(new java.awt.Color(255, 255, 255));
-        adresseClient.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        adresseClient.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         adresseClient.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         adresseClient.setText("Adresse du demandeur");
 
@@ -304,11 +304,11 @@ public class InfoTypeView extends javax.swing.JPanel {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(adresseClient, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(adresseClient, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(adresseClientValue, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                .addComponent(adresseClientValue, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -316,7 +316,7 @@ public class InfoTypeView extends javax.swing.JPanel {
                 .addContainerGap(8, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(adresseClient)
-                    .addComponent(adresseClientValue, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(adresseClientValue, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -334,7 +334,7 @@ public class InfoTypeView extends javax.swing.JPanel {
             }
         });
 
-        detenteur.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        detenteur.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         detenteur.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         detenteur.setText("Détenteur");
 
@@ -343,18 +343,18 @@ public class InfoTypeView extends javax.swing.JPanel {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(detenteur, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(detenteurValue, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                .addGap(5, 5, 5)
+                .addComponent(detenteur, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(detenteurValue, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(detenteurValue, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(detenteurValue, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(detenteur))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -388,7 +388,7 @@ public class InfoTypeView extends javax.swing.JPanel {
                 .addComponent(btnActualiserInfoType, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(validerButtonInfosType, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
+                .addGap(28, 28, 28))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -404,12 +404,20 @@ public class InfoTypeView extends javax.swing.JPanel {
         infoTypeData.setLayout(infoTypeDataLayout);
         infoTypeDataLayout.setHorizontalGroup(
             infoTypeDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(infoTypeDataLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addGroup(infoTypeDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(infoTypeDataLayout.createSequentialGroup()
+                        .addGroup(infoTypeDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(infoTypeDataLayout.createSequentialGroup()
+                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         infoTypeDataLayout.setVerticalGroup(
             infoTypeDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -424,7 +432,7 @@ public class InfoTypeView extends javax.swing.JPanel {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(86, 86, 86)
+                .addGap(95, 95, 95)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -488,17 +496,13 @@ public class InfoTypeView extends javax.swing.JPanel {
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(signatureLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel11Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(btnAddsignature, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
-                            .addComponent(btnAddLogo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(logoLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addGap(8, 8, 8)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnAddsignature, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                    .addComponent(logoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAddLogo, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                    .addComponent(signatureLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(8, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -521,11 +525,11 @@ public class InfoTypeView extends javax.swing.JPanel {
             .addGroup(allPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(datePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(infoTypeData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(10, 10, 10)
+                .addComponent(infoTypeData, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
         allPanelLayout.setVerticalGroup(
             allPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -566,14 +570,22 @@ public class InfoTypeView extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAddLogoMouseClicked
 
     private void btnAddLogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddLogoActionPerformed
-        ConfigureImageButton configureImageButton = new ConfigureImageButton();
-        try {
-            File logoFile = configureImageButton.showImage(btnAddLogo, logoLabel, 150, 150, logoLabel.getIcon() != null);
-            logoImage = logoFile.toURI().toURL().openStream();
+          ConfigureImageButton configureImageButton = new ConfigureImageButton();
+    InputStream previousLogoImage = logoImage; // Save the previous image stream
 
-        } catch (IOException ex) {
-            Logger.getLogger(InfoType.class.getName()).log(Level.SEVERE, null, ex);
+    try {
+        File logoFile = configureImageButton.showImage(btnAddLogo, logoLabel, 150, 150, logoLabel.getIcon() != null);
+        if (logoFile.getAbsolutePath() != null) {
+            logoImage = logoFile.toURI().toURL().openStream();
+            if (previousLogoImage != null) {
+                previousLogoImage.close();
+            }
         }
+        
+    } catch (IOException ex) {
+        Logger.getLogger(InfoTypeView.class.getName()).log(Level.SEVERE, "Erreur lors du chargement de l'image du logo", ex);
+        showImageErrorDialog(ex.getMessage() + " - " + ex.getCause());
+    }
     }//GEN-LAST:event_btnAddLogoActionPerformed
 
     private void logoLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoLabelMouseClicked
@@ -586,11 +598,20 @@ public class InfoTypeView extends javax.swing.JPanel {
 
     private void btnAddsignatureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddsignatureActionPerformed
         ConfigureImageButton configureImageButton = new ConfigureImageButton();
+        InputStream previousSignatureImage = signatureImage; // Sauvegarde de l'image précédente
+
         try {
             File signatureFile = configureImageButton.showImage(btnAddsignature, signatureLabel, 150, 150, signatureLabel.getIcon() != null);
-            signatureImage = signatureFile.toURI().toURL().openStream();
+
+            if (signatureFile != null) {
+                if (previousSignatureImage != null) {
+                    previousSignatureImage.close();
+                }
+                signatureImage = signatureFile.toURI().toURL().openStream();
+            }
         } catch (IOException ex) {
-            Logger.getLogger(InfoType.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(InfoTypeView.class.getName()).log(Level.SEVERE, "Erreur lors du chargement de l'image de la signature", ex);
+            showImageErrorDialog("Erreur lors du chargement de l'image de la signature: " + ex.getMessage());
         }
     }//GEN-LAST:event_btnAddsignatureActionPerformed
 
@@ -599,7 +620,7 @@ public class InfoTypeView extends javax.swing.JPanel {
     }//GEN-LAST:event_signatureLabelMouseClicked
 
     private void btnActualiserInfoTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualiserInfoTypeActionPerformed
-        chefOperationValue.setText("");
+         chefOperationValue.setText("");
         lieuOperationValue.setText("");
         detenteurValue.setText("");
         adresseClientValue.setText("");
@@ -609,10 +630,10 @@ public class InfoTypeView extends javax.swing.JPanel {
     }//GEN-LAST:event_btnActualiserInfoTypeActionPerformed
 
     private void validerButtonInfosTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_validerButtonInfosTypeActionPerformed
-        try {
+       try {
             saveInfoType();
         } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(InfoType.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InfoTypeView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_validerButtonInfosTypeActionPerformed
 
@@ -625,7 +646,7 @@ public class InfoTypeView extends javax.swing.JPanel {
     }
 
     private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {
-        jPanel1.setBackground(DefaultColor);
+          jPanel1.setBackground(DefaultColor);
         jPanel2.setBackground(ClickedColor);
         jPanel3.setBackground(DefaultColor);
         jPanel4.setBackground(DefaultColor);
@@ -633,7 +654,7 @@ public class InfoTypeView extends javax.swing.JPanel {
     }
 
     private void jPanel3MousePressed(java.awt.event.MouseEvent evt) {
-        jPanel1.setBackground(DefaultColor);
+         jPanel1.setBackground(DefaultColor);
         jPanel2.setBackground(DefaultColor);
         jPanel3.setBackground(ClickedColor);
         jPanel4.setBackground(DefaultColor);
@@ -641,7 +662,7 @@ public class InfoTypeView extends javax.swing.JPanel {
     }
 
     private void jPanel4MousePressed(java.awt.event.MouseEvent evt) {
-        jPanel1.setBackground(DefaultColor);
+       jPanel1.setBackground(DefaultColor);
         jPanel2.setBackground(DefaultColor);
         jPanel3.setBackground(DefaultColor);
         jPanel4.setBackground(ClickedColor);
@@ -649,7 +670,7 @@ public class InfoTypeView extends javax.swing.JPanel {
     }
 
     private void jPanel5MousePressed(java.awt.event.MouseEvent evt) {
-        jPanel1.setBackground(DefaultColor);
+          jPanel1.setBackground(DefaultColor);
         jPanel2.setBackground(DefaultColor);
         jPanel3.setBackground(DefaultColor);
         jPanel4.setBackground(DefaultColor);
@@ -669,7 +690,7 @@ public class InfoTypeView extends javax.swing.JPanel {
     }//GEN-LAST:event_chefOperationValueMouseClicked
 
     private void lieuOperationValueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lieuOperationValueMouseClicked
-        jPanel1.setBackground(DefaultColor);
+       jPanel1.setBackground(DefaultColor);
         jPanel2.setBackground(ClickedColor);
         jPanel3.setBackground(DefaultColor);
         jPanel4.setBackground(DefaultColor);
@@ -685,7 +706,7 @@ public class InfoTypeView extends javax.swing.JPanel {
     }//GEN-LAST:event_agreeValueMouseClicked
 
     private void adresseClientValueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_adresseClientValueMouseClicked
-        jPanel1.setBackground(DefaultColor);
+           jPanel1.setBackground(DefaultColor);
         jPanel2.setBackground(DefaultColor);
         jPanel3.setBackground(DefaultColor);
         jPanel4.setBackground(ClickedColor);
@@ -693,14 +714,14 @@ public class InfoTypeView extends javax.swing.JPanel {
     }//GEN-LAST:event_adresseClientValueMouseClicked
 
     private void detenteurValueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_detenteurValueMouseClicked
-        jPanel1.setBackground(DefaultColor);
+       jPanel1.setBackground(DefaultColor);
         jPanel2.setBackground(DefaultColor);
         jPanel3.setBackground(DefaultColor);
         jPanel4.setBackground(DefaultColor);
         jPanel5.setBackground(ClickedColor);
     }//GEN-LAST:event_detenteurValueMouseClicked
 
-    public void saveInfoType() throws IOException {
+     public void saveInfoType() throws IOException {
         String chefOperation = chefOperationValue.getText().toString();
         String lieuOperation = lieuOperationValue.getText().toString();
         String detenteur = detenteurValue.getText().toString();
@@ -713,21 +734,12 @@ public class InfoTypeView extends javax.swing.JPanel {
         String logo = logoLabel.getIcon() != null ? logoLabel.getIcon().toString() : "";
         ConfigureImageButton configureImageButton = new ConfigureImageButton();
 
-        // Vérifier si le logo existe déjà
         File logoFile = null;
         if (logoLabel.getIcon() != null) {
-            logoFile = configureImageButton.showImage(btnAddLogo, logoLabel, 150, 150, true);
-            if (logoFile != null) {
-                configureImageButton.saveImage(logoFile, logo);
-            }
         }
 
         File signatureFile = null;
         if (signatureLabel.getIcon() != null) {
-            signatureFile = configureImageButton.showImage(btnAddsignature, signatureLabel, 150, 150, true);
-            if (signatureFile != null) {
-                configureImageButton.saveImage(signatureFile, signature);
-            }
         }
 
         boolean isNotEmpty = !chefOperation.isEmpty() || !lieuOperation.isEmpty()
@@ -736,58 +748,39 @@ public class InfoTypeView extends javax.swing.JPanel {
                 || (logoFile != null) || (signatureFile != null);
 
         if (isNotEmpty) {
-            try {
-                if (logoFile != null) {
-                    configureImageButton.saveImage(logoFile, logo);
-                }
-                if (signatureFile != null) {
-                    configureImageButton.saveImage(signatureFile, signature);
-                }
-
-                infoType.setChefOperation(chefOperation);
-                infoType.setLieuOperation(lieuOperation);
-
-                infoType.setDetenteur(detenteur);
-                infoType.setAdresseClient(adresseClient);
-                infoType.setAgree(agree);
-
-                infoType.setPhotoSignature(signature);
-                infoType.setPhotoLogo(logo);
-                infoType.setDateDebutTravaux(debutTravaux);
-                infoType.setDateFinTravaux(finTravaux);
-
-                if (chefOperationValue.getText().length() > 2) {
-                    infoGenerale.put("chef des operations", chefOperation);
-                }
-                if (lieuOperationValue.getText().length() > 2) {
-                    infoGenerale.put("lieu des operations", lieuOperation);
-                }
-
-                if (detenteurValue.getText().length() > 2) {
-                    infoGenerale.put("detenteur", detenteur);
-                }
-                if (adresseClientValue.getText().length() > 2) {
-                    infoGenerale.put("adresse demandeur", adresseClient);
-                }
-
-                if (agreeValue.getText().length() > 2) {
-                    infoGenerale.put("agree", agree);
-                }
-
-                infoGenerale.put("debut des travaux", debutTravaux);
-                infoGenerale.put("fin des travaux", finTravaux);
-
-                JOptionPane.showMessageDialog(null, "Vos données ont bien été pris en compte!.", "Succès", JOptionPane.INFORMATION_MESSAGE);
-
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-                JOptionPane.showMessageDialog(null, "Une erreur s'est produite lors de la sauvegarde des images.", "Erreur", JOptionPane.ERROR_MESSAGE);
+            if (logoFile != null) {
+                configureImageButton.saveImage(logoFile, logo);
             }
+            if (signatureFile != null) {
+                configureImageButton.saveImage(signatureFile, signature);
+            }
+           
+            if (chefOperationValue.getText().length() > 2) {
+                infoGenerale.put("chef des operations", chefOperation);
+            }
+            if (lieuOperationValue.getText().length() > 2) {
+                infoGenerale.put("lieu des operations", lieuOperation);
+            }
+            if (detenteurValue.getText().length() > 2) {
+                infoGenerale.put("detenteur", detenteur);
+            }
+            if (adresseClientValue.getText().length() > 2) {
+                infoGenerale.put("adresse demandeur", adresseClient);
+            }
+            if (agreeValue.getText().length() > 2) {
+                infoGenerale.put("agree", agree);
+            }
+            infoGenerale.put("debut des travaux", debutTravaux);
+            infoGenerale.put("fin des travaux", finTravaux);
+            JOptionPane.showMessageDialog(null, "Vos données ont bien été pris en compte!.", "Succès", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, "Aucune information n'a été renseignée.", "Succès", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-
+     
+    private void showImageErrorDialog(String message) {
+        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel adresseClient;

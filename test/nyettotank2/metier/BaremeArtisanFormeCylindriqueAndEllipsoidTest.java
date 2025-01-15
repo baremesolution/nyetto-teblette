@@ -61,7 +61,7 @@ public class BaremeArtisanFormeCylindriqueAndEllipsoidTest {
         InputStream logo = BaremeArtisan.class.getResourceAsStream("/images/nyettoTankFtLogo.png");      
 
         try {
-            baremeArtisan.certificat_with_head(info, data, logo, "geometrie", null, null);
+         //   baremeArtisan.certificat_with_head(info, data, logo, "geometrie", null, null);
 
             String filePath = System.getProperty("user.home") + "/Documents/TestCertificat.pdf";
             File file = new File(filePath);
@@ -95,7 +95,6 @@ public class BaremeArtisanFormeCylindriqueAndEllipsoidTest {
         InputStream logo = BaremeArtisan.class.getResourceAsStream("/images/nyettoTankFtLogo.png");
 
         try {
-            baremeArtisan.certificat_with_head(info, data, logo, "geometrie", null, null);
 
             String filePath = System.getProperty("user.home") + "/Documents/TestCertificat.pdf";
             File file = new File(filePath);

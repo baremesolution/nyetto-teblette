@@ -113,7 +113,7 @@ public class DataResumeDialog extends JDialog {
 
             }
             
-              if (synonymeForOrientationVerticale(info.get("orientation").toString()) && synonymeFormeCapaciteMultiLangueForCylindre(formeCapacite)) {
+              if (synonymeForOrientationVerticale(info.get("orientation").toString() ) && synonymeFormeCapaciteMultiLangueForCylindre(formeCapacite)) {
                 diametre = Float.parseFloat(data.get("longueur").toString());
                 if (data.containsKey("fleche cote gauche")) {
 
@@ -126,6 +126,16 @@ public class DataResumeDialog extends JDialog {
 
                 }
 
+            }
+              
+            if( synonymeForOrientationOblique( info.get("orientation").toString() ) && synonymeFormeCapaciteMultiLangueForCylindre(formeCapacite) ){
+            
+                float angleInclinaison = Float.parseFloat(data.get("angle inclinaison").toString());
+                float sinusAngle = (float) Math.sin(Math.PI*angleInclinaison/180);
+                float cosinusAngle = (float) Math.cos(Math.PI*angleInclinaison/180);
+                diametre = Float.parseFloat(data.get("longueur").toString())*sinusAngle + diametre*cosinusAngle;
+
+            
             }
 
             if (!info.get("unite des hauteurs").toString().toLowerCase().equals("cm")) {
@@ -428,6 +438,16 @@ public class DataResumeDialog extends JDialog {
         } else {
             return false;
         }
+    }
+    
+     private boolean synonymeForOrientationOblique(String formeCapacite) {
+
+        if (formeCapacite.equalsIgnoreCase("Oblique") || formeCapacite.equalsIgnoreCase("Schräg")) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
     public boolean synonymeForOrientationVerticale(String formeCapacite) {

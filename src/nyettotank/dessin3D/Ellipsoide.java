@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package nyettotank.dessin3D;
 
 import java.awt.BasicStroke;
@@ -52,6 +49,10 @@ public class Ellipsoide extends JPanel {
       
         //dessin fleche
         g.drawArc((int) ( ( this.getWidth() - grandAxeTransform )/2 ) , (int) ( this.getHeight()/2 - petitAxeTransform ), (int) grandAxeTransform, (int) petitAxeTransform, 0, 360);
+         g.setColor(Color.RED);
+            g.drawString("Grand axe = " + this.grandAxe, (int) ( ( this.getWidth() - grandAxeTransform )/2 ) , (int) ( ( this.getHeight()+ grandAxeTransform )/2 ) - 10);
+            g.drawString("Petit axe = " + this.petitAxe, (int) ( ( this.getWidth() - grandAxeTransform )/2 ) , (int) ( ( this.getHeight()+ grandAxeTransform )/2 ) + 5);
+            g.drawString("Hauteur = " + this.hauteur, (int) ( ( this.getWidth() - grandAxeTransform )/2 ) , (int) ( ( this.getHeight()+ grandAxeTransform )/2 ) + 20);
 
         
         //float[] dash1 = { 2f, 0f, 2f };

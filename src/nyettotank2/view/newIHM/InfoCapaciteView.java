@@ -10,18 +10,18 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import nyettotank2.model.InfoCapacite;
 import nyettotank2.utilitaires.FormValidator;
 
 public class InfoCapaciteView extends javax.swing.JPanel {
 
-    private InfoCapacite infoCapacite = new InfoCapacite();
     private static HashMap infoGenerale = new HashMap();
     Color DefaultColor, ClickedColor;
 
     public InfoCapaciteView() {
         initComponents();
         invalidFields.setText("");
+       invalidFields.setBackground(Color.white);
+        invalidFields.setForeground(Color.white);     
         FormValidator.setupRealTimeValidation(nombreDeCompartimentsValue, invalidFields);
         FormValidator.setupRealTimeValidation(volumeNominalValue, invalidFields);
         FormValidator.setupRealTimeValidation(hauteurTemoinValue, invalidFields);
@@ -94,7 +94,7 @@ public class InfoCapaciteView extends javax.swing.JPanel {
 
         }
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -209,14 +209,14 @@ public class InfoCapaciteView extends javax.swing.JPanel {
             datePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(datePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(datePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(fondCapaciteValue, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(typeCapacite, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(fondCapacite, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
-                    .addComponent(typeCapaciteValue, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(etancheiteValue, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(etancheite, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(datePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(etancheite, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(typeCapaciteValue, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(typeCapacite, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fondCapaciteValue, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fondCapacite, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                    .addComponent(etancheiteValue, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         datePanelLayout.setVerticalGroup(
             datePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -264,10 +264,10 @@ public class InfoCapaciteView extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(nomCapacite, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(nomCapaciteValue, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(nomCapacite, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(nomCapaciteValue, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -305,10 +305,10 @@ public class InfoCapaciteView extends javax.swing.JPanel {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(produitStocke, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(produitStockeValue, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(produitStocke, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(produitStockeValue, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -340,11 +340,10 @@ public class InfoCapaciteView extends javax.swing.JPanel {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(volumeNominal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(volumeNominalValue, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(volumeNominal, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(volumeNominalValue, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -375,10 +374,10 @@ public class InfoCapaciteView extends javax.swing.JPanel {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(hauteurTemoin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(hauteurTemoinValue, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(hauteurTemoin, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(hauteurTemoinValue, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -415,10 +414,10 @@ public class InfoCapaciteView extends javax.swing.JPanel {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(nombreDeCompartiments, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(nombreDeCompartimentsValue, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(nombreDeCompartiments, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(nombreDeCompartimentsValue, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -433,7 +432,7 @@ public class InfoCapaciteView extends javax.swing.JPanel {
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setPreferredSize(new java.awt.Dimension(680, 42));
 
-        fabricant.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        fabricant.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         fabricant.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         fabricant.setText("Fabricant");
 
@@ -446,6 +445,11 @@ public class InfoCapaciteView extends javax.swing.JPanel {
                 fabricantValueMouseExited(evt);
             }
         });
+        fabricantValue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fabricantValueActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -453,10 +457,10 @@ public class InfoCapaciteView extends javax.swing.JPanel {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(fabricant, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(fabricantValue, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(fabricant, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(fabricantValue, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -470,7 +474,7 @@ public class InfoCapaciteView extends javax.swing.JPanel {
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
         anneeFabrication.setBackground(new java.awt.Color(204, 204, 204));
-        anneeFabrication.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        anneeFabrication.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         anneeFabrication.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         anneeFabrication.setText("Année de fabrication");
 
@@ -487,10 +491,10 @@ public class InfoCapaciteView extends javax.swing.JPanel {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(anneeFabrication, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(anneeFabricationValue, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(anneeFabrication, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(anneeFabricationValue, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -520,10 +524,10 @@ public class InfoCapaciteView extends javax.swing.JPanel {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(numeroSerie, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(numeroSerieValue1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(numeroSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(numeroSerieValue1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -564,21 +568,23 @@ public class InfoCapaciteView extends javax.swing.JPanel {
         capacityData.setLayout(capacityDataLayout);
         capacityDataLayout.setHorizontalGroup(
             capacityDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(invalidFields, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 683, Short.MAX_VALUE)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 683, Short.MAX_VALUE)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 683, Short.MAX_VALUE)
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 683, Short.MAX_VALUE)
-            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 683, Short.MAX_VALUE)
-            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
             .addGroup(capacityDataLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnActualiserCapacite, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(suivantButtonCapacite, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addComponent(invalidFields, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(capacityDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
+                    .addGroup(capacityDataLayout.createSequentialGroup()
+                        .addComponent(btnActualiserCapacite, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(suivantButtonCapacite, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(78, 78, 78))))
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
+            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 538, Short.MAX_VALUE)
+            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         capacityDataLayout.setVerticalGroup(
             capacityDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -593,7 +599,7 @@ public class InfoCapaciteView extends javax.swing.JPanel {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -615,9 +621,9 @@ public class InfoCapaciteView extends javax.swing.JPanel {
             .addGroup(allPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(datePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addGap(15, 15, 15)
                 .addComponent(capacityData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
+                .addGap(15, 15, 15))
         );
         allPanelLayout.setVerticalGroup(
             allPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -654,7 +660,7 @@ public class InfoCapaciteView extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 1, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -684,10 +690,10 @@ public class InfoCapaciteView extends javax.swing.JPanel {
     }//GEN-LAST:event_btnActualiserCapaciteActionPerformed
 
     private void suivantButtonCapaciteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_suivantButtonCapaciteActionPerformed
-        try {
+       try {
             saveCapacite();
         } catch (IOException ex) {
-            Logger.getLogger(InfoCapacite.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(InfoCapaciteView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_suivantButtonCapaciteActionPerformed
 
@@ -704,7 +710,7 @@ public class InfoCapaciteView extends javax.swing.JPanel {
         jPanel6.setBackground(DefaultColor);
         jPanel7.setBackground(DefaultColor);
         jPanel8.setBackground(DefaultColor);
-        jPanel8.setBackground(ClickedColor);
+        jPanel8.setBackground(ClickedColor); 
     }//GEN-LAST:event_numeroSerieValue1MouseClicked
 
     private void produitStockeValueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_produitStockeValueMouseClicked
@@ -720,7 +726,7 @@ public class InfoCapaciteView extends javax.swing.JPanel {
     }//GEN-LAST:event_produitStockeValueMouseClicked
 
     private void volumeNominalValueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_volumeNominalValueMouseClicked
-        jPanel1.setBackground(DefaultColor);
+         jPanel1.setBackground(DefaultColor);
         jPanel2.setBackground(DefaultColor);
         jPanel3.setBackground(ClickedColor);
         jPanel4.setBackground(DefaultColor);
@@ -732,7 +738,7 @@ public class InfoCapaciteView extends javax.swing.JPanel {
     }//GEN-LAST:event_volumeNominalValueMouseClicked
 
     private void hauteurTemoinValueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hauteurTemoinValueMouseClicked
-        jPanel1.setBackground(DefaultColor);
+         jPanel1.setBackground(DefaultColor);
         jPanel2.setBackground(DefaultColor);
         jPanel3.setBackground(DefaultColor);
         jPanel4.setBackground(ClickedColor);
@@ -744,7 +750,7 @@ public class InfoCapaciteView extends javax.swing.JPanel {
     }//GEN-LAST:event_hauteurTemoinValueMouseClicked
 
     private void nombreDeCompartimentsValueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nombreDeCompartimentsValueMouseClicked
-        jPanel1.setBackground(DefaultColor);
+      jPanel1.setBackground(DefaultColor);
         jPanel2.setBackground(DefaultColor);
         jPanel3.setBackground(DefaultColor);
         jPanel4.setBackground(DefaultColor);
@@ -768,7 +774,7 @@ public class InfoCapaciteView extends javax.swing.JPanel {
     }//GEN-LAST:event_fondCapaciteValueMouseClicked
 
     private void typeCapaciteValueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_typeCapaciteValueMouseClicked
-        jPanel1.setBackground(DefaultColor);
+          jPanel1.setBackground(DefaultColor);
         jPanel2.setBackground(DefaultColor);
         jPanel3.setBackground(DefaultColor);
         jPanel4.setBackground(DefaultColor);
@@ -792,7 +798,7 @@ public class InfoCapaciteView extends javax.swing.JPanel {
     }//GEN-LAST:event_etancheiteValueMouseClicked
 
     private void nomCapaciteValueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nomCapaciteValueMouseClicked
-        jPanel1.setBackground(ClickedColor);
+       jPanel1.setBackground(ClickedColor);
         jPanel2.setBackground(DefaultColor);
         jPanel3.setBackground(DefaultColor);
         jPanel4.setBackground(DefaultColor);
@@ -804,7 +810,7 @@ public class InfoCapaciteView extends javax.swing.JPanel {
     }//GEN-LAST:event_nomCapaciteValueMouseClicked
 
     private void fabricantValueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fabricantValueMouseClicked
-        jPanel1.setBackground(DefaultColor);
+            jPanel1.setBackground(DefaultColor);
         jPanel2.setBackground(DefaultColor);
         jPanel3.setBackground(DefaultColor);
         jPanel4.setBackground(DefaultColor);
@@ -818,7 +824,7 @@ public class InfoCapaciteView extends javax.swing.JPanel {
     }//GEN-LAST:event_fabricantValueMouseExited
 
     private void anneeFabricationValueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_anneeFabricationValueMouseClicked
-        jPanel1.setBackground(DefaultColor);
+      jPanel1.setBackground(DefaultColor);
         jPanel2.setBackground(DefaultColor);
         jPanel3.setBackground(DefaultColor);
         jPanel4.setBackground(DefaultColor);
@@ -834,6 +840,10 @@ public class InfoCapaciteView extends javax.swing.JPanel {
     private void produitStockeValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_produitStockeValueActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_produitStockeValueActionPerformed
+
+    private void fabricantValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fabricantValueActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fabricantValueActionPerformed
 
     void saveCapacite() throws IOException {
         Date date = new Date();
@@ -889,18 +899,6 @@ public class InfoCapaciteView extends javax.swing.JPanel {
             }
         }
 
-        infoCapacite.setNomCapacite(nomCapacite);
-        infoCapacite.setNumeroSerieCapacite(numeroSerie);
-        infoCapacite.setProduitStockeCapacite(produitStocke);
-        infoCapacite.setVolumeNominalCapacite(volume);
-        infoCapacite.setHauteurTemoin(hauteur_temoin);
-        infoCapacite.setNombreCompartiment(compartiments);
-        infoCapacite.setFondCapacite(fondCapacite);
-        infoCapacite.setFabricant(fabricant);
-        infoCapacite.setAnneeFabrication(annee_fabrication);
-        infoCapacite.setTypeCapacite(typeCapacite);
-        infoCapacite.setEtancheite(etancheite);
-
         infoGenerale.put("fond capacite", fondCapacite);
 
         infoGenerale.put("type de la capacite", typeCapacite);
@@ -931,8 +929,6 @@ public class InfoCapaciteView extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(null, "Vos données ont bien été pris en compte!.", "Succès", JOptionPane.INFORMATION_MESSAGE);
 
     }
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel allPanel;
     private javax.swing.JLabel anneeFabrication;

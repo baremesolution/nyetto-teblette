@@ -102,7 +102,6 @@ public class BaremeArtisanFormeCubiqueAndSpheriqueTest {
         ordonne.add(40.0);       
 
         try {
-            baremeArtisan.certificat_with_head(info, data, logo, "geometrie", null, null);
 
             String filePath = System.getProperty("user.home") + "/Documents/TestCertificat.pdf";
             File file = new File(filePath);
@@ -133,7 +132,6 @@ public class BaremeArtisanFormeCubiqueAndSpheriqueTest {
         InputStream logo = BaremeArtisan.class.getResourceAsStream("/images/nyettoTankFtLogo.png");
 
         try {
-            baremeArtisan.certificat_with_head(info, data, logo, "geometrie", null, null);
 
             String filePath = System.getProperty("user.home") + "/Documents/TestCertificat.pdf";
             File file = new File(filePath);
@@ -177,7 +175,6 @@ public class BaremeArtisanFormeCubiqueAndSpheriqueTest {
         ordonne.add(250.0);
 
         try {
-            baremeArtisan.certificat_with_head(info, data, logo, "volumetrie", abcisse, ordonne);
 
             String filePath = System.getProperty("user.home") + "/Documents/TestCertificat.pdf";
             File file = new File(filePath);

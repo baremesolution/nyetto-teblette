@@ -5,7 +5,9 @@ import com.lowagie.text.Cell;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
+import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
+import com.lowagie.text.Image;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.Table;
@@ -35,8 +37,16 @@ import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import nyettotank2.view.newIHM.DonneeGeometrique;
 
-
 import static com.lowagie.text.Image.MIDDLE;
+import com.lowagie.text.Paragraph;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import nyettotank2.courbe.ZoneGeometrie;
+import nyettotank2.courbe.ZoneVolume;
+import nyettotank2.view.newIHM.MainView;
 
 //
 //import com.lowagie.text.Element;
@@ -64,12 +74,6 @@ import static com.lowagie.text.Image.MIDDLE;
 //import nyettotank2.view.newIHM.MainView;
 //import org.apache.poi.ss.usermodel.Font;
 //import org.apache.poi.xwpf.usermodel.Document;
-
-
-
-
-
-
 public class BaremeArtisan {
 
     private JOptionPane location = new JOptionPane();
@@ -206,7 +210,6 @@ public class BaremeArtisan {
         float grandAxe = 0;
         float petitAxe = 0;
         float largeur = 0;
-        
 
         if (data.containsKey("diametre")) {
             diametre = Float.parseFloat(data.get("diametre").toString());
@@ -227,11 +230,11 @@ public class BaremeArtisan {
             longueur = convertToCentimeter(unit, longueur);
         }
 
-         if (data.containsKey("largeur")) {
+        if (data.containsKey("largeur")) {
             largeur = Float.parseFloat(data.get("largeur").toString());
             largeur = convertToCentimeter(unit, largeur);
         }
-         
+
         if (data.containsKey("hauteur")) {
             hauteur = Float.parseFloat(data.get("hauteur").toString());
             hauteur = convertToCentimeter(unit, hauteur);
@@ -253,20 +256,19 @@ public class BaremeArtisan {
         }
 
         double valeur = 0, inter = 0;
-        
-        if (synonymeFormeCapaciteMultiLangueForCylindre(info.get("forme de la capacite").toString().toLowerCase())) {            
-            
-            if( synonymeForOrientationVerticale( info.get( "orientation" ).toString() ) ){
-                       valeur = volumeFormeCylindre(unit, info.get("orientation").toString(),
+
+        if (synonymeFormeCapaciteMultiLangueForCylindre(info.get("forme de la capacite").toString().toLowerCase())) {
+
+            if (synonymeForOrientationVerticale(info.get("orientation").toString())) {
+                valeur = volumeFormeCylindre(unit, info.get("orientation").toString(),
                         info.get("nature fond gauche").toString().toUpperCase(),
                         info.get("nature fond droite").toString().toUpperCase(), data, val);
-            } 
-            else { 
-                        valeur = volumeFormeCylindreByRayonCarre(unit, info.get("orientation").toString(),
+            } else {
+                valeur = volumeFormeCylindreByRayonCarre(unit, info.get("orientation").toString(),
                         info.get("nature fond gauche").toString().toUpperCase(),
                         info.get("nature fond droite").toString().toUpperCase(), data, val);
             }
-          
+
         } else if (synonymeFormeCapaciteMultiLangueForSphere(
                 info.get("forme de la capacite").toString().toLowerCase())) {
 
@@ -325,464 +327,459 @@ public class BaremeArtisan {
         double vol_centre = (double) 0.00;
 
         double vol_fleche2 = (double) 0.00;
-        
-        if( synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle( nature_fond_d )  || synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle( nature_fond_g ) ){
-        
-            if( synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle( nature_fond_d ) && synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle( nature_fond_g ) ){
-                        
+
+        if (synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle(nature_fond_d) || synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle(nature_fond_g)) {
+
+            if (synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle(nature_fond_d) && synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle(nature_fond_g)) {
+
                 nature_fond_d = "Elliptique";
                 nature_fond_g = "Elliptique";
-                  vol_fleche = volumeFormeCylindre(unit, orientation,
+                vol_fleche = volumeFormeCylindre(unit, orientation,
                         nature_fond_g.toUpperCase(),
                         nature_fond_d.toUpperCase(), data, t);
-                        
+
             } else {
 
                 double volume1 = 0d;
-                    double volume2 = 0d;
-                    double volume3 = 0d;
-                    String natureGauche = "", natureDroite = "";
-                
-                if( synonymeForOrientationOblique(orientation)  ){
-                
-                    if( synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle( nature_fond_d ) ){
-                       natureDroite = "Elliptique";
-                       if (  synonymeForNatureFlechePlatOfCylinder(nature_fond_g) ) {
-                                vol_fleche = volumeFormeCylindre(unit, orientation,
-                            "PLAT",
-                            natureDroite, data, t);
+                double volume2 = 0d;
+                double volume3 = 0d;
+                String natureGauche = "", natureDroite = "";
+
+                if (synonymeForOrientationOblique(orientation)) {
+
+                    if (synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle(nature_fond_d)) {
+                        natureDroite = "Elliptique";
+                        if (synonymeForNatureFlechePlatOfCylinder(nature_fond_g)) {
+                            vol_fleche = volumeFormeCylindre(unit, orientation,
+                                    "PLAT",
+                                    natureDroite, data, t);
                         } else {
 
-                               volume1 = volumeFormeCylindre(unit, orientation,
-                        "PLAT",
-                        natureDroite, data, t);
-                         
-                         volume2 = volumeFormeCylindre(unit, orientation,
-                        "PLAT",
-                        "PLAT", data, t);
-                         
-                         volume3 = volumeFormeCylindreByRayonCarre(unit, orientation, nature_fond_g,
-                        "PLAT",
-                         data, t);
-                        vol_fleche = volume1 + volume3 - volume2;
+                            volume1 = volumeFormeCylindre(unit, orientation,
+                                    "PLAT",
+                                    natureDroite, data, t);
 
-                        } 
+                            volume2 = volumeFormeCylindre(unit, orientation,
+                                    "PLAT",
+                                    "PLAT", data, t);
 
-                    } else if( synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle( nature_fond_g )  ) {
+                            volume3 = volumeFormeCylindreByRayonCarre(unit, orientation, nature_fond_g,
+                                    "PLAT",
+                                    data, t);
+                            vol_fleche = volume1 + volume3 - volume2;
+
+                        }
+
+                    } else if (synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle(nature_fond_g)) {
                         natureGauche = "Elliptique";
-                        if (  synonymeForNatureFlechePlatOfCylinder(nature_fond_d) ) {
-                                vol_fleche = volumeFormeCylindre(unit, orientation,
-                            
-                            natureGauche, "PLAT", data, t);
+                        if (synonymeForNatureFlechePlatOfCylinder(nature_fond_d)) {
+                            vol_fleche = volumeFormeCylindre(unit, orientation,
+                                    natureGauche, "PLAT", data, t);
                         } else {
 
-                             volume1 = volumeFormeCylindre(unit, orientation, natureGauche,
-                        "PLAT",
-                         data, t);
-                         
-                         volume2 = volumeFormeCylindre(unit, orientation,
-                        "PLAT",
-                        "PLAT", data, t);
-                         
-                         volume3 = volumeFormeCylindreByRayonCarre(unit, orientation, 
-                        "PLAT", nature_fond_d,
-                         data, t);
+                            volume1 = volumeFormeCylindre(unit, orientation, natureGauche,
+                                    "PLAT",
+                                    data, t);
+
+                            volume2 = volumeFormeCylindre(unit, orientation,
+                                    "PLAT",
+                                    "PLAT", data, t);
+
+                            volume3 = volumeFormeCylindreByRayonCarre(unit, orientation,
+                                    "PLAT", nature_fond_d,
+                                    data, t);
 
                         }
 
                     }
-                
-                } else{
-                
-                    
-                     if( synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle( nature_fond_d ) ){
-                         natureDroite = "Elliptique";
 
-                        if (  synonymeForNatureFlechePlatOfCylinder(nature_fond_g) ) {
-                                vol_fleche = volumeFormeCylindre(unit, orientation,
-                            "PLAT",
-                            natureDroite, data, t);
+                } else {
+
+                    if (synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle(nature_fond_d)) {
+                        natureDroite = "Elliptique";
+
+                        if (synonymeForNatureFlechePlatOfCylinder(nature_fond_g)) {
+                            vol_fleche = volumeFormeCylindre(unit, orientation,
+                                    "PLAT",
+                                    natureDroite, data, t);
                         } else {
 
                             volume1 = volumeFormeCylindre(unit, orientation,
-                        "PLAT",
-                        natureDroite, data, t);
-                         
-                         volume2 = volumeFormeCylindre(unit, orientation,
-                        "PLAT",
-                        "PLAT", data, t);
-                         
-                         volume3 = volumeFormeCylindreByRayonCarre(unit, orientation,
-                        "PLAT",
-                        nature_fond_g, data, t);
-                        vol_fleche = volume1 + volume3 - volume2;
+                                    "PLAT",
+                                    natureDroite, data, t);
+
+                            volume2 = volumeFormeCylindre(unit, orientation,
+                                    "PLAT",
+                                    "PLAT", data, t);
+
+                            volume3 = volumeFormeCylindreByRayonCarre(unit, orientation,
+                                    "PLAT",
+                                    nature_fond_g, data, t);
+                            vol_fleche = volume1 + volume3 - volume2;
 
                         }
-                         
-                     }
-                     else  if( synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle( nature_fond_g ) ) {
-                     
-                         natureGauche = "Elliptique";
 
-                         if(  synonymeForNatureFlechePlatOfCylinder(nature_fond_d) ){
+                    } else if (synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle(nature_fond_g)) {
+
+                        natureGauche = "Elliptique";
+
+                        if (synonymeForNatureFlechePlatOfCylinder(nature_fond_d)) {
                             vol_fleche = volumeFormeCylindre(unit, orientation,
-                            "PLAT",
-                            natureGauche, data, t);
-                         } else{
+                                    "PLAT",
+                                    natureGauche, data, t);
+                        } else {
 
-                             volume1 = volumeFormeCylindre(unit, orientation, natureGauche,
-                        "PLAT",
-                         data, t);
-                         
-                         volume2 = volumeFormeCylindre(unit, orientation,
-                        "PLAT",
-                        "PLAT", data, t);
-                         
-                         volume3 = volumeFormeCylindreByRayonCarre(unit, orientation, nature_fond_d,
-                        "PLAT", data, t);
+                            volume1 = volumeFormeCylindre(unit, orientation, natureGauche,
+                                    "PLAT",
+                                    data, t);
 
-                         vol_fleche = volume1 + volume3 - volume2;
+                            volume2 = volumeFormeCylindre(unit, orientation,
+                                    "PLAT",
+                                    "PLAT", data, t);
 
-                         }
+                            volume3 = volumeFormeCylindreByRayonCarre(unit, orientation, nature_fond_d,
+                                    "PLAT", data, t);
 
-                         
-                     }
-                     
+                            vol_fleche = volume1 + volume3 - volume2;
+
+                        }
+
+                    }
+
                 }
-                
+
             }
-        
+
         } else {
-        
-                 if (!synonymeForOrientationVerticale(orientation.toLowerCase())
-                && !synonymeForOrientationOblique(orientation.toLowerCase())) {
 
-            if (nature_fond_g.equals(nature_fond_d) && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g)) {
+            if (!synonymeForOrientationVerticale(orientation.toLowerCase())
+                    && !synonymeForOrientationOblique(orientation.toLowerCase())) {
 
-                vol_fleche = 0.2618 * t * t * (1.5 * diametre - t);
-                vol_fleche *= 2;
-                vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
-                        + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
+                if (nature_fond_g.equals(nature_fond_d) && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g)) {
 
-                vol_fleche += vol_centre;
-            } else if (nature_fond_g.equals(nature_fond_d) && synonymeForNatureFlecheConiqueOfCylinder(nature_fond_g)) {
+                    vol_fleche = 0.2618 * t * t * (1.5 * diametre - t);
+                    vol_fleche *= 2;
+                    vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
+                            + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
 
-                vol_fleche = (double) (Math.PI * fleche_d * 2 * (diametre * diametre * diametre / 8
-                        - Math.pow(diametre / 2 - t, 3) - 3 * t * (diametre / 2 - t))
-                        / (3 * diametre));
-                vol_fleche += (double) (Math.PI * fleche_g * 2 * (diametre * diametre * diametre / 8
-                        - Math.pow(diametre / 2 - t, 3) - 3 * t * (diametre / 2 - t))
-                        / (3 * diametre));
-                vol_fleche += longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
-                        + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4);
+                    vol_fleche += vol_centre;
+                } else if (nature_fond_g.equals(nature_fond_d) && synonymeForNatureFlecheConiqueOfCylinder(nature_fond_g)) {
 
-            } else if (nature_fond_g.equals(nature_fond_d)
-                    && synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g)) {
+                    vol_fleche = (double) (Math.PI * fleche_d * 2 * (diametre * diametre * diametre / 8
+                            - Math.pow(diametre / 2 - t, 3) - 3 * t * (diametre / 2 - t))
+                            / (3 * diametre));
+                    vol_fleche += (double) (Math.PI * fleche_g * 2 * (diametre * diametre * diametre / 8
+                            - Math.pow(diametre / 2 - t, 3) - 3 * t * (diametre / 2 - t))
+                            / (3 * diametre));
+                    vol_fleche += longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
+                            + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4);
 
-                vol_fleche = 0.5236 * t * t * (1.5 * diametre - t);
-                vol_fleche *= 2;
+                } else if (nature_fond_g.equals(nature_fond_d)
+                        && synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g)) {
 
-                vol_fleche1 = longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
-                        + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4);
+                    vol_fleche = 0.5236 * t * t * (1.5 * diametre - t);
+                    vol_fleche *= 2;
 
-                vol_fleche += vol_fleche1;
+                    vol_fleche1 = longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
+                            + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4);
 
-            } else if (nature_fond_g.equals(nature_fond_d)
-                    && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g)) {
+                    vol_fleche += vol_fleche1;
 
-                vol_fleche = 0.19 * t * t * (1.5 * diametre - t);
-                vol_fleche *= 2;
-                vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
-                        + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
+                } else if (nature_fond_g.equals(nature_fond_d)
+                        && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g)) {
 
-                vol_fleche += vol_centre;
-            } else if (nature_fond_g.equals(nature_fond_d) && nature_fond_g.equals("BOMBER")) {
+                    vol_fleche = 0.19 * t * t * (1.5 * diametre - t);
+                    vol_fleche *= 2;
+                    vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
+                            + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
 
-                vol_fleche = 0.116 * t * t * (1.5 * diametre - t);
-                vol_fleche *= 2;
-                vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
-                        + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
+                    vol_fleche += vol_centre;
+                } else if (nature_fond_g.equals(nature_fond_d) && nature_fond_g.equals("BOMBER")) {
 
-                vol_fleche += vol_centre;
-            } else if (nature_fond_g.equals(nature_fond_d) && synonymeForNatureFlechePlatOfCylinder(nature_fond_g)) {
+                    vol_fleche = 0.116 * t * t * (1.5 * diametre - t);
+                    vol_fleche *= 2;
+                    vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
+                            + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
 
-                vol_fleche = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
-                        + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
+                    vol_fleche += vol_centre;
+                } else if (nature_fond_g.equals(nature_fond_d) && synonymeForNatureFlechePlatOfCylinder(nature_fond_g)) {
 
-            } else if (synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g)
-                    && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_d)
-                    || (synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d)
-                            && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g))) {
+                    vol_fleche = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
+                            + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
 
-                vol_fleche = 0.2618 * t * t * (1.5 * diametre - t); // ellipTIQUE
-                vol_fleche += 0.5236 * t * t * (1.5 * diametre - t);
+                } else if (synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g)
+                        && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_d)
+                        || (synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d)
+                        && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g))) {
 
-                vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
-                        + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
+                    vol_fleche = 0.2618 * t * t * (1.5 * diametre - t); // ellipTIQUE
+                    vol_fleche += 0.5236 * t * t * (1.5 * diametre - t);
 
-                vol_fleche = vol_fleche + vol_centre;
+                    vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
+                            + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
 
-            } else if ((synonymeForNatureFlechePlatOfCylinder(nature_fond_g)
-                    && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_d))
-                    || (synonymeForNatureFlechePlatOfCylinder(nature_fond_d)
-                            && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g))) {
+                    vol_fleche = vol_fleche + vol_centre;
 
-                vol_fleche = 0.2618 * t * t * (1.5 * diametre - t); // ellipTIQUE
+                } else if ((synonymeForNatureFlechePlatOfCylinder(nature_fond_g)
+                        && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_d))
+                        || (synonymeForNatureFlechePlatOfCylinder(nature_fond_d)
+                        && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g))) {
 
-                vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
-                        + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
+                    vol_fleche = 0.2618 * t * t * (1.5 * diametre - t); // ellipTIQUE
 
-                vol_fleche = vol_fleche + vol_centre;
+                    vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
+                            + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
 
-            } else if (synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g)
-                    && synonymeForNatureFlechePlatOfCylinder(nature_fond_d)
-                    || synonymeForNatureFlechePlatOfCylinder(nature_fond_g)
-                            && synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d)) {
+                    vol_fleche = vol_fleche + vol_centre;
 
-                vol_fleche = 0.5236 * t * t * (1.5 * diametre - t);
+                } else if (synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g)
+                        && synonymeForNatureFlechePlatOfCylinder(nature_fond_d)
+                        || synonymeForNatureFlechePlatOfCylinder(nature_fond_g)
+                        && synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d)) {
 
-                vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
-                        + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
+                    vol_fleche = 0.5236 * t * t * (1.5 * diametre - t);
 
-                vol_fleche = vol_fleche + vol_centre;
+                    vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
+                            + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
 
-            } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_g)
-                    && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_d)) {
+                    vol_fleche = vol_fleche + vol_centre;
 
-                vol_fleche = 0.19 * t * t * (1.5 * diametre - t);// torispherique
+                } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_g)
+                        && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_d)) {
 
-                vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
-                        + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
+                    vol_fleche = 0.19 * t * t * (1.5 * diametre - t);// torispherique
 
-                vol_fleche = vol_fleche + vol_centre;
+                    vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
+                            + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
 
-            } else if (synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g)
-                    && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_d)
-                    || synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d)
-                            && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g)) {
+                    vol_fleche = vol_fleche + vol_centre;
 
-                vol_fleche = 0.5236 * t * t * (1.5 * diametre - t);// hemisperique
-                vol_fleche += 0.19 * t * t * (1.5 * diametre - t);// torispherique
+                } else if (synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g)
+                        && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_d)
+                        || synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d)
+                        && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g)) {
 
-                vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
-                        + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
+                    vol_fleche = 0.5236 * t * t * (1.5 * diametre - t);// hemisperique
+                    vol_fleche += 0.19 * t * t * (1.5 * diametre - t);// torispherique
 
-                vol_fleche = vol_fleche + vol_centre;
+                    vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
+                            + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
 
-            } else if (synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g)
-                    && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_d)
-                    || synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_d)
-                            && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g)) {
+                    vol_fleche = vol_fleche + vol_centre;
 
-                vol_fleche = 0.2618 * t * t * (1.5 * diametre - t);
-                vol_fleche += 0.19 * t * t * (1.5 * diametre - t);// torispherique
+                } else if (synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g)
+                        && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_d)
+                        || synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_d)
+                        && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g)) {
 
-                vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
-                        + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
+                    vol_fleche = 0.2618 * t * t * (1.5 * diametre - t);
+                    vol_fleche += 0.19 * t * t * (1.5 * diametre - t);// torispherique
 
-                vol_fleche = vol_fleche + vol_centre;
+                    vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
+                            + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
 
-            } else if (nature_fond_g.equals("BOMBER") && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_d)
-                    || nature_fond_d.equals("BOMBER")
-                            && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g)) {
+                    vol_fleche = vol_fleche + vol_centre;
 
-                vol_fleche = 0.116 * t * t * (1.5 * diametre - t);
-                vol_fleche += 0.19 * t * t * (1.5 * diametre - t);// torispherique
+                } else if (nature_fond_g.equals("BOMBER") && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_d)
+                        || nature_fond_d.equals("BOMBER")
+                        && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g)) {
 
-                vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
-                        + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
+                    vol_fleche = 0.116 * t * t * (1.5 * diametre - t);
+                    vol_fleche += 0.19 * t * t * (1.5 * diametre - t);// torispherique
 
-                vol_fleche = vol_fleche + vol_centre;
+                    vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
+                            + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
 
-            } else if (synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g)
-                    && synonymeForNatureFlecheConiqueOfCylinder(nature_fond_d)) {
+                    vol_fleche = vol_fleche + vol_centre;
 
-                vol_fleche = (double) (Math.PI * fleche_d * 2 * (diametre * diametre * diametre / 8
-                        - Math.pow(diametre / 2 - t, 3) - 3 * t * (diametre / 2 - t))
-                        / (3 * diametre));
+                } else if (synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g)
+                        && synonymeForNatureFlecheConiqueOfCylinder(nature_fond_d)) {
 
-                vol_fleche += 0.19 * t * t * (1.5 * diametre - t);// torispherique
+                    vol_fleche = (double) (Math.PI * fleche_d * 2 * (diametre * diametre * diametre / 8
+                            - Math.pow(diametre / 2 - t, 3) - 3 * t * (diametre / 2 - t))
+                            / (3 * diametre));
 
-                vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
-                        + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
+                    vol_fleche += 0.19 * t * t * (1.5 * diametre - t);// torispherique
 
-                vol_fleche = vol_fleche + vol_centre;
+                    vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
+                            + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
 
-            } else if (synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_d)
-                    && synonymeForNatureFlecheConiqueOfCylinder(nature_fond_g)) {
+                    vol_fleche = vol_fleche + vol_centre;
 
-                vol_fleche = (double) (Math.PI * fleche_g * 2 * (diametre * diametre * diametre / 8
-                        - Math.pow(diametre / 2 - t, 3) - 3 * t * (diametre / 2 - t))
-                        / (3 * diametre));
+                } else if (synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_d)
+                        && synonymeForNatureFlecheConiqueOfCylinder(nature_fond_g)) {
 
-                vol_fleche += 0.19 * t * t * (1.5 * diametre - t);// torispherique
+                    vol_fleche = (double) (Math.PI * fleche_g * 2 * (diametre * diametre * diametre / 8
+                            - Math.pow(diametre / 2 - t, 3) - 3 * t * (diametre / 2 - t))
+                            / (3 * diametre));
 
-                vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
-                        + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
+                    vol_fleche += 0.19 * t * t * (1.5 * diametre - t);// torispherique
 
-                vol_fleche = vol_fleche + vol_centre;
+                    vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
+                            + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
 
-            } else if (nature_fond_d.equals("BOMBER") && synonymeForNatureFlecheConiqueOfCylinder(nature_fond_g)) {
+                    vol_fleche = vol_fleche + vol_centre;
 
-                vol_fleche = (double) (Math.PI * fleche_g * 2 * (diametre * diametre * diametre / 8
-                        - Math.pow(diametre / 2 - t, 3) - 3 * t * (diametre / 2 - t))
-                        / (3 * diametre));
+                } else if (nature_fond_d.equals("BOMBER") && synonymeForNatureFlecheConiqueOfCylinder(nature_fond_g)) {
 
-                vol_fleche += 0.116 * t * t * (1.5 * diametre - t);// BOMBER
+                    vol_fleche = (double) (Math.PI * fleche_g * 2 * (diametre * diametre * diametre / 8
+                            - Math.pow(diametre / 2 - t, 3) - 3 * t * (diametre / 2 - t))
+                            / (3 * diametre));
 
-                vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
-                        + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
+                    vol_fleche += 0.116 * t * t * (1.5 * diametre - t);// BOMBER
 
-                vol_fleche = vol_fleche + vol_centre;
+                    vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
+                            + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
 
-            } else if (nature_fond_g.equals("BOMBER") && synonymeForNatureFlecheConiqueOfCylinder(nature_fond_d)) {
+                    vol_fleche = vol_fleche + vol_centre;
 
-                vol_fleche = (double) (Math.PI * fleche_d * 2 * (diametre * diametre * diametre / 8
-                        - Math.pow(diametre / 2 - t, 3) - 3 * t * (diametre / 2 - t))
-                        / (3 * diametre));
+                } else if (nature_fond_g.equals("BOMBER") && synonymeForNatureFlecheConiqueOfCylinder(nature_fond_d)) {
 
-                vol_fleche += 0.116 * t * t * (1.5 * diametre - t);// BOMBER
+                    vol_fleche = (double) (Math.PI * fleche_d * 2 * (diametre * diametre * diametre / 8
+                            - Math.pow(diametre / 2 - t, 3) - 3 * t * (diametre / 2 - t))
+                            / (3 * diametre));
 
-                vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
-                        + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
+                    vol_fleche += 0.116 * t * t * (1.5 * diametre - t);// BOMBER
 
-                vol_fleche = vol_fleche + vol_centre;
+                    vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
+                            + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
 
-            } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_g)
-                    && synonymeForNatureFlecheConiqueOfCylinder(nature_fond_d)) {
+                    vol_fleche = vol_fleche + vol_centre;
 
-                vol_fleche = (double) (Math.PI * fleche_d * 2 * (diametre * diametre * diametre / 8
-                        - Math.pow(diametre / 2 - t, 3) - 3 * t * (diametre / 2 - t))
-                        / (3 * diametre));
+                } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_g)
+                        && synonymeForNatureFlecheConiqueOfCylinder(nature_fond_d)) {
 
-                vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
-                        + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
+                    vol_fleche = (double) (Math.PI * fleche_d * 2 * (diametre * diametre * diametre / 8
+                            - Math.pow(diametre / 2 - t, 3) - 3 * t * (diametre / 2 - t))
+                            / (3 * diametre));
 
-                vol_fleche = vol_fleche + vol_centre;
+                    vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
+                            + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
 
-            } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_d)
-                    && synonymeForNatureFlecheConiqueOfCylinder(nature_fond_g)) {
+                    vol_fleche = vol_fleche + vol_centre;
 
-                vol_fleche = (double) (Math.PI * fleche_g * 2 * (diametre * diametre * diametre / 8
-                        - Math.pow(diametre / 2 - t, 3) - 3 * t * (diametre / 2 - t))
-                        / (3 * diametre));
+                } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_d)
+                        && synonymeForNatureFlecheConiqueOfCylinder(nature_fond_g)) {
 
-                vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
-                        + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
+                    vol_fleche = (double) (Math.PI * fleche_g * 2 * (diametre * diametre * diametre / 8
+                            - Math.pow(diametre / 2 - t, 3) - 3 * t * (diametre / 2 - t))
+                            / (3 * diametre));
 
-                vol_fleche = vol_fleche + vol_centre;
+                    vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
+                            + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
 
-            } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_d)
-                    && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g)) {
+                    vol_fleche = vol_fleche + vol_centre;
 
-                vol_fleche = 0.19 * t * t * (1.5 * diametre - t);// torispherique
+                } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_d)
+                        && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g)) {
 
-                vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
-                        + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
+                    vol_fleche = 0.19 * t * t * (1.5 * diametre - t);// torispherique
 
-                vol_fleche = vol_fleche + vol_centre;
+                    vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
+                            + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
 
-            } else if ((synonymeForNatureFlechePlatOfCylinder(nature_fond_d) && nature_fond_g.equals("BOMBER"))
-                    || (synonymeForNatureFlechePlatOfCylinder(nature_fond_g) && nature_fond_d.equals("BOMBER"))) {
+                    vol_fleche = vol_fleche + vol_centre;
 
-                vol_fleche = 0.116 * t * t * (1.5 * diametre - t);// torispherique
+                } else if ((synonymeForNatureFlechePlatOfCylinder(nature_fond_d) && nature_fond_g.equals("BOMBER"))
+                        || (synonymeForNatureFlechePlatOfCylinder(nature_fond_g) && nature_fond_d.equals("BOMBER"))) {
 
-                vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
-                        + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
+                    vol_fleche = 0.116 * t * t * (1.5 * diametre - t);// torispherique
 
-                vol_fleche = vol_fleche + vol_centre;
+                    vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
+                            + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
 
-            } else if (synonymeForNatureFlecheConiqueOfCylinder(nature_fond_g)
-                    && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_d)) {
+                    vol_fleche = vol_fleche + vol_centre;
 
-                vol_fleche = (double) (Math.PI * fleche_g * 2 * (diametre * diametre * diametre / 8
-                        - Math.pow(diametre / 2 - t, 3) - 3 * t * (diametre / 2 - t))
-                        / (3 * diametre));
+                } else if (synonymeForNatureFlecheConiqueOfCylinder(nature_fond_g)
+                        && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_d)) {
 
-                vol_fleche1 = 0.2618 * t * t * (1.5 * diametre - t); // ellipTIQUE
+                    vol_fleche = (double) (Math.PI * fleche_g * 2 * (diametre * diametre * diametre / 8
+                            - Math.pow(diametre / 2 - t, 3) - 3 * t * (diametre / 2 - t))
+                            / (3 * diametre));
 
-                vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
-                        + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
+                    vol_fleche1 = 0.2618 * t * t * (1.5 * diametre - t); // ellipTIQUE
 
-                vol_fleche = vol_fleche + vol_centre + vol_fleche1;
+                    vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
+                            + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
 
-            } else if (synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g)
-                    && synonymeForNatureFlecheConiqueOfCylinder(nature_fond_d)) {
+                    vol_fleche = vol_fleche + vol_centre + vol_fleche1;
 
-                vol_fleche = (double) (Math.PI * fleche_d * 2 * (diametre * diametre * diametre / 8
-                        - Math.pow(diametre / 2 - t, 3) - 3 * t * (diametre / 2 - t))
-                        / (3 * diametre));
+                } else if (synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g)
+                        && synonymeForNatureFlecheConiqueOfCylinder(nature_fond_d)) {
 
-                vol_fleche1 = 0.2618 * t * t * (1.5 * diametre - t); // ellipTIQUE
+                    vol_fleche = (double) (Math.PI * fleche_d * 2 * (diametre * diametre * diametre / 8
+                            - Math.pow(diametre / 2 - t, 3) - 3 * t * (diametre / 2 - t))
+                            / (3 * diametre));
 
-                vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
-                        + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
+                    vol_fleche1 = 0.2618 * t * t * (1.5 * diametre - t); // ellipTIQUE
 
-                vol_fleche = vol_fleche + vol_centre + vol_fleche1;
+                    vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
+                            + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
 
-            } else if (synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g)
-                    && synonymeForNatureFlecheConiqueOfCylinder(nature_fond_d)) {
+                    vol_fleche = vol_fleche + vol_centre + vol_fleche1;
 
-                vol_fleche = 0.5236 * t * t * (1.5 * diametre - t);// hemisperique
+                } else if (synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g)
+                        && synonymeForNatureFlecheConiqueOfCylinder(nature_fond_d)) {
 
-                vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
-                        + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
+                    vol_fleche = 0.5236 * t * t * (1.5 * diametre - t);// hemisperique
 
-                vol_fleche1 = (double) (Math.PI * fleche_d * 2 * (diametre * diametre * diametre / 8
-                        - Math.pow(diametre / 2 - t, 3) - 3 * t * (diametre / 2 - t))
-                        / (3 * diametre));
+                    vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
+                            + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
 
-                vol_fleche = vol_fleche + vol_centre + vol_fleche1;
+                    vol_fleche1 = (double) (Math.PI * fleche_d * 2 * (diametre * diametre * diametre / 8
+                            - Math.pow(diametre / 2 - t, 3) - 3 * t * (diametre / 2 - t))
+                            / (3 * diametre));
 
-            } else if (synonymeForNatureFlecheConiqueOfCylinder(nature_fond_g)
-                    && synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d)) {
+                    vol_fleche = vol_fleche + vol_centre + vol_fleche1;
 
-                vol_fleche = 0.5236 * t * t * (1.5 * diametre - t);// hemisperique
+                } else if (synonymeForNatureFlecheConiqueOfCylinder(nature_fond_g)
+                        && synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d)) {
 
-                vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
-                        + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
+                    vol_fleche = 0.5236 * t * t * (1.5 * diametre - t);// hemisperique
 
-                vol_fleche1 = (double) (Math.PI * fleche_g * 2 * (diametre * diametre * diametre / 8
-                        - Math.pow(diametre / 2 - t, 3) - 3 * t * (diametre / 2 - t))
-                        / (3 * diametre));
+                    vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
+                            + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
 
-                vol_fleche = vol_fleche + vol_centre + vol_fleche1;
+                    vol_fleche1 = (double) (Math.PI * fleche_g * 2 * (diametre * diametre * diametre / 8
+                            - Math.pow(diametre / 2 - t, 3) - 3 * t * (diametre / 2 - t))
+                            / (3 * diametre));
 
-            } else if (synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g) && nature_fond_d.equals("BOMBER")
-                    || synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d)
-                            && nature_fond_g.equals("BOMBER")) {
+                    vol_fleche = vol_fleche + vol_centre + vol_fleche1;
 
-                vol_fleche = 0.5236 * t * t * (1.5 * diametre - t);// hemisperique
-                vol_fleche += 0.116 * t * t * (1.5 * diametre - t);
+                } else if (synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g) && nature_fond_d.equals("BOMBER")
+                        || synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d)
+                        && nature_fond_g.equals("BOMBER")) {
 
-                vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
-                        + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
+                    vol_fleche = 0.5236 * t * t * (1.5 * diametre - t);// hemisperique
+                    vol_fleche += 0.116 * t * t * (1.5 * diametre - t);
 
-                vol_fleche = vol_fleche + vol_centre;
+                    vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
+                            + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
 
-            } else if (synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g) && nature_fond_d.equals("BOMBER")
-                    || synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_d) && nature_fond_g.equals("BOMBER")) {
+                    vol_fleche = vol_fleche + vol_centre;
 
-                vol_fleche = 0.2618 * t * t * (1.5 * diametre - t);
-                vol_fleche += 0.116 * t * t * (1.5 * diametre - t);
+                } else if (synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g) && nature_fond_d.equals("BOMBER")
+                        || synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_d) && nature_fond_g.equals("BOMBER")) {
 
-                vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
-                        + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
+                    vol_fleche = 0.2618 * t * t * (1.5 * diametre - t);
+                    vol_fleche += 0.116 * t * t * (1.5 * diametre - t);
 
-                vol_fleche = vol_fleche + vol_centre;
+                    vol_centre = (double) (longueur * (Math.sqrt((diametre - t) * t) * (t - diametre / 2)
+                            + diametre * diametre * Math.acos(1 - 2 * t / diametre) / 4));
 
-            }
+                    vol_fleche = vol_fleche + vol_centre;
 
-        } 
-        else if (synonymeForOrientationOblique(orientation.toLowerCase())) {
+                }
+
+            } else if (synonymeForOrientationOblique(orientation.toLowerCase())) {
 
                 float abcisse = Float.parseFloat(data.get("position x").toString());
                 float angle = Float.parseFloat(data.get("angle inclinaison").toString());
-                float cosinusAngle = (float) Math.cos(Math.PI*angle/180);
+                float cosinusAngle = (float) Math.cos(Math.PI * angle / 180);
                 String sensOrientation = DonneeGeometrique.getSensRotationOblique();
-                float rayon = diametre/2;
+                float rayon = diametre / 2;
                 if (sensOrientation.equalsIgnoreCase("trigo")) {
-                       
+
                     float hauteurSectionSuperieure = ((diametre / cosinusAngle) - t) / cosinusAngle;
                     hauteurSectionSuperieure = (float) (diametre - hauteurSectionSuperieure
                             - abcisse * Math.tan(Math.PI * angle / 180));
@@ -791,754 +788,731 @@ public class BaremeArtisan {
                             - (longueur * Math.tan(Math.PI * angle / 180) / rayon));
                     // float hauteurLimite = (float) (diametre - (longueur - abcisse) *
                     // Math.sin(Math.PI*angle/180));
-        
+
                     double intermediaireCalculVolume = variableIntermediaireK * Math.acos(variableIntermediaireK)
                             - variableIntermediaireC * Math.acos(variableIntermediaireC);
                     intermediaireCalculVolume += (variableIntermediaireC * variableIntermediaireC + 2)
                             * Math.sqrt(1 - variableIntermediaireC * variableIntermediaireC) / 3;
                     intermediaireCalculVolume = intermediaireCalculVolume
                             - (variableIntermediaireK * variableIntermediaireK + 2)
-                                    * Math.sqrt(1 - variableIntermediaireK * variableIntermediaireK) / 3;
-        
+                            * Math.sqrt(1 - variableIntermediaireK * variableIntermediaireK) / 3;
+
                     vol_centre = Math.pow(rayon, 3) / Math.tan(Math.PI * angle / 180);
                     vol_centre *= intermediaireCalculVolume;
                     float tg = (float) (hauteurSectionSuperieure + longueur * Math.tan(Math.PI * angle / 180));
-        
+
                     float condition = (float) ((abcisse + diametre * Math.tan(Math.PI * angle / 180))
                             * Math.sin(Math.PI * angle / 180));
-        
+
                     if (t > condition) {
-        
+
                         if (nature_fond_g.equals(nature_fond_d) && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g)) {
-        
+
                             if (tg <= diametre) {
                                 vol_fleche = 0.2618 * tg * tg * (1.5 * diametre - tg);
-                                 vol_fleche1 = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
-                            }  else if (tg > diametre && hauteurSectionSuperieure <= diametre) {
-        
+                                vol_fleche1 = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+
+                            } else if (tg > diametre && hauteurSectionSuperieure <= diametre) {
+
                                 vol_fleche = Math.PI * 2 * Math.pow(rayon, 2) * fleche_g / 3;
                                 vol_fleche1 = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
-        
+
                             }
-        
+
                             vol_fleche = vol_centre + vol_fleche + vol_fleche1;
-        
+
                         } else if (nature_fond_g.equals(nature_fond_d) && nature_fond_g.equalsIgnoreCase("bomber")) {
                             if (tg <= diametre) {
-        
+
                                 vol_fleche = 0.116 * tg * tg * (1.5 * diametre - tg);
                                 vol_fleche1 = 0.116 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-                     
+
                             } else if (tg > diametre && hauteurSectionSuperieure <= diametre) {
-        
-                                vol_fleche = 0.116 * diametre * diametre * (0.5 * diametre );
-        
-        
+
+                                vol_fleche = 0.116 * diametre * diametre * (0.5 * diametre);
+
                                 vol_fleche1 = 0.116 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
+
                             }
-        
+
                             vol_fleche = vol_centre + vol_fleche + vol_fleche1;
-        
+
                         } else if (nature_fond_g.equals(nature_fond_d) && synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g)) {
                             if (tg <= diametre) {
                                 vol_fleche = 0.5236 * tg * tg * (1.5 * diametre - tg);
                                 vol_fleche1 = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-                        
+
                             } else if (tg > diametre && hauteurSectionSuperieure <= diametre) {
-        
+
                                 vol_fleche = Math.PI * Math.pow(diametre, 3) / 12;
-        
+
                                 vol_fleche1 = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-                        
+
                             }
-        
+
                             vol_fleche = vol_centre + vol_fleche + vol_fleche1;
-        
+
                         } else if (nature_fond_g.equals(nature_fond_d) && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g)) {
                             if (tg <= diametre) {
                                 vol_fleche = 0.19 * tg * tg * (1.5 * diametre - tg);
                                 vol_fleche1 = 0.19 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-                        
+
                             } else if (tg > diametre && hauteurSectionSuperieure <= diametre) {
-        
-                                vol_fleche = 0.19 * diametre * diametre * (0.5 * diametre );
-        
+
+                                vol_fleche = 0.19 * diametre * diametre * (0.5 * diametre);
+
                                 vol_fleche1 = 0.19 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-                        
+
                             }
-        
+
                             vol_fleche = vol_centre + vol_fleche + vol_fleche1;
-        
-                        }  else if (nature_fond_g.equals(nature_fond_d)  && synonymeForNatureFlechePlatOfCylinder(nature_fond_g)) {
-        
+
+                        } else if (nature_fond_g.equals(nature_fond_d) && synonymeForNatureFlechePlatOfCylinder(nature_fond_g)) {
+
                             vol_fleche = vol_centre;
-        
+
                         } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_d) && synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g)) {
                             if (tg <= diametre) {
                                 vol_fleche = 0.5236 * tg * tg * (1.5 * diametre - tg);
-        
-                            }  else if (tg > diametre && hauteurSectionSuperieure <= diametre) {
-        
+
+                            } else if (tg > diametre && hauteurSectionSuperieure <= diametre) {
+
                                 vol_fleche = Math.PI * Math.pow(diametre, 3) / 12;
-        
+
                             }
-        
+
                             vol_fleche = vol_centre + vol_fleche;
-        
+
                         } else if ((synonymeForNatureFlechePlatOfCylinder(nature_fond_g) && synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d))) {
                             vol_fleche = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
+
                             vol_fleche = vol_centre + vol_fleche;
-        
+
                         } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_g) && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_d)) {
                             vol_fleche = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
+
                             vol_fleche = vol_centre + vol_fleche;
-        
+
                         } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_d) && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g)) {
                             if (tg <= diametre) {
                                 vol_fleche = 0.2618 * tg * tg * (1.5 * diametre - tg);
-        
-                            }  else if (tg > diametre && hauteurSectionSuperieure <= diametre) {
-        
-                                vol_fleche = 0.2618 * diametre * diametre * (0.5 * diametre );
-        
+
+                            } else if (tg > diametre && hauteurSectionSuperieure <= diametre) {
+
+                                vol_fleche = 0.2618 * diametre * diametre * (0.5 * diametre);
+
                             }
                             vol_fleche = vol_centre + vol_fleche;
-        
+
                         } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_d) && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g)) {
-        
+
                             if (tg <= diametre) {
                                 vol_fleche = 0.19 * tg * tg * (1.5 * diametre - tg);
-        
-                            }  else if (tg > diametre && hauteurSectionSuperieure <= diametre) {
-        
-                                vol_fleche = 0.19 * diametre * diametre * (0.5 * diametre );
-        
+
+                            } else if (tg > diametre && hauteurSectionSuperieure <= diametre) {
+
+                                vol_fleche = 0.19 * diametre * diametre * (0.5 * diametre);
+
                             }
-        
+
                             vol_fleche = vol_centre + vol_fleche;
-        
+
                         } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_d) && nature_fond_g.equalsIgnoreCase("bomber")) {
-        
+
                             if (tg <= diametre) {
                                 vol_fleche = 0.116 * tg * tg * (1.5 * diametre - tg);
-        
-                            }  else if (tg > diametre && hauteurSectionSuperieure <= diametre) {
-        
-                                vol_fleche = 0.116 * diametre * diametre * (0.5 * diametre );
-        
+
+                            } else if (tg > diametre && hauteurSectionSuperieure <= diametre) {
+
+                                vol_fleche = 0.116 * diametre * diametre * (0.5 * diametre);
+
                             }
-        
+
                             vol_fleche = vol_centre + vol_fleche;
-        
+
                         } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_g) && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_d)) {
                             vol_fleche = 0.19 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
+
                             vol_fleche = vol_centre + vol_fleche;
-        
+
                         } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_g) && nature_fond_d.equalsIgnoreCase("bomber")) {
                             vol_fleche = 0.116 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
+
                             vol_fleche = vol_centre + vol_fleche;
-        
-                        } else if ( synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g)  && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_d)) {
+
+                        } else if (synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g) && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_d)) {
                             if (tg <= diametre) {
                                 vol_fleche = 0.5236 * tg * tg * (1.5 * diametre - tg);
                                 vol_fleche1 = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
+
                             } else if (tg > diametre && hauteurSectionSuperieure <= diametre) {
-        
+
                                 vol_fleche = Math.PI * Math.pow(diametre, 3) / 12;
-        
+
                                 vol_fleche1 = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
+
                             }
-        
+
                             vol_fleche = vol_centre + vol_fleche + vol_fleche1;
-        
-                        } else if (synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d)  && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g)) {
+
+                        } else if (synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d) && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g)) {
                             if (tg <= diametre) {
                                 vol_fleche = 0.2618 * tg * tg * (1.5 * diametre - tg);
                                 vol_fleche1 = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
+
                             } else if (tg > diametre && hauteurSectionSuperieure <= diametre) {
-        
-                                vol_fleche = 0.2618 * diametre * diametre * (0.5 * diametre );
+
+                                vol_fleche = 0.2618 * diametre * diametre * (0.5 * diametre);
                                 vol_fleche1 = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
+
                             }
-        
+
                             vol_fleche = vol_centre + vol_fleche + vol_fleche1;
-        
-                        } else if ( synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g) && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_d)) {
-        
+
+                        } else if (synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g) && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_d)) {
+
                             if (tg <= diametre) {
                                 vol_fleche = 0.19 * tg * tg * (1.5 * diametre - tg);
                                 vol_fleche1 = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
+
                             } else if (tg > diametre && hauteurSectionSuperieure <= diametre) {
-        
-                                vol_fleche = 0.19 * diametre * diametre * (0.5 * diametre );
+
+                                vol_fleche = 0.19 * diametre * diametre * (0.5 * diametre);
                                 vol_fleche1 = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
+
                             }
-        
+
                             vol_fleche = vol_centre + vol_fleche + vol_fleche1;
-        
+
                         } else if (synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_d) && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g)) {
-        
-                           if (tg <= diametre) {
+
+                            if (tg <= diametre) {
                                 vol_fleche = 0.2618 * tg * tg * (1.5 * diametre - tg);
                                 vol_fleche1 = 0.19 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
+
                             } else if (tg > diametre && hauteurSectionSuperieure <= diametre) {
-        
-                                vol_fleche = 0.2618 * diametre * diametre * (0.5 * diametre );
+
+                                vol_fleche = 0.2618 * diametre * diametre * (0.5 * diametre);
                                 vol_fleche1 = 0.19 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
+
                             }
-        
+
                             vol_fleche = vol_centre + vol_fleche + vol_fleche1;
-        
+
                         } else if (synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_d) && nature_fond_g.equalsIgnoreCase("bomber")) {
-        
+
                             if (tg <= diametre) {
                                 vol_fleche = 0.116 * tg * tg * (1.5 * diametre - tg);
                                 vol_fleche1 = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
+
                             } else if (tg > diametre && hauteurSectionSuperieure <= diametre) {
-        
-                                vol_fleche = 0.116 * diametre * diametre * (0.5 * diametre );
+
+                                vol_fleche = 0.116 * diametre * diametre * (0.5 * diametre);
                                 vol_fleche1 = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
+
                             }
-        
+
                             vol_fleche = vol_centre + vol_fleche;
-        
+
                         } else if (synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g) && nature_fond_d.equalsIgnoreCase("bomber")) {
-        
-                           if (tg <= diametre) {
+
+                            if (tg <= diametre) {
                                 vol_fleche = 0.2618 * tg * tg * (1.5 * diametre - tg);
                                 vol_fleche1 = 0.116 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
+
                             } else if (tg > diametre && hauteurSectionSuperieure <= diametre) {
-        
-                                vol_fleche = 0.2618 * diametre * diametre * (0.5 * diametre );
+
+                                vol_fleche = 0.2618 * diametre * diametre * (0.5 * diametre);
                                 vol_fleche1 = 0.116 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
+
                             }
-        
+
                             vol_fleche = vol_centre + vol_fleche;
-        
+
                         } else if (synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_d) && synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g)) {
                             if (tg <= diametre) {
                                 vol_fleche = 0.5236 * tg * tg * (1.5 * diametre - tg);
                                 vol_fleche1 = 0.19 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
-        
+
                             } else if (tg > diametre && hauteurSectionSuperieure <= diametre) {
-        
+
                                 vol_fleche = Math.PI * Math.pow(diametre, 3) / 12;
-        
+
                                 vol_fleche1 = 0.19 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
+
                             }
-        
+
                             vol_fleche = vol_centre + vol_fleche + vol_fleche1;
-        
-                        } else if (synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g)  && synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d)) {
-        
+
+                        } else if (synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g) && synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d)) {
+
                             if (tg <= diametre) {
                                 vol_fleche = 0.19 * tg * tg * (1.5 * diametre - tg);
                                 vol_fleche1 = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
-        
+
                             } else if (tg > diametre && hauteurSectionSuperieure <= diametre) {
-        
-                                vol_fleche = 0.19 * diametre * diametre * (0.5 * diametre );
-                               vol_fleche1 = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
+
+                                vol_fleche = 0.19 * diametre * diametre * (0.5 * diametre);
+                                vol_fleche1 = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+
                             }
-        
+
                             vol_fleche = vol_centre + vol_fleche + vol_fleche1;
-        
+
                         } else if (synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d) && nature_fond_g.equalsIgnoreCase("bomber")) {
-        
+
                             if (tg <= diametre) {
                                 vol_fleche = 0.116 * tg * tg * (1.5 * diametre - tg);
                                 vol_fleche1 = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
+
                             } else if (tg > diametre && hauteurSectionSuperieure <= diametre) {
-        
-                                vol_fleche = 0.116 * diametre * diametre * (0.5 * diametre );
+
+                                vol_fleche = 0.116 * diametre * diametre * (0.5 * diametre);
                                 vol_fleche1 = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
+
                             }
-        
+
                             vol_fleche = vol_centre + vol_fleche;
-        
+
                         } else if (synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g) && nature_fond_d.equalsIgnoreCase("bomber")) {
-        
-                           if (tg <= diametre) {
+
+                            if (tg <= diametre) {
                                 vol_fleche = 0.5236 * tg * tg * (1.5 * diametre - tg);
                                 vol_fleche1 = 0.116 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
+
                             } else if (tg > diametre && hauteurSectionSuperieure <= diametre) {
-        
-                                vol_fleche = 0.5236 * diametre * diametre * (0.5 * diametre );
+
+                                vol_fleche = 0.5236 * diametre * diametre * (0.5 * diametre);
                                 vol_fleche1 = 0.116 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
+
                             }
-        
+
                             vol_fleche = vol_centre + vol_fleche;
-        
+
                         } else if (synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_d) && nature_fond_g.equalsIgnoreCase("bomber")) {
-        
+
                             if (tg <= diametre) {
                                 vol_fleche = 0.116 * tg * tg * (1.5 * diametre - tg);
                                 vol_fleche1 = 0.19 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
+
                             } else if (tg > diametre && hauteurSectionSuperieure <= diametre) {
-        
-                                vol_fleche = 0.116 * diametre * diametre * (0.5 * diametre );
+
+                                vol_fleche = 0.116 * diametre * diametre * (0.5 * diametre);
                                 vol_fleche1 = 0.19 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
+
                             }
-        
+
                             vol_fleche = vol_centre + vol_fleche;
-        
+
                         } else if (synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g) && nature_fond_d.equalsIgnoreCase("bomber")) {
-        
-                           if (tg <= diametre) {
+
+                            if (tg <= diametre) {
                                 vol_fleche = 0.19 * tg * tg * (1.5 * diametre - tg);
                                 vol_fleche1 = 0.116 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
+
                             } else if (tg > diametre && hauteurSectionSuperieure <= diametre) {
-        
-                                vol_fleche = 0.19 * diametre * diametre * (0.5 * diametre );
+
+                                vol_fleche = 0.19 * diametre * diametre * (0.5 * diametre);
                                 vol_fleche1 = 0.116 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-        
+
                             }
-        
+
                             vol_fleche = vol_centre + vol_fleche;
-        
+
                         }
-        
-                    } else 
+
+                    } else {
                         return 0;
-        
-                }
-           
-                else{
-                        float hauteurSectionSuperieure =  ((diametre/cosinusAngle) - t ) / cosinusAngle ; 
-hauteurSectionSuperieure = (float) (diametre - hauteurSectionSuperieure - abcisse*Math.tan( Math.PI*angle/180 ));
-float variableIntermediaireK = 1 - (hauteurSectionSuperieure / rayon);
-float variableIntermediaireC = (float) (variableIntermediaireK - (longueur * Math.tan(Math.PI*angle/180) / rayon));
+                    }
+
+                } else {
+                    float hauteurSectionSuperieure = ((diametre / cosinusAngle) - t) / cosinusAngle;
+                    hauteurSectionSuperieure = (float) (diametre - hauteurSectionSuperieure - abcisse * Math.tan(Math.PI * angle / 180));
+                    float variableIntermediaireK = 1 - (hauteurSectionSuperieure / rayon);
+                    float variableIntermediaireC = (float) (variableIntermediaireK - (longueur * Math.tan(Math.PI * angle / 180) / rayon));
 // float hauteurLimite = (float) (diametre - (longueur - abcisse) * Math.sin(Math.PI*angle/180));
 
-double intermediaireCalculVolume = variableIntermediaireK * Math.acos(variableIntermediaireK) - variableIntermediaireC * Math.acos(variableIntermediaireC);
-intermediaireCalculVolume += (variableIntermediaireC * variableIntermediaireC + 2) * Math.sqrt(1 - variableIntermediaireC * variableIntermediaireC) / 3;
-intermediaireCalculVolume = intermediaireCalculVolume - (variableIntermediaireK * variableIntermediaireK + 2) * Math.sqrt(1 - variableIntermediaireK * variableIntermediaireK) / 3;
+                    double intermediaireCalculVolume = variableIntermediaireK * Math.acos(variableIntermediaireK) - variableIntermediaireC * Math.acos(variableIntermediaireC);
+                    intermediaireCalculVolume += (variableIntermediaireC * variableIntermediaireC + 2) * Math.sqrt(1 - variableIntermediaireC * variableIntermediaireC) / 3;
+                    intermediaireCalculVolume = intermediaireCalculVolume - (variableIntermediaireK * variableIntermediaireK + 2) * Math.sqrt(1 - variableIntermediaireK * variableIntermediaireK) / 3;
 
-vol_centre = Math.pow(rayon, 3) / Math.tan(Math.PI*angle/180);
-vol_centre *= intermediaireCalculVolume;
-float td = (float) (hauteurSectionSuperieure + longueur*Math.tan( Math.PI*angle/180 ));
+                    vol_centre = Math.pow(rayon, 3) / Math.tan(Math.PI * angle / 180);
+                    vol_centre *= intermediaireCalculVolume;
+                    float td = (float) (hauteurSectionSuperieure + longueur * Math.tan(Math.PI * angle / 180));
 
-float condition1 = (float) (t + (longueur - abcisse) * Math.sin(Math.PI*angle/180));
-float condition2 = (float) (t - abcisse * Math.sin(Math.PI*angle/180));
-float condition =  (float) ((abcisse  + diametre*Math.tan(Math.PI*angle/180))*Math.sin(Math.PI*angle/180));
+                    float condition1 = (float) (t + (longueur - abcisse) * Math.sin(Math.PI * angle / 180));
+                    float condition2 = (float) (t - abcisse * Math.sin(Math.PI * angle / 180));
+                    float condition = (float) ((abcisse + diametre * Math.tan(Math.PI * angle / 180)) * Math.sin(Math.PI * angle / 180));
 
-if (t > condition ) {
+                    if (t > condition) {
 
-   if (nature_fond_g.equals(nature_fond_d) && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g)) {
-       
-       if (td <= diametre) { //
-           vol_fleche = 0.2618 * td * td * (1.5 * diametre - td);
-           vol_fleche1 = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                        if (nature_fond_g.equals(nature_fond_d) && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g)) {
 
-       } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
+                            if (td <= diametre) { //
+                                vol_fleche = 0.2618 * td * td * (1.5 * diametre - td);
+                                vol_fleche1 = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-           vol_fleche = 0.2618 * diametre * diametre * (0.5 * diametre );
+                            } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
 
-           vol_fleche = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                                vol_fleche = 0.2618 * diametre * diametre * (0.5 * diametre);
 
-       }
-       
-       vol_fleche = vol_centre + vol_fleche + vol_fleche1;
+                                vol_fleche = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-   } 
-   else if (nature_fond_g.equals(nature_fond_d) && nature_fond_g.equalsIgnoreCase("bomber") ) {
-       if (td <= diametre) {
+                            }
 
-           vol_fleche = 0.116 * td * td * (1.5 * diametre - td);
-           vol_fleche1 = 0.116 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                            vol_fleche = vol_centre + vol_fleche + vol_fleche1;
 
+                        } else if (nature_fond_g.equals(nature_fond_d) && nature_fond_g.equalsIgnoreCase("bomber")) {
+                            if (td <= diametre) {
 
-       }  else if (td > diametre && hauteurSectionSuperieure <= diametre ) {
+                                vol_fleche = 0.116 * td * td * (1.5 * diametre - td);
+                                vol_fleche1 = 0.116 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-           vol_fleche = 0.116 * diametre * diametre * (0.5 * diametre );
+                            } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
 
+                                vol_fleche = 0.116 * diametre * diametre * (0.5 * diametre);
 
-           vol_fleche1 = 0.116 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                                vol_fleche1 = 0.116 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-       }
+                            }
 
-       vol_fleche = vol_centre + vol_fleche + vol_fleche1;
+                            vol_fleche = vol_centre + vol_fleche + vol_fleche1;
 
-   } else if (nature_fond_g.equals(nature_fond_d) && synonymeFormeCapaciteMultiLangueForHemispherique( nature_fond_d ) ) {
-       if (td<= diametre) {
-           vol_fleche = 0.5236 * td * td * (1.5 * diametre - td);
-           vol_fleche1 = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                        } else if (nature_fond_g.equals(nature_fond_d) && synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d)) {
+                            if (td <= diametre) {
+                                vol_fleche = 0.5236 * td * td * (1.5 * diametre - td);
+                                vol_fleche1 = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-       } else if (td > diametre && hauteurSectionSuperieure <= diametre ) {
+                            } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
 
-           vol_fleche = Math.PI * Math.pow(diametre, 3) / 12;
+                                vol_fleche = Math.PI * Math.pow(diametre, 3) / 12;
 
-           vol_fleche1 = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                                vol_fleche1 = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-       }
+                            }
 
-       vol_fleche = vol_centre + vol_fleche + vol_fleche1;
+                            vol_fleche = vol_centre + vol_fleche + vol_fleche1;
 
-   } else if (nature_fond_g.equals(nature_fond_d) && synonymeFormeCapaciteMultiLangueForToriSpherique( nature_fond_d ) ) {
-       if (td<= diametre) {
-           vol_fleche = 0.19 * td * td * (1.5 * diametre - td);
-           vol_fleche1 = 0.19 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                        } else if (nature_fond_g.equals(nature_fond_d) && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_d)) {
+                            if (td <= diametre) {
+                                vol_fleche = 0.19 * td * td * (1.5 * diametre - td);
+                                vol_fleche1 = 0.19 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-       } else if (td > diametre && hauteurSectionSuperieure <= diametre ) {
+                            } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
 
-           vol_fleche = 0.19 * diametre * diametre * (0.5 * diametre );
+                                vol_fleche = 0.19 * diametre * diametre * (0.5 * diametre);
 
-           vol_fleche1 = 0.19 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                                vol_fleche1 = 0.19 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-       }
+                            }
 
-       vol_fleche = vol_centre + vol_fleche + vol_fleche1;
+                            vol_fleche = vol_centre + vol_fleche + vol_fleche1;
 
-   } else if (nature_fond_g.equals(nature_fond_d) && synonymeForNatureFlechePlatOfCylinder(nature_fond_g)) {
+                        } else if (nature_fond_g.equals(nature_fond_d) && synonymeForNatureFlechePlatOfCylinder(nature_fond_g)) {
 
-       vol_fleche = vol_centre;
+                            vol_fleche = vol_centre;
 
-   } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_d) && synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g) ) {
+                        } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_d) && synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g)) {
 
-       if ( hauteurSectionSuperieure <= diametre  ) {
+                            if (hauteurSectionSuperieure <= diametre) {
 
-           vol_fleche = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-            vol_fleche = vol_centre + vol_fleche;
-       }
+                                vol_fleche = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                                vol_fleche = vol_centre + vol_fleche;
+                            }
 
-   } else if (( synonymeForNatureFlechePlatOfCylinder(nature_fond_g) && synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d))) {
-       if (td <= diametre) {
-           vol_fleche = 0.5236 * td * td * (1.5 * diametre - td);
+                        } else if ((synonymeForNatureFlechePlatOfCylinder(nature_fond_g) && synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d))) {
+                            if (td <= diametre) {
+                                vol_fleche = 0.5236 * td * td * (1.5 * diametre - td);
 
-       } else if ( td > diametre && hauteurSectionSuperieure <= diametre  ) {
+                            } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
 
-           vol_fleche = Math.PI * Math.pow(diametre, 3) / 12;
+                                vol_fleche = Math.PI * Math.pow(diametre, 3) / 12;
 
-       }
+                            }
 
-       vol_fleche = vol_centre + vol_fleche;
+                            vol_fleche = vol_centre + vol_fleche;
 
-   } 
-   else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_g) && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_d)) {
-       if (td <= diametre) {
-                              vol_fleche = 0.2618 * td * td * (1.5 * diametre - td);
+                        } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_g) && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_d)) {
+                            if (td <= diametre) {
+                                vol_fleche = 0.2618 * td * td * (1.5 * diametre - td);
 
-       } else if ( td > diametre && hauteurSectionSuperieure <= diametre  ) {
+                            } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
 
-           vol_fleche = 0.2618 * diametre * diametre * (0.5 * diametre );
+                                vol_fleche = 0.2618 * diametre * diametre * (0.5 * diametre);
 
-       }
+                            }
 
-       vol_fleche = vol_centre + vol_fleche;
+                            vol_fleche = vol_centre + vol_fleche;
 
-   } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_d) && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g)) {
-       if ( hauteurSectionSuperieure <= diametre  ) {
+                        } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_d) && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g)) {
+                            if (hauteurSectionSuperieure <= diametre) {
 
-           vol_fleche = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-            vol_fleche = vol_centre + vol_fleche;
-       }
+                                vol_fleche = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                                vol_fleche = vol_centre + vol_fleche;
+                            }
 
-   } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_d) && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g)) {
+                        } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_d) && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g)) {
 
-        if ( hauteurSectionSuperieure <= diametre  ) {
+                            if (hauteurSectionSuperieure <= diametre) {
 
-           vol_fleche = 0.19 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-            vol_fleche = vol_centre + vol_fleche;
-       }
+                                vol_fleche = 0.19 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                                vol_fleche = vol_centre + vol_fleche;
+                            }
 
-   } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_g) && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_d)) {
-       if (td <= diametre) {
-           vol_fleche1 = 0.19 * td * td * (1.5 * diametre - td);
+                        } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_g) && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_d)) {
+                            if (td <= diametre) {
+                                vol_fleche1 = 0.19 * td * td * (1.5 * diametre - td);
 
-       } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
+                            } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
 
-           vol_fleche1 = 0.19 * diametre * diametre * (0.5 * diametre );
+                                vol_fleche1 = 0.19 * diametre * diametre * (0.5 * diametre);
 
-       }
+                            }
 
-       vol_fleche = vol_centre + vol_fleche1;
+                            vol_fleche = vol_centre + vol_fleche1;
 
-   } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_d) && nature_fond_g.equalsIgnoreCase("bomber") ) {
+                        } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_d) && nature_fond_g.equalsIgnoreCase("bomber")) {
 
-        if ( hauteurSectionSuperieure <= diametre  ) {
+                            if (hauteurSectionSuperieure <= diametre) {
 
-           vol_fleche = 0.116 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-            vol_fleche = vol_centre + vol_fleche;
-       }
+                                vol_fleche = 0.116 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                                vol_fleche = vol_centre + vol_fleche;
+                            }
 
-   } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_g) && nature_fond_d.equalsIgnoreCase("bomber")) {
-       if (td <= diametre) {
-           vol_fleche1 = 0.116 * td * td * (1.5 * diametre - td);
+                        } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_g) && nature_fond_d.equalsIgnoreCase("bomber")) {
+                            if (td <= diametre) {
+                                vol_fleche1 = 0.116 * td * td * (1.5 * diametre - td);
 
-       } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
+                            } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
 
-           vol_fleche1 = 0.116 * diametre * diametre * (0.5 * diametre );
+                                vol_fleche1 = 0.116 * diametre * diametre * (0.5 * diametre);
 
-       }
+                            }
 
-       vol_fleche = vol_centre + vol_fleche1;
+                            vol_fleche = vol_centre + vol_fleche1;
 
-   } else if ( synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g) && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_d)) {
-       if (td <= diametre) {
-           vol_fleche = 0.2618 * td * td * (1.5 * diametre - td);
-           vol_fleche1 = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                        } else if (synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g) && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_d)) {
+                            if (td <= diametre) {
+                                vol_fleche = 0.2618 * td * td * (1.5 * diametre - td);
+                                vol_fleche1 = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-       } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
+                            } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
 
-           vol_fleche = 0.2618 * diametre * diametre * (0.5 * diametre);
-           vol_fleche1 = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                                vol_fleche = 0.2618 * diametre * diametre * (0.5 * diametre);
+                                vol_fleche1 = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-       }
+                            }
 
-       vol_fleche = vol_centre + vol_fleche + vol_fleche1;
+                            vol_fleche = vol_centre + vol_fleche + vol_fleche1;
 
-   } else if (synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d) && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g)) {
-       if (td <= diametre) {
-          vol_fleche = 0.5236 * td * td * (1.5 * diametre - td);
-           vol_fleche1 = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                        } else if (synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d) && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g)) {
+                            if (td <= diametre) {
+                                vol_fleche = 0.5236 * td * td * (1.5 * diametre - td);
+                                vol_fleche1 = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-       } else if (td > diametre && hauteurSectionSuperieure <= diametre ) {
+                            } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
 
-           vol_fleche = Math.PI * Math.pow(diametre, 3) / 12;
-           vol_fleche1 = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                                vol_fleche = Math.PI * Math.pow(diametre, 3) / 12;
+                                vol_fleche1 = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-       }
+                            }
 
-       vol_fleche = vol_centre + vol_fleche + vol_fleche1;
+                            vol_fleche = vol_centre + vol_fleche + vol_fleche1;
 
-   } else if (synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g) && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_d)) {
+                        } else if (synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g) && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_d)) {
 
-       if (td <= diametre) {
-           vol_fleche = 0.2618 * td * td * (1.5 * diametre - td);
-           vol_fleche1 = 0.19 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                            if (td <= diametre) {
+                                vol_fleche = 0.2618 * td * td * (1.5 * diametre - td);
+                                vol_fleche1 = 0.19 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
+                            } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
 
-       } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
+                                vol_fleche = 0.2618 * diametre * diametre * (0.5 * diametre);
+                                vol_fleche1 = 0.19 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-           vol_fleche = 0.2618 * diametre * diametre * (0.5 * diametre );
-           vol_fleche1 = 0.19 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                            }
 
-       }
+                            vol_fleche = vol_centre + vol_fleche + vol_fleche1;
 
-       vol_fleche = vol_centre + vol_fleche + vol_fleche1;
+                        } else if (synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_d) && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g)) {
 
-   } else if (synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_d) && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g)) {
+                            if (td <= diametre) {
+                                vol_fleche = 0.19 * td * td * (1.5 * diametre - td);
+                                vol_fleche1 = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-       if (td <= diametre) {
-           vol_fleche = 0.19 * td * td * (1.5 * diametre - td);
-           vol_fleche1 = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                            } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
 
-       } else if (td > diametre && hauteurSectionSuperieure <= diametre ) {
+                                vol_fleche1 = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-           vol_fleche1 = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                                vol_fleche = 0.19 * diametre * diametre * (0.5 * diametre);
 
-           vol_fleche = 0.19 * diametre * diametre * (0.5 * diametre );
+                            }
 
-       }
+                            vol_fleche = vol_centre + vol_fleche + vol_fleche1;
 
-       vol_fleche = vol_centre + vol_fleche + vol_fleche1;
+                        } else if (nature_fond_d.equalsIgnoreCase("bomber") && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g)) {
 
-   }  
-   else if ( nature_fond_d.equalsIgnoreCase("bomber") && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g)) {
+                            if (td <= diametre) {
+                                vol_fleche = 0.116 * td * td * (1.5 * diametre - td);
+                                vol_fleche1 = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-       if (td <= diametre) {
-           vol_fleche = 0.116 * td * td * (1.5 * diametre - td);
-           vol_fleche1 = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                            } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
 
-       } else if (td > diametre && hauteurSectionSuperieure <= diametre ) {
+                                vol_fleche1 = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-           vol_fleche1 = 0.2618 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                                vol_fleche = 0.116 * diametre * diametre * (0.5 * diametre);
 
-           vol_fleche = 0.116 * diametre * diametre * (0.5 * diametre );
+                            }
 
-       }
+                            vol_fleche = vol_centre + vol_fleche + vol_fleche1;
 
-       vol_fleche = vol_centre + vol_fleche + vol_fleche1;
+                        } else if (nature_fond_g.equalsIgnoreCase("bomber") && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_d)) {
 
-   }
-   else if (nature_fond_g.equalsIgnoreCase("bomber")&& synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_d)) {
+                            if (td <= diametre) {
+                                vol_fleche = 0.2618 * td * td * (1.5 * diametre - td);
+                                vol_fleche1 = 0.116 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-       if (td <= diametre) {
-           vol_fleche = 0.2618 * td * td * (1.5 * diametre - td);
-           vol_fleche1 = 0.116 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                            } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
 
+                                vol_fleche = 0.2618 * diametre * diametre * (0.5 * diametre);
+                                vol_fleche1 = 0.116 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-       } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
+                            }
 
-           vol_fleche = 0.2618 * diametre * diametre * (0.5 * diametre );
-           vol_fleche1 = 0.116 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                            vol_fleche = vol_centre + vol_fleche + vol_fleche1;
 
-       }
+                        } else if (synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_d) && synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g)) {
+                            if (td <= diametre) {
+                                vol_fleche = 0.19 * td * td * (1.5 * diametre - td);
 
-       vol_fleche = vol_centre + vol_fleche + vol_fleche1;
+                                vol_fleche1 = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-   } else if (synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_d) && synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g)) {
-       if (td <= diametre) {
-           vol_fleche = 0.19 * td * td * (1.5 * diametre - td);
+                            } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
 
-           vol_fleche1 = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                                vol_fleche = 0.19 * diametre * diametre * (0.5 * diametre);
 
-       } else if (td > diametre && hauteurSectionSuperieure <= diametre ) {
+                                vol_fleche1 = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-           vol_fleche = 0.19 * diametre * diametre * (0.5 * diametre );
+                            }
 
-           vol_fleche1 = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                            vol_fleche = vol_centre + vol_fleche + vol_fleche1;
 
-       }
+                        } else if (synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g) && synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d)) {
 
-       vol_fleche = vol_centre + vol_fleche + vol_fleche1;
+                            if (td <= diametre) {
+                                vol_fleche = 0.5236 * td * td * (1.5 * diametre - td);
+                                vol_fleche1 = 0.19 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-} else if (synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g) && synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d)) {
+                            } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
 
-   if (td <= diametre) {
-       vol_fleche = 0.5236 * td * td * (1.5 * diametre - td);
-       vol_fleche1 = 0.19 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                                vol_fleche = 0.5236 * diametre * diametre * (0.5 * diametre);
 
+                                vol_fleche1 = 0.19 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-   } else if (td > diametre && hauteurSectionSuperieure <= diametre ) {
+                            }
 
-       vol_fleche = 0.5236 * diametre * diametre * (0.5 * diametre );
+                            vol_fleche = vol_centre + vol_fleche + vol_fleche1;
 
-       vol_fleche1 = 0.19 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                        } else if (nature_fond_d.equalsIgnoreCase("bomber") && synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g)) {
 
+                            if (td <= diametre) {
+                                vol_fleche = 0.116 * td * td * (1.5 * diametre - td);
+                                vol_fleche1 = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-   }
+                            } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
 
-   vol_fleche = vol_centre + vol_fleche + vol_fleche1;
+                                vol_fleche1 = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-} else if ( nature_fond_d.equalsIgnoreCase("bomber") && synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g)) {
+                                vol_fleche = 0.116 * diametre * diametre * (0.5 * diametre);
 
-       if (td <= diametre) {
-           vol_fleche = 0.116 * td * td * (1.5 * diametre - td);
-           vol_fleche1 = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                            }
 
-       } else if (td > diametre && hauteurSectionSuperieure <= diametre ) {
+                            vol_fleche = vol_centre + vol_fleche + vol_fleche1;
 
-           vol_fleche1 = 0.5236 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                        } else if (nature_fond_g.equalsIgnoreCase("bomber") && synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d)) {
 
-           vol_fleche = 0.116 * diametre * diametre * (0.5 * diametre );
+                            if (td <= diametre) {
+                                vol_fleche = 0.5236 * td * td * (1.5 * diametre - td);
+                                vol_fleche1 = 0.116 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-       }
+                            } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
 
-       vol_fleche = vol_centre + vol_fleche + vol_fleche1;
+                                vol_fleche = Math.PI * Math.pow(diametre, 3) / 12;
+                                vol_fleche1 = 0.116 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-   }
-   else if (nature_fond_g.equalsIgnoreCase("bomber")&& synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d)) {
+                            }
 
-       if (td <= diametre) {
-           vol_fleche = 0.5236 * td * td * (1.5 * diametre - td);
-           vol_fleche1 = 0.116 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                            vol_fleche = vol_centre + vol_fleche + vol_fleche1;
 
+                        } else if (nature_fond_d.equalsIgnoreCase("bomber") && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g)) {
 
-       } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
+                            if (td <= diametre) {
+                                vol_fleche = 0.116 * td * td * (1.5 * diametre - td);
+                                vol_fleche1 = 0.19 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-           vol_fleche = Math.PI * Math.pow(diametre, 3) / 12;
-           vol_fleche1 = 0.116 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                            } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
 
-       }
+                                vol_fleche1 = 0.19 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-       vol_fleche = vol_centre + vol_fleche + vol_fleche1;
+                                vol_fleche = 0.116 * diametre * diametre * (0.5 * diametre);
 
-   } else if ( nature_fond_d.equalsIgnoreCase("bomber") && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g)) {
+                            }
 
-       if (td <= diametre) {
-           vol_fleche = 0.116 * td * td * (1.5 * diametre - td);
-           vol_fleche1 = 0.19 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                            vol_fleche = vol_centre + vol_fleche + vol_fleche1;
 
-       } else if (td > diametre && hauteurSectionSuperieure <= diametre ) {
+                        } else if (nature_fond_g.equalsIgnoreCase("bomber") && synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_d)) {
 
-           vol_fleche1 = 0.19 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                            if (td <= diametre) {
+                                vol_fleche = 0.19 * td * td * (1.5 * diametre - td);
+                                vol_fleche1 = 0.116 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-           vol_fleche = 0.116 * diametre * diametre * (0.5 * diametre );
+                            } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
 
-       }
+                                vol_fleche = 0.19 * diametre * diametre * (0.5 * diametre);
+                                vol_fleche1 = 0.116 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
 
-       vol_fleche = vol_centre + vol_fleche + vol_fleche1;
+                            }
 
-   }
-   else if (nature_fond_g.equalsIgnoreCase("bomber")&& synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_d)) {
+                            vol_fleche = vol_centre + vol_fleche + vol_fleche1;
 
-       if (td <= diametre) {
-           vol_fleche = 0.19 * td * td * (1.5 * diametre - td);
-           vol_fleche1 = 0.116 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
+                        }
 
-
-       } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
-
-           vol_fleche = 0.19 * diametre * diametre * (0.5 * diametre );
-           vol_fleche1 = 0.116 * hauteurSectionSuperieure * hauteurSectionSuperieure * (1.5 * diametre - hauteurSectionSuperieure);
-
-       }
-
-       vol_fleche = vol_centre + vol_fleche + vol_fleche1;
-
-   }
-
-} 
-
-
+                    }
 
                 }
 
-        } 
-        else if (synonymeForOrientationVerticale(orientation.toLowerCase())) {
+            } else if (synonymeForOrientationVerticale(orientation.toLowerCase())) {
 
-            if (synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d)) {
-                nature_fond_d = "spherique";
+                if (synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d)) {
+                    nature_fond_d = "spherique";
+                }
+
+                if (synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g)) {
+                    nature_fond_g = "spherique";
+                }
+
+                if (nature_fond_d.equalsIgnoreCase("bomber")
+                        || synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_d)
+                        || synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_d)) {
+                    nature_fond_d = "elliptique";
+                }
+
+                if (nature_fond_g.equalsIgnoreCase("bomber")
+                        || synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g)
+                        || synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g)) {
+                    nature_fond_g = "elliptique";
+                }
+
+                vol_fleche = volumeFormeCylindre(unit, orientation, nature_fond_g, nature_fond_d, data, t);
+
             }
-
-            if (synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_g)) {
-                nature_fond_g = "spherique";
-            }
-
-            if (nature_fond_d.equalsIgnoreCase("bomber")
-                    || synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_d)
-                    || synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_d)) {
-                nature_fond_d = "elliptique";
-            }
-
-            if (nature_fond_g.equalsIgnoreCase("bomber")
-                    || synonymeFormeCapaciteMultiLangueForToriSpherique(nature_fond_g)
-                    || synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g)) {
-                nature_fond_g = "elliptique";
-            }
-
-            vol_fleche = volumeFormeCylindre(unit, orientation, nature_fond_g, nature_fond_d, data, t);
 
         }
 
-        
-        }
-        
         return vol_fleche;
     } // retourne la valeur du volume du recipient rempli a une hauteur donne
-      // la valeur de la hauteur est represente par largument val de la fonction
-      // le volume est donne en cm3
+    // la valeur de la hauteur est represente par largument val de la fonction
+    // le volume est donne en cm3
 
     // cette fonction genere un certificat sans entete contenant republic du
     // cameroun et
@@ -1590,6 +1564,15 @@ if (t > condition ) {
 
             }
 
+            if (synonymeForOrientationOblique(info.get("orientation").toString()) && synonymeFormeCapaciteMultiLangueForCylindre(formeCapacite)) {
+
+                float angleInclinaison = Float.parseFloat(data.get("angle inclinaison").toString());
+                float sinusAngle = (float) Math.sin(Math.PI * angleInclinaison / 180);
+                float cosinusAngle = (float) Math.cos(Math.PI * angleInclinaison / 180);
+                diametre = Float.parseFloat(data.get("longueur").toString()) * sinusAngle + diametre * cosinusAngle;
+
+            }
+
             String unit = info.get("unite des hauteurs").toString().toLowerCase();
             diametre = convertToCentimeter(unit, diametre);
             int nb_divi = Integer.parseInt(info.get("nombre divisions").toString());
@@ -1597,7 +1580,15 @@ if (t > condition ) {
             int x = 5, y = 4;
 
             WritableWorkbook workbook;
-            String filePath = System.getProperty("user.home") + "/Documents/" + nom + ".xls";
+            String documentDirectory = System.getProperty("user.home") + "/Documents/";
+            String nyettofDirectory = documentDirectory + "NyettoftTank_files/";
+
+            // Créer le répertoire si nécessaire
+            File nyettofFile = new File(nyettofDirectory);
+            if (!nyettofFile.exists()) {
+                nyettofFile.mkdirs();
+            }
+            String filePath = nyettofDirectory + nom + ".xls";
             try {
 
                 workbook = Workbook.createWorkbook(new File(filePath));
@@ -1653,10 +1644,10 @@ if (t > condition ) {
 
                     sheet.addCell(new Label(3 * i + 4, 11,
                             "H( " + info.get("unite des hauteurs").toString().toLowerCase()
-                                    + " )"));
+                            + " )"));
                     sheet.addCell(new Label(3 * i + 5, 11,
                             "V( " + info.get("unite de volume").toString().toLowerCase()
-                                    + ") "));
+                            + ") "));
                     sheet.addCell(new Label(3 * i + 6, 11, " "));
 
                 }
@@ -1712,11 +1703,6 @@ if (t > condition ) {
     public float volumeFormeCylindre(String unit, String orientation, String fond_capacite, HashMap data, float t) {
         // TODO Auto-generated method stub
         return 0;
-    }
-
-    public void certificat_with_head(HashMap info, InputStream logo) {
-        // TODO Auto-generated method stub
-
     }
 
     public String twoDecimale(double vol_fleche, String typeValue) {
@@ -1828,13 +1814,13 @@ if (t > condition ) {
                 } else {
                     vol_total = longueur
                             * (Math.PI * diametre * diametre / 4 + Math.sqrt((diametre - t) * t) * (t - rayon)
-                                    - diametre * diametre * Math.acos(-1 + (t / rayon)) / 4);
+                            - diametre * diametre * Math.acos(-1 + (t / rayon)) / 4);
                 }
 
             } else if ((synonymeForNatureFlechePlatOfCylinder(nature_fond_d)
                     && synonymeFormeCapaciteMultiLangueForSphere(nature_fond_g)
                     || synonymeForNatureFlechePlatOfCylinder(nature_fond_g)
-                            && synonymeFormeCapaciteMultiLangueForSphere(nature_fond_d))) {
+                    && synonymeFormeCapaciteMultiLangueForSphere(nature_fond_d))) {
                 if (t <= rayon) {
                     vol_fleche = Math.PI * Math.pow(t, 2) * (2 * rayon - t) / 3;
                 } else if (rayon < t && t <= 2 * rayon) {
@@ -1854,7 +1840,7 @@ if (t > condition ) {
 
                     vol_fleche1 = 2 * Math.pow(rayon, 2) * fleche_d
                             - (2 * rayon - t) * (2 * rayon - t)
-                                    * fleche_d * t / rayon;
+                            * fleche_d * t / rayon;
 
                     vol_fleche1 *= Math.PI / 3;
                 } else if (t <= rayon) {
@@ -1873,7 +1859,7 @@ if (t > condition ) {
                 if (rayon < t && t <= 2 * rayon) {
                     vol_fleche1 = 2 * Math.pow(rayon, 2) * fleche_g
                             - (2 * rayon - t) * (2 * rayon - t)
-                                    * fleche_g * t / rayon;
+                            * fleche_g * t / rayon;
 
                     vol_fleche1 *= Math.PI / 3;
                 } else if (t <= rayon) {
@@ -1919,7 +1905,7 @@ if (t > condition ) {
 
                     vol_fleche1 = 2 * Math.pow(rayon, 2) * fleche_d
                             - (2 * rayon - t) * (2 * rayon - t)
-                                    * fleche_d * t / rayon;
+                            * fleche_d * t / rayon;
                     vol_fleche *= Math.PI / 3;
                     vol_fleche1 *= Math.PI / 3;
                 } else if (t <= rayon) {
@@ -1942,7 +1928,7 @@ if (t > condition ) {
 
                     vol_fleche1 = 2 * Math.pow(rayon, 2) * fleche_g
                             - (2 * rayon - t) * (2 * rayon - t)
-                                    * fleche_g * t / rayon;
+                            * fleche_g * t / rayon;
 
                     vol_fleche *= Math.PI / 3;
                     vol_fleche1 *= Math.PI / 3;
@@ -1967,7 +1953,7 @@ if (t > condition ) {
                 if (rayon < t && t <= 2 * rayon) {
                     vol_fleche1 = 2 * Math.pow(rayon, 2) * fleche_d
                             - (2 * rayon - t) * (2 * rayon - t)
-                                    * fleche_d * t / rayon;
+                            * fleche_d * t / rayon;
 
                     vol_fleche1 *= Math.PI / 3;
                 }
@@ -1990,7 +1976,7 @@ if (t > condition ) {
                 if (rayon < t && t <= 2 * rayon) {
                     vol_fleche1 = 2 * Math.pow(rayon, 2) * fleche_g
                             - (2 * rayon - t) * (2 * rayon - t)
-                                    * fleche_g * t / rayon;
+                            * fleche_g * t / rayon;
 
                     vol_fleche1 *= Math.PI / 3;
                 } else if (t <= rayon) {
@@ -2048,8 +2034,7 @@ if (t > condition ) {
 
             }
 
-        } 
-        else if (synonymeForOrientationVerticale(orientation.toLowerCase())) {
+        } else if (synonymeForOrientationVerticale(orientation.toLowerCase())) {
 
             if (nature_fond_g.equals(nature_fond_d) && synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g)) {
 
@@ -2060,11 +2045,11 @@ if (t > condition ) {
                 } else if (fleche_d < t && t <= (longueur + fleche_d)) {
                     vol_total = (double) (Math.PI
                             * (diametre * diametre * (t - fleche_d) / 4
-                                    + 2 * rayon * rayon * fleche_d / 3));
+                            + 2 * rayon * rayon * fleche_d / 3));
                 } else if ((fleche_d + longueur) < t && t <= (longueur + fleche_d + fleche_g)) {
                     vol_total = (double) (Math.PI
                             * (diametre * diametre * (longueur / 4)
-                                    + 2 * rayon * rayon * fleche_d / 3));
+                            + 2 * rayon * rayon * fleche_d / 3));
 
                     double be = 0;
 
@@ -2090,16 +2075,16 @@ if (t > condition ) {
                 } else if (fleche_d < t && t <= longueur + fleche_d) {
                     vol_total = (double) (Math.PI
                             * (diametre * diametre * (t - fleche_d) / 4
-                                    + diametre * diametre * fleche_d / 12));
+                            + diametre * diametre * fleche_d / 12));
                 } else if (fleche_d + longueur < t && t <= longueur + fleche_d + fleche_g) {
                     vol_total = (double) (Math.PI
                             * (diametre * diametre * (longueur / 4)
-                                    + diametre * diametre * fleche_d / 12));
+                            + diametre * diametre * fleche_d / 12));
                     vol_total += Math.PI
                             * (diametre * diametre * fleche_g / 4 - Math
                                     .pow((longueur + fleche_d + fleche_g - t), 3)
-                                    * diametre * diametre
-                                    / (4 * fleche_g * fleche_g))
+                            * diametre * diametre
+                            / (4 * fleche_g * fleche_g))
                             / 3;
                 }
 
@@ -2112,13 +2097,13 @@ if (t > condition ) {
                 } else if (rayon < t && t <= longueur + rayon) {
                     vol_total = (double) (Math.PI
                             * (diametre * diametre * (t - fleche_d) / 4
-                                    + 2 * (rayon * rayon * rayon) / 3));
+                            + 2 * (rayon * rayon * rayon) / 3));
                     System.out.println(" spharique " + t + " spherique  -----------------------    " + vol_total);
 
                 } else if ((rayon + longueur) < t && t <= (longueur + diametre)) {
                     vol_total = (double) (Math.PI
                             * (diametre * diametre * (longueur) / 4
-                                    + 2 * (rayon * rayon * rayon) / 3));
+                            + 2 * (rayon * rayon * rayon) / 3));
                     double bee1 = 0, bee2 = 0;
                     bee1 = rayon * rayon * rayon;
                     bee2 = (2 * rayon + longueur - t) * (2 * rayon + longueur - t) * (t - longueur);
@@ -2140,17 +2125,17 @@ if (t > condition ) {
                 } else if (fleche_d < t && t <= longueur + fleche_d) {
                     vol_total = (double) (Math.PI
                             * (diametre * diametre * (t - fleche_d) / 4
-                                    + 2 * rayon * rayon * fleche_d / 3));
+                            + 2 * rayon * rayon * fleche_d / 3));
                 } else if (t > longueur + fleche_d && t <= longueur + fleche_d + fleche_g) {
                     vol_total = (double) (Math.PI
                             * (diametre * diametre * (longueur / 4)
-                                    + 2 * rayon * rayon * fleche_d / 3));
+                            + 2 * rayon * rayon * fleche_d / 3));
 
                     vol_total += Math.PI
                             * (diametre * diametre * fleche_g / 4 - Math
                                     .pow((longueur + fleche_d + fleche_g - t), 3)
-                                    * diametre * diametre
-                                    / (4 * fleche_g * fleche_g))
+                            * diametre * diametre
+                            / (4 * fleche_g * fleche_g))
                             / 3;
 
                 }
@@ -2165,11 +2150,11 @@ if (t > condition ) {
                 } else if (fleche_d < t && t <= longueur + fleche_d) {
                     vol_total = (double) (Math.PI
                             * (diametre * diametre * (t - fleche_d) / 4
-                                    + 2 * rayon * rayon * fleche_d / 3));
+                            + 2 * rayon * rayon * fleche_d / 3));
                 } else if (t > longueur + fleche_d && t <= longueur + fleche_d + rayon) {
                     vol_total = (double) (Math.PI
                             * (diametre * diametre * (longueur / 4)
-                                    + 2 * rayon * rayon * fleche_d / 3));
+                            + 2 * rayon * rayon * fleche_d / 3));
 
                     double bee1 = 0, bee2 = 0;
                     bee1 = rayon * rayon * rayon;
@@ -2187,12 +2172,12 @@ if (t > condition ) {
                 } else if (fleche_d < t && t <= longueur + fleche_d) {
                     vol_total = (double) (Math.PI
                             * (diametre * diametre * (t - fleche_d) / 4
-                                    + diametre * diametre * fleche_d / 12));
+                            + diametre * diametre * fleche_d / 12));
                 } else {
 
                     vol_total = (double) (Math.PI
                             * (diametre * diametre * (longueur / 4)
-                                    + diametre * diametre * fleche_d / 12));
+                            + diametre * diametre * fleche_d / 12));
 
                     double be = 0;
 
@@ -2216,11 +2201,11 @@ if (t > condition ) {
                 } else if (fleche_d < t && t <= longueur + fleche_d) {
                     vol_total = (double) (Math.PI
                             * (diametre * diametre * (t - fleche_d) / 4
-                                    + diametre * diametre * fleche_d / 12));
+                            + diametre * diametre * fleche_d / 12));
                 } else {
                     vol_total = (double) (Math.PI
                             * (diametre * diametre * (longueur) / 4
-                                    + 2 * (rayon * rayon * rayon) / 3));
+                            + 2 * (rayon * rayon * rayon) / 3));
 
                     double bee1 = 0, bee2 = 0;
                     bee1 = rayon * rayon * rayon;
@@ -2238,7 +2223,7 @@ if (t > condition ) {
                 } else if (fleche_d < t && t <= longueur + fleche_d) {
                     vol_total = (double) (Math.PI
                             * (diametre * diametre * (t - fleche_d) / 4
-                                    + diametre * diametre * fleche_d / 12));
+                            + diametre * diametre * fleche_d / 12));
                 }
             } else if (synonymeForNatureFlechePlatOfCylinder(nature_fond_d)
                     && synonymeForNatureFlecheConiqueOfCylinder(nature_fond_g)) {
@@ -2255,8 +2240,8 @@ if (t > condition ) {
                     vol_total += Math.PI
                             * (diametre * diametre * fleche_g / 4 - Math
                                     .pow((longueur + fleche_g - t), 3)
-                                    * diametre * diametre
-                                    / (4 * fleche_g * fleche_g))
+                            * diametre * diametre
+                            / (4 * fleche_g * fleche_g))
                             / 3;
 
                 }
@@ -2268,7 +2253,7 @@ if (t > condition ) {
                 } else if (rayon < t && t <= longueur + rayon) {
                     vol_total = (double) (Math.PI
                             * (diametre * diametre * (t - fleche_d) / 4
-                                    + 2 * (rayon * rayon * rayon) / 3));
+                            + 2 * (rayon * rayon * rayon) / 3));
                 }
             } else if (synonymeFormeCapaciteMultiLangueForSphere(nature_fond_g)
                     && synonymeForNatureFlechePlatOfCylinder(nature_fond_d)) {
@@ -2316,7 +2301,7 @@ if (t > condition ) {
                 } else if (fleche_d < t && t <= longueur + fleche_d) {
                     vol_total = (double) (Math.PI
                             * (diametre * diametre * (t - fleche_d) / 4
-                                    + 2 * rayon * rayon * fleche_d / 3));
+                            + 2 * rayon * rayon * fleche_d / 3));
                 }
             } else if (synonymeFormeCapaciteMultiLangueForEllpsoide(nature_fond_g)
                     && synonymeFormeCapaciteMultiLangueForSphere(nature_fond_d)) {
@@ -2327,11 +2312,11 @@ if (t > condition ) {
                 } else if (rayon < t && t <= longueur + rayon) {
                     vol_total = (double) (Math.PI
                             * (diametre * diametre * (t - fleche_d) / 4
-                                    + 2 * (rayon * rayon * rayon) / 3));
+                            + 2 * (rayon * rayon * rayon) / 3));
                 } else {
                     vol_total = (double) (Math.PI
                             * (diametre * diametre * (longueur) / 4
-                                    + 2 * (rayon * rayon * rayon) / 3));
+                            + 2 * (rayon * rayon * rayon) / 3));
 
                     double be = 0;
                     double be1 = (fleche_g + rayon + longueur - t) * (fleche_g + rayon + longueur - t)
@@ -2353,17 +2338,17 @@ if (t > condition ) {
                 } else if (rayon < t && t <= longueur + rayon) {
                     vol_total = (double) (Math.PI
                             * (diametre * diametre * (t - fleche_d) / 4
-                                    + 2 * (rayon * rayon * rayon) / 3));
+                            + 2 * (rayon * rayon * rayon) / 3));
                 } else {
                     vol_total = (double) (Math.PI
                             * (diametre * diametre * (longueur) / 4
-                                    + 2 * (rayon * rayon * rayon) / 3));
+                            + 2 * (rayon * rayon * rayon) / 3));
 
                     vol_total += Math.PI
                             * (diametre * diametre * fleche_g / 4 - Math
                                     .pow((longueur + fleche_d + fleche_g - t), 3)
-                                    * diametre * diametre
-                                    / (4 * fleche_g * fleche_g))
+                            * diametre * diametre
+                            / (4 * fleche_g * fleche_g))
                             / 3;
 
                 }
@@ -2391,7 +2376,7 @@ if (t > condition ) {
                         * Math.sqrt(1 - variableIntermediaireC * variableIntermediaireC) / 3;
                 intermediaireCalculVolume = intermediaireCalculVolume
                         - (variableIntermediaireK * variableIntermediaireK + 2)
-                                * Math.sqrt(1 - variableIntermediaireK * variableIntermediaireK) / 3;
+                        * Math.sqrt(1 - variableIntermediaireK * variableIntermediaireK) / 3;
 
                 vol_centre = Math.pow(rayon, 3) / Math.tan(Math.PI * angle / 180);
                 vol_centre *= intermediaireCalculVolume;
@@ -2427,7 +2412,7 @@ if (t > condition ) {
 
                             vol_fleche = Math.PI * (2 * Math.pow(rayon, 2) * fleche_d / 3
                                     - (2 * rayon - hauteurSectionSuperieure) * (2 * rayon - hauteurSectionSuperieure)
-                                            * hauteurSectionSuperieure * fleche_d / (3 * rayon));
+                                    * hauteurSectionSuperieure * fleche_d / (3 * rayon));
 
                         } else if (tg > diametre && hauteurSectionSuperieure <= diametre) {
 
@@ -2435,7 +2420,7 @@ if (t > condition ) {
 
                             vol_fleche = Math.PI * (2 * Math.pow(rayon, 2) * fleche_d / 3
                                     - (2 * rayon - hauteurSectionSuperieure) * (2 * rayon - hauteurSectionSuperieure)
-                                            * hauteurSectionSuperieure * fleche_d / (3 * rayon));
+                                    * hauteurSectionSuperieure * fleche_d / (3 * rayon));
 
                         }
 
@@ -2585,13 +2570,13 @@ if (t > condition ) {
 
                             vol_fleche1 = Math.PI * (2 * Math.pow(rayon, 2) * fleche_d / 3
                                     - (2 * rayon - hauteurSectionSuperieure) * (2 * rayon - hauteurSectionSuperieure)
-                                            * hauteurSectionSuperieure * fleche_d / (3 * rayon));
+                                    * hauteurSectionSuperieure * fleche_d / (3 * rayon));
 
                         } else if (tg > diametre && hauteurSectionSuperieure <= diametre) {
 
                             vol_fleche1 = Math.PI * (2 * Math.pow(rayon, 2) * fleche_d / 3
                                     - (2 * rayon - hauteurSectionSuperieure) * (2 * rayon - hauteurSectionSuperieure)
-                                            * hauteurSectionSuperieure * fleche_d / (3 * rayon));
+                                    * hauteurSectionSuperieure * fleche_d / (3 * rayon));
 
                         }
 
@@ -2700,7 +2685,7 @@ if (t > condition ) {
                         } else if (hauteurSectionSuperieure > rayon && tg <= diametre) {
                             vol_fleche = Math.PI * (2 * Math.pow(rayon, 2) * fleche_d / 3
                                     - (2 * rayon - hauteurSectionSuperieure) * (2 * rayon - hauteurSectionSuperieure)
-                                            * hauteurSectionSuperieure * fleche_d / (3 * rayon));
+                                    * hauteurSectionSuperieure * fleche_d / (3 * rayon));
                             vol_fleche1 = (2 * Math.PI * Math.pow(rayon, 3)
                                     - Math.PI * Math.pow(2 * rayon - tg, 2) * tg) / 3;
 
@@ -2710,7 +2695,7 @@ if (t > condition ) {
 
                             vol_fleche = Math.PI * (2 * Math.pow(rayon, 2) * fleche_d / 3
                                     - (2 * rayon - hauteurSectionSuperieure) * (2 * rayon - hauteurSectionSuperieure)
-                                            * hauteurSectionSuperieure * fleche_d / (3 * rayon));
+                                    * hauteurSectionSuperieure * fleche_d / (3 * rayon));
                         }
 
                         vol_total = vol_centre + vol_fleche + vol_fleche1;
@@ -2774,7 +2759,7 @@ if (t > condition ) {
 
                             vol_fleche1 = Math.PI * (2 * Math.pow(rayon, 2) * fleche_d / 3
                                     - (2 * rayon - hauteurSectionSuperieure) * (2 * rayon - hauteurSectionSuperieure)
-                                            * hauteurSectionSuperieure * fleche_d / (3 * rayon));
+                                    * hauteurSectionSuperieure * fleche_d / (3 * rayon));
 
                             vol_fleche = (double) (Math.PI * fleche_g * 2 * (diametre * diametre * diametre / 8
                                     - Math.pow(rayon - tg, 3) - 3 * tg * (rayon - tg))
@@ -2786,7 +2771,7 @@ if (t > condition ) {
 
                             vol_fleche = Math.PI * (2 * Math.pow(rayon, 2) * fleche_d / 3
                                     - (2 * rayon - hauteurSectionSuperieure) * (2 * rayon - hauteurSectionSuperieure)
-                                            * hauteurSectionSuperieure * fleche_d / (3 * rayon));
+                                    * hauteurSectionSuperieure * fleche_d / (3 * rayon));
                         }
 
                         vol_total = vol_centre + vol_fleche + vol_fleche1;
@@ -2910,8 +2895,9 @@ if (t > condition ) {
 
                     }
 
-                } else
+                } else {
                     return 0;
+                }
 
             } else {
 
@@ -2934,7 +2920,7 @@ if (t > condition ) {
                         * Math.sqrt(1 - variableIntermediaireC * variableIntermediaireC) / 3;
                 intermediaireCalculVolume = intermediaireCalculVolume
                         - (variableIntermediaireK * variableIntermediaireK + 2)
-                                * Math.sqrt(1 - variableIntermediaireK * variableIntermediaireK) / 3;
+                        * Math.sqrt(1 - variableIntermediaireK * variableIntermediaireK) / 3;
 
                 vol_centre = Math.pow(rayon, 3) / Math.tan(Math.PI * angle / 180);
                 vol_centre *= intermediaireCalculVolume;
@@ -2972,7 +2958,7 @@ if (t > condition ) {
 
                             vol_fleche = Math.PI * (2 * Math.pow(rayon, 2) * fleche_g / 3
                                     - (2 * rayon - hauteurSectionSuperieure) * (2 * rayon - hauteurSectionSuperieure)
-                                            * hauteurSectionSuperieure * fleche_g / (3 * rayon));
+                                    * hauteurSectionSuperieure * fleche_g / (3 * rayon));
 
                         } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
 
@@ -2980,7 +2966,7 @@ if (t > condition ) {
 
                             vol_fleche = Math.PI * (2 * Math.pow(rayon, 2) * fleche_g / 3
                                     - (2 * rayon - hauteurSectionSuperieure) * (2 * rayon - hauteurSectionSuperieure)
-                                            * hauteurSectionSuperieure * fleche_g / (3 * rayon));
+                                    * hauteurSectionSuperieure * fleche_g / (3 * rayon));
 
                         }
 
@@ -3160,13 +3146,13 @@ if (t > condition ) {
 
                             vol_fleche = Math.PI * (2 * Math.pow(rayon, 2) * fleche_g / 3
                                     - (2 * rayon - hauteurSectionSuperieure) * (2 * rayon - hauteurSectionSuperieure)
-                                            * hauteurSectionSuperieure * fleche_g / (3 * rayon));
+                                    * hauteurSectionSuperieure * fleche_g / (3 * rayon));
 
                         } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
 
                             vol_fleche = Math.PI * (2 * Math.pow(rayon, 2) * fleche_g / 3
                                     - (2 * rayon - hauteurSectionSuperieure) * (2 * rayon - hauteurSectionSuperieure)
-                                            * hauteurSectionSuperieure * fleche_g / (3 * rayon));
+                                    * hauteurSectionSuperieure * fleche_g / (3 * rayon));
 
                         }
                         vol_total = vol_centre + vol_fleche;
@@ -3287,7 +3273,7 @@ if (t > condition ) {
 
                             vol_fleche = Math.PI * (2 * Math.pow(rayon, 2) * fleche_g / 3
                                     - (2 * rayon - hauteurSectionSuperieure) * (2 * rayon - hauteurSectionSuperieure)
-                                            * hauteurSectionSuperieure * fleche_g / (3 * rayon));
+                                    * hauteurSectionSuperieure * fleche_g / (3 * rayon));
                             vol_fleche1 = (2 * Math.PI * Math.pow(rayon, 3)
                                     - Math.PI * Math.pow(2 * rayon - td, 2) * td) / 3;
 
@@ -3296,7 +3282,7 @@ if (t > condition ) {
                             vol_fleche1 = Math.PI * 2 * Math.pow(rayon, 3) / 3;
                             vol_fleche = Math.PI * (2 * Math.pow(rayon, 2) * fleche_g / 3
                                     - (2 * rayon - hauteurSectionSuperieure) * (2 * rayon - hauteurSectionSuperieure)
-                                            * hauteurSectionSuperieure * fleche_g / (3 * rayon));
+                                    * hauteurSectionSuperieure * fleche_g / (3 * rayon));
 
                         }
 
@@ -3375,7 +3361,7 @@ if (t > condition ) {
 
                             vol_fleche = Math.PI * (2 * Math.pow(rayon, 2) * fleche_g / 3
                                     - (2 * rayon - hauteurSectionSuperieure) * (2 * rayon - hauteurSectionSuperieure)
-                                            * hauteurSectionSuperieure * fleche_g / (3 * rayon));
+                                    * hauteurSectionSuperieure * fleche_g / (3 * rayon));
 
                         } else if (td > diametre && hauteurSectionSuperieure <= diametre) {
 
@@ -3383,7 +3369,7 @@ if (t > condition ) {
 
                             vol_fleche = Math.PI * (2 * Math.pow(rayon, 2) * fleche_g / 3
                                     - (2 * rayon - hauteurSectionSuperieure) * (2 * rayon - hauteurSectionSuperieure)
-                                            * hauteurSectionSuperieure * fleche_g / (3 * rayon));
+                                    * hauteurSectionSuperieure * fleche_g / (3 * rayon));
 
                         }
 
@@ -3475,12 +3461,23 @@ if (t > condition ) {
 
     } // retourne la valeur du volume du recipient rempli a une hauteur donne
 
-    public void certificat_with_head(HashMap info, HashMap data, InputStream logo, String typeMethode,
+    public void certificat_with_head(HashMap info, HashMap data, InputStream logo, InputStream signature, String typeMethode,
             List<Float> abcisse, List<Double> ordonne) throws BadElementException, DocumentException {
         // import com.lowagie.text.Document;
         com.lowagie.text.Document document = new com.lowagie.text.Document(PageSize.A4);
+
         String nom = (String) info.get("certificat");
-        String filePath = System.getProperty("user.home") + "/Documents/" + nom + ".pdf";
+
+        String documentDirectory = System.getProperty("user.home") + "/Documents/";
+        String nyettofDirectory = documentDirectory + "NyettoftTank_files/";
+
+        File nyettofFile = new File(nyettofDirectory);
+        if (!(nyettofFile.exists())) {
+            nyettofFile.mkdirs();
+        }
+
+        String filePath = nyettofDirectory + nom + ".pdf";
+
         try {
             LocalDate date = LocalDate.now();
             PdfWriter.getInstance(document, new FileOutputStream(filePath));
@@ -3490,130 +3487,143 @@ if (t > condition ) {
             table.setSpacing(-2);
             table.setAutoFillEmptyCells(true);
 
+            String selectedCountry = MainView.getChoosePays();
             // PAGE 1
-            Cell cell = new Cell(new Chunk("REPUBLIQUE DU CAMEROUN",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
-            Cell cell2 = new Cell(new Chunk("REPUBLIC OF CAMEROON",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table.addCell(cell);
-            table.addCell(cell2);
+            Cell cell = null;
+            Cell cell2 = null;
+            if (selectedCountry.equalsIgnoreCase("Cameroun") || selectedCountry.equalsIgnoreCase("Cameroon")
+                    || selectedCountry.equalsIgnoreCase("Kamerun")) {
 
-            cell = new Cell(new Chunk("Paix – Travail – Patrie",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 10, Font.BOLD, Color.BLACK)));
-            cell2 = new Cell(new Chunk("Peace – Work - Fatherland",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 10, Font.BOLD, Color.BLACK)));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table.addCell(cell);
-            table.addCell(cell2);
+                cell = new Cell(new Chunk("REPUBLIQUE DU CAMEROUN",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
+                cell2 = new Cell(new Chunk("REPUBLIC OF CAMEROON",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table.addCell(cell);
+                table.addCell(cell2);
 
-            cell = new Cell("-------");
-            cell2 = new Cell("-------");
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table.addCell(cell);
-            table.addCell(cell2);
+                cell = new Cell(new Chunk("Paix – Travail – Patrie",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 10, Font.BOLD, Color.BLACK)));
+                cell2 = new Cell(new Chunk("Peace – Work - Fatherland",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 10, Font.BOLD, Color.BLACK)));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table.addCell(cell);
+                table.addCell(cell2);
 
-            cell = new Cell(new Chunk(" MINISTERE DU COMMERCE",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
-            cell2 = new Cell(new Chunk("MINISTRY OF TRADE",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table.addCell(cell);
-            table.addCell(cell2);
+                cell = new Cell("-------");
+                cell2 = new Cell("-------");
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table.addCell(cell);
+                table.addCell(cell2);
 
-            cell = new Cell("-------");
-            cell2 = new Cell("-------");
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table.addCell(cell);
-            table.addCell(cell2);
+                cell = new Cell(new Chunk(" MINISTERE DU COMMERCE",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
+                cell2 = new Cell(new Chunk("MINISTRY OF TRADE",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table.addCell(cell);
+                table.addCell(cell2);
 
-            cell = new Cell(new Chunk("DIRECTION DE LA METROLOGIE, \n"
-                    + "DE LA QUALITE ET DES PRIX",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
-            cell2 = new Cell(new Chunk(" DEPARTMENT OF METROLOGY, \n"
-                    + "QUALITY AND PRICES",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table.addCell(cell);
-            table.addCell(cell2);
+                cell = new Cell("-------");
+                cell2 = new Cell("-------");
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table.addCell(cell);
+                table.addCell(cell2);
 
-            cell = new Cell("-------");
-            cell2 = new Cell("-------");
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table.addCell(cell);
-            table.addCell(cell2);
+                cell = new Cell(new Chunk("DIRECTION DE LA METROLOGIE, \n"
+                        + "DE LA QUALITE ET DES PRIX",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
+                cell2 = new Cell(new Chunk(" DEPARTMENT OF METROLOGY, \n"
+                        + "QUALITY AND PRICES",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table.addCell(cell);
+                table.addCell(cell2);
 
-            cell = new Cell(new Chunk("SOUS-DIRECTION DE LA METROLOGIE",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 9, Font.BOLD, Color.BLACK)));
-            cell2 = new Cell(new Chunk("SUB-DEPARTMENT OF METROLOGY",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 9, Font.BOLD, Color.BLACK)));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table.addCell(cell);
-            table.addCell(cell2);
+                cell = new Cell("-------");
+                cell2 = new Cell("-------");
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table.addCell(cell);
+                table.addCell(cell2);
 
-            cell = new Cell("-------");
-            cell2 = new Cell("-------");
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table.addCell(cell);
-            table.addCell(cell2);
+                cell = new Cell(new Chunk("SOUS-DIRECTION DE LA METROLOGIE",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 9, Font.BOLD, Color.BLACK)));
+                cell2 = new Cell(new Chunk("SUB-DEPARTMENT OF METROLOGY",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 9, Font.BOLD, Color.BLACK)));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table.addCell(cell);
+                table.addCell(cell2);
 
-            cell = new Cell(new Chunk("SERVICE DES INSTRUMENTS VOLUMETRIQUES",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
-            cell2 = new Cell(new Chunk("SERVICE OF VOLUMETRICS\n"
-                    + "INSTRUMENTS",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table.addCell(cell);
-            table.addCell(cell2);
+                cell = new Cell("-------");
+                cell2 = new Cell("-------");
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table.addCell(cell);
+                table.addCell(cell2);
 
-            cell = new Cell("-------");
-            cell2 = new Cell("-------");
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table.addCell(cell);
-            table.addCell(cell2);
+                cell = new Cell(new Chunk("SERVICE DES INSTRUMENTS VOLUMETRIQUES",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
+                cell2 = new Cell(new Chunk("SERVICE OF VOLUMETRICS\n"
+                        + "INSTRUMENTS",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table.addCell(cell);
+                table.addCell(cell2);
 
-            table.disableBorderSide(Rectangle.UNDEFINED);
-            document.add(table);
+                cell = new Cell("-------");
+                cell2 = new Cell("-------");
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table.addCell(cell);
+                table.addCell(cell2);
+
+                table.disableBorderSide(Rectangle.UNDEFINED);
+                document.add(table);
+
+            } else {
+
+                Paragraph pied = new Paragraph("\n\n\n\n\n");
+                document.add(pied);
+
+            }
 
             Paragraph corp = new Paragraph(
                     " \n\n\n\n\n\n\n        TABLE DE JAUGEAGE A L’ECHELLE CENTRIMETRIQUE DES VOLUMES D’EXPLOITATION"
-                            + "  DES "
-                            + verifie(info, "type de la capacite").toString().toUpperCase()
-                            + " DE "
-                            + verifie(info, "lieu des operations") + "  ",
+                    + "  DES "
+                    + verifie(info, "type de la capacite").toString().toUpperCase()
+                    + " DE "
+                    + verifie(info, "lieu des operations") + "  ",
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 10, Font.BOLD, Color.BLACK));
 
             corp.setAlignment(Element.ALIGN_CENTER);
@@ -3622,10 +3632,10 @@ if (t > condition ) {
             Paragraph pied = new Paragraph("\n\n\n\n\n\n\n");
             document.add(pied);
 
-            if (logo != null) {
-                Path cible = Paths.get("./xxx3.jpg");
-                Files.copy(logo, cible, StandardCopyOption.REPLACE_EXISTING);
-                Image img = Image.getInstance("./xxx3.jpg");
+            if (signature != null) {
+                Path cible = Paths.get("xxx3.jpg");
+                Files.copy(signature, cible, StandardCopyOption.REPLACE_EXISTING);
+                Image img = Image.getInstance("xxx3.jpg");
 
                 img.scaleAbsolute(200, 100);
                 img.setAlignment(Element.ALIGN_MIDDLE);
@@ -3633,131 +3643,152 @@ if (t > condition ) {
                 Files.deleteIfExists(cible);
             }
 
+            Paragraph corp2 = new Paragraph(
+                    " \n\n "
+                    + verifie(info, "lieu des operations").toString().toUpperCase(),
+                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.BOLD, Color.BLACK));
+
+            corp2.setAlignment(Element.ALIGN_CENTER);
+            document.add(corp2);
+
             document.newPage();
             document.add(Chunk.NEWLINE);
 
             // page 2
-            Table table2 = new Table(2, 2);
-            cell = new Cell(new Chunk("REPUBLIQUE DU CAMEROUN",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
-            cell2 = new Cell(new Chunk("REPUBLIC OF CAMEROON",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
+            if (selectedCountry.equalsIgnoreCase("Cameroun") || selectedCountry.equalsIgnoreCase("Cameroon")
+                    || selectedCountry.equalsIgnoreCase("Kamerun")) {
 
-            cell.setWidth(300);
-            cell2.setWidth(300);
+                Table table2 = new Table(2, 2);
+                cell = new Cell(new Chunk("REPUBLIQUE DU CAMEROUN",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
+                cell2 = new Cell(new Chunk("REPUBLIC OF CAMEROON",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
 
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table2.addCell(cell);
-            table2.addCell(cell2);
+                cell.setWidth(300);
+                cell2.setWidth(300);
 
-            cell = new Cell(new Chunk("Paix – Travail – Patrie",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 10, Font.BOLD, Color.BLACK)));
-            cell2 = new Cell(new Chunk("Peace – Work - Fatherland",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 10, Font.BOLD, Color.BLACK)));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table2.addCell(cell);
-            table2.addCell(cell2);
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table2.addCell(cell);
+                table2.addCell(cell2);
 
-            cell = new Cell("-------");
-            cell2 = new Cell("-------");
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table2.addCell(cell);
-            table2.addCell(cell2);
+                cell = new Cell(new Chunk("Paix – Travail – Patrie",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 10, Font.BOLD, Color.BLACK)));
+                cell2 = new Cell(new Chunk("Peace – Work - Fatherland",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 10, Font.BOLD, Color.BLACK)));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table2.addCell(cell);
+                table2.addCell(cell2);
 
-            cell = new Cell(new Chunk(" MINISTERE DU COMMERCE",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
-            cell2 = new Cell(new Chunk("MINISTRY OF TRADE",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table2.addCell(cell);
-            table2.addCell(cell2);
+                cell = new Cell("-------");
+                cell2 = new Cell("-------");
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table2.addCell(cell);
+                table2.addCell(cell2);
 
-            cell = new Cell("-------");
-            cell2 = new Cell("-------");
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table2.addCell(cell);
-            table2.addCell(cell2);
+                cell = new Cell(new Chunk(" MINISTERE DU COMMERCE",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
+                cell2 = new Cell(new Chunk("MINISTRY OF TRADE",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table2.addCell(cell);
+                table2.addCell(cell2);
 
-            cell = new Cell(new Chunk("DIRECTION DE LA METROLOGIE, \n"
-                    + "DE LA QUALITE ET DES PRIX",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
-            cell2 = new Cell(new Chunk(" DEPARTMENT OF METROLOGY, \n"
-                    + "QUALITY AND PRICES",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table2.addCell(cell);
-            table2.addCell(cell2);
+                cell = new Cell("-------");
+                cell2 = new Cell("-------");
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table2.addCell(cell);
+                table2.addCell(cell2);
 
-            cell = new Cell("-------");
-            cell2 = new Cell("-------");
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table2.addCell(cell);
-            table2.addCell(cell2);
+                cell = new Cell(new Chunk("DIRECTION DE LA METROLOGIE, \n"
+                        + "DE LA QUALITE ET DES PRIX",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
+                cell2 = new Cell(new Chunk(" DEPARTMENT OF METROLOGY, \n"
+                        + "QUALITY AND PRICES",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table2.addCell(cell);
+                table2.addCell(cell2);
 
-            cell = new Cell(new Chunk("SOUS-DIRECTION DE LA METROLOGIE",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 9, Font.BOLD, Color.BLACK)));
-            cell2 = new Cell(new Chunk("SUB-DEPARTMENT OF METROLOGY",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 9, Font.BOLD, Color.BLACK)));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table2.addCell(cell);
-            table2.addCell(cell2);
+                cell = new Cell("-------");
+                cell2 = new Cell("-------");
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table2.addCell(cell);
+                table2.addCell(cell2);
 
-            cell = new Cell("-------");
-            cell2 = new Cell("-------");
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table2.addCell(cell);
-            table2.addCell(cell2);
+                cell = new Cell(new Chunk("SOUS-DIRECTION DE LA METROLOGIE",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 9, Font.BOLD, Color.BLACK)));
+                cell2 = new Cell(new Chunk("SUB-DEPARTMENT OF METROLOGY",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 9, Font.BOLD, Color.BLACK)));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table2.addCell(cell);
+                table2.addCell(cell2);
 
-            cell = new Cell(new Chunk("SERVICE DES INSTRUMENTS VOLUMETRIQUES",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
-            cell2 = new Cell(new Chunk("SERVICE OF VOLUMETRICS\n"
-                    + "INSTRUMENTS",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table2.addCell(cell);
-            table2.addCell(cell2);
+                cell = new Cell("-------");
+                cell2 = new Cell("-------");
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table2.addCell(cell);
+                table2.addCell(cell2);
 
-            cell = new Cell("-------");
-            cell2 = new Cell("-------");
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table2.addCell(cell);
-            table2.addCell(cell2);
+                cell = new Cell(new Chunk("SERVICE DES INSTRUMENTS VOLUMETRIQUES",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
+                cell2 = new Cell(new Chunk("SERVICE OF VOLUMETRICS\n"
+                        + "INSTRUMENTS",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table2.addCell(cell);
+                table2.addCell(cell2);
 
-            table2.disableBorderSide(Rectangle.UNDEFINED);
-            document.add(table2);
+                cell = new Cell("-------");
+                cell2 = new Cell("-------");
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table2.addCell(cell);
+                table2.addCell(cell2);
+
+                table2.disableBorderSide(Rectangle.UNDEFINED);
+                document.add(table2);
+
+            } else {
+
+                Paragraph ppp = new Paragraph(
+                        " \n\n\n\n\n\n",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.BOLD, Color.BLACK));
+                ppp.setAlignment(Element.ALIGN_CENTER);
+                document.add(ppp);
+
+            }
 
             Paragraph ppp = new Paragraph(
                     " \n\n\n    N°………………. /" + date.getYear() + "/MINCOMMERCE /SG/DMQP/SDM/SIV",
@@ -3767,14 +3798,14 @@ if (t > condition ) {
 
             Paragraph p3 = new Paragraph(
                     "\n\n\n\n\n Table de jaugeage donnant à ’échelle centimétriques les volumes de "
-                            + verifie(info, "produit stocke") + " contenus \n"
-                            + "dans la " + verifie(info, "type de la capacite") + " de "
-                            + verifie(info,
-                                    "immatriculation")
-                            + " " + verifie(info, "volume nominal") + verifie(info,
-                                    "unite de volume")
-                            + " " + " de " + verifie(info, "detenteur") + " situe a "
-                            + verifie(info, "lieu des operations"),
+                    + verifie(info, "produit stocke") + " contenus \n"
+                    + "dans la " + verifie(info, "type de la capacite") + " de "
+                    + verifie(info,
+                            "immatriculation")
+                    + " " + verifie(info, "volume nominal") + verifie(info,
+                    "unite de volume")
+                    + " " + " de " + verifie(info, "detenteur") + " situe a "
+                    + verifie(info, "lieu des operations"),
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK));
 
             p3.setAlignment(Element.ALIGN_CENTER);
@@ -3795,127 +3826,140 @@ if (t > condition ) {
             document.add(Chunk.NEWLINE);
 
             // page 3
-            Table table3 = new Table(2, 2);
-            cell = new Cell(new Chunk("REPUBLIQUE DU CAMEROUN",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
-            cell2 = new Cell(new Chunk("REPUBLIC OF CAMEROON",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
+            if (selectedCountry.equalsIgnoreCase("Cameroun") || selectedCountry.equalsIgnoreCase("Cameroon")
+                    || selectedCountry.equalsIgnoreCase("Kamerun")) {
 
-            cell.setWidth(300);
-            cell2.setWidth(300);
+                Table table3 = new Table(2, 2);
+                cell = new Cell(new Chunk("REPUBLIQUE DU CAMEROUN",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
+                cell2 = new Cell(new Chunk("REPUBLIC OF CAMEROON",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
 
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table3.addCell(cell);
-            table3.addCell(cell2);
+                cell.setWidth(300);
+                cell2.setWidth(300);
 
-            cell = new Cell(new Chunk("Paix – Travail – Patrie",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 10, Font.BOLD, Color.BLACK)));
-            cell2 = new Cell(new Chunk("Peace – Work - Fatherland",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 10, Font.BOLD, Color.BLACK)));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table3.addCell(cell);
-            table3.addCell(cell2);
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table3.addCell(cell);
+                table3.addCell(cell2);
 
-            cell = new Cell("-------");
-            cell2 = new Cell("-------");
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table3.addCell(cell);
-            table3.addCell(cell2);
+                cell = new Cell(new Chunk("Paix – Travail – Patrie",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 10, Font.BOLD, Color.BLACK)));
+                cell2 = new Cell(new Chunk("Peace – Work - Fatherland",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 10, Font.BOLD, Color.BLACK)));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table3.addCell(cell);
+                table3.addCell(cell2);
 
-            cell = new Cell(new Chunk(" MINISTERE DU COMMERCE",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
-            cell2 = new Cell(new Chunk("MINISTRY OF TRADE",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table3.addCell(cell);
-            table3.addCell(cell2);
+                cell = new Cell("-------");
+                cell2 = new Cell("-------");
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table3.addCell(cell);
+                table3.addCell(cell2);
 
-            cell = new Cell("-------");
-            cell2 = new Cell("-------");
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table3.addCell(cell);
-            table3.addCell(cell2);
+                cell = new Cell(new Chunk(" MINISTERE DU COMMERCE",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
+                cell2 = new Cell(new Chunk("MINISTRY OF TRADE",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table3.addCell(cell);
+                table3.addCell(cell2);
 
-            cell = new Cell(new Chunk("DIRECTION DE LA METROLOGIE, \n"
-                    + "DE LA QUALITE ET DES PRIX",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
-            cell2 = new Cell(new Chunk(" DEPARTMENT OF METROLOGY, \n"
-                    + "QUALITY AND PRICES",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table3.addCell(cell);
-            table3.addCell(cell2);
+                cell = new Cell("-------");
+                cell2 = new Cell("-------");
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table3.addCell(cell);
+                table3.addCell(cell2);
 
-            cell = new Cell("-------");
-            cell2 = new Cell("-------");
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table3.addCell(cell);
-            table3.addCell(cell2);
+                cell = new Cell(new Chunk("DIRECTION DE LA METROLOGIE, \n"
+                        + "DE LA QUALITE ET DES PRIX",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
+                cell2 = new Cell(new Chunk(" DEPARTMENT OF METROLOGY, \n"
+                        + "QUALITY AND PRICES",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table3.addCell(cell);
+                table3.addCell(cell2);
 
-            cell = new Cell(new Chunk("SOUS-DIRECTION DE LA METROLOGIE",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 9, Font.BOLD, Color.BLACK)));
-            cell2 = new Cell(new Chunk("SUB-DEPARTMENT OF METROLOGY",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 9, Font.BOLD, Color.BLACK)));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table3.addCell(cell);
-            table3.addCell(cell2);
+                cell = new Cell("-------");
+                cell2 = new Cell("-------");
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table3.addCell(cell);
+                table3.addCell(cell2);
 
-            cell = new Cell("-------");
-            cell2 = new Cell("-------");
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table3.addCell(cell);
-            table3.addCell(cell2);
+                cell = new Cell(new Chunk("SOUS-DIRECTION DE LA METROLOGIE",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 9, Font.BOLD, Color.BLACK)));
+                cell2 = new Cell(new Chunk("SUB-DEPARTMENT OF METROLOGY",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 9, Font.BOLD, Color.BLACK)));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table3.addCell(cell);
+                table3.addCell(cell2);
 
-            cell = new Cell(new Chunk("SERVICE DES INSTRUMENTS VOLUMETRIQUES",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
-            cell2 = new Cell(new Chunk("SERVICE OF VOLUMETRICS\n"
-                    + "INSTRUMENTS",
-                    FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table3.addCell(cell);
-            table3.addCell(cell2);
+                cell = new Cell("-------");
+                cell2 = new Cell("-------");
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table3.addCell(cell);
+                table3.addCell(cell2);
 
-            cell = new Cell("-------");
-            cell2 = new Cell("-------");
-            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-            cell.disableBorderSide(Rectangle.BOX);
-            cell2.disableBorderSide(Rectangle.BOX);
-            table3.addCell(cell);
-            table3.addCell(cell2);
+                cell = new Cell(new Chunk("SERVICE DES INSTRUMENTS VOLUMETRIQUES",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
+                cell2 = new Cell(new Chunk("SERVICE OF VOLUMETRICS\n"
+                        + "INSTRUMENTS",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table3.addCell(cell);
+                table3.addCell(cell2);
 
-            table3.disableBorderSide(Rectangle.UNDEFINED);
-            document.add(table3);
+                cell = new Cell("-------");
+                cell2 = new Cell("-------");
+                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell.disableBorderSide(Rectangle.BOX);
+                cell2.disableBorderSide(Rectangle.BOX);
+                table3.addCell(cell);
+                table3.addCell(cell2);
+
+                table3.disableBorderSide(Rectangle.UNDEFINED);
+                document.add(table3);
+
+            } else {
+
+                Paragraph p4 = new Paragraph("\n\n\n\n\n",
+                        FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.BOLD, Color.BLACK));
+                p4.setAlignment(Element.ALIGN_CENTER);
+                document.add(p4);
+
+            }
+
             Paragraph p4 = new Paragraph("\n NOTE TECHNIQUE",
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.BOLD, Color.BLACK));
             p4.setAlignment(Element.ALIGN_CENTER);
@@ -3923,7 +3967,7 @@ if (t > condition ) {
 
             p3 = new Paragraph(
                     "\n CERTIFICAT DE JAUGEAGE N°………… /" + date.getYear()
-                            + "/MINCOMMERCE/SG/DMQP/SDM/SIV",
+                    + "/MINCOMMERCE/SG/DMQP/SDM/SIV",
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.BOLD, Color.BLACK));
             p3.setAlignment(Element.ALIGN_CENTER);
             document.add(p3);
@@ -3950,7 +3994,7 @@ if (t > condition ) {
 
             cell2 = new Cell(new Chunk(
                     "* Compartiments de " + verifie(info, "type de la capacite") + " : "
-                            + verifie(info, "nombre compartiments"),
+                    + verifie(info, "nombre compartiments"),
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 10, Color.BLACK)));
             Cell cell3 = new Cell(new Chunk("* Fonds : " + verifie(info, "fond capacite"),
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 10, Color.BLACK)));
@@ -3979,7 +4023,7 @@ if (t > condition ) {
 
             cell2 = new Cell(new Chunk("PRODUIT EN STOCK  ",
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.BOLD, Color.BLACK)));
-            cell3 = new Cell(new Chunk(":" + verifie(info, "produit stocke"),
+            cell3 = new Cell(new Chunk(":  " + verifie(info, "produit stocke"),
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.BOLD, Color.BLACK)));
             cell2.setHorizontalAlignment(Element.ALIGN_LEFT);
             cell3.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -3990,7 +4034,7 @@ if (t > condition ) {
 
             cell2 = new Cell(new Chunk("DETENTEUR  ",
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.BOLD, Color.BLACK)));
-            cell3 = new Cell(new Chunk(":" + verifie(info, "detenteur"),
+            cell3 = new Cell(new Chunk(":  " + verifie(info, "detenteur"),
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.BOLD, Color.BLACK)));
             cell2.setHorizontalAlignment(Element.ALIGN_LEFT);
             cell3.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -4001,7 +4045,7 @@ if (t > condition ) {
 
             cell2 = new Cell(new Chunk("CONSTRUCTEUR  ",
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.BOLD, Color.BLACK)));
-            cell3 = new Cell(new Chunk(":" + verifie(info, "fabricant"),
+            cell3 = new Cell(new Chunk(":  " + verifie(info, "fabricant"),
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.BOLD, Color.BLACK)));
             cell2.setHorizontalAlignment(Element.ALIGN_LEFT);
             cell3.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -4012,7 +4056,7 @@ if (t > condition ) {
 
             cell2 = new Cell(new Chunk("MODE OPERATOIRE  ",
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.BOLD, Color.BLACK)));
-            cell3 = new Cell(new Chunk(":" + verifie(info, "mode operatoire"),
+            cell3 = new Cell(new Chunk(":  " + verifie(info, "mode operatoire"),
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
             cell2.setHorizontalAlignment(Element.ALIGN_LEFT);
             cell3.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -4029,7 +4073,7 @@ if (t > condition ) {
             Table table6 = new Table(5, 5);
             table6.setSpacing(0);
 
-            cell = new Cell(new Chunk("RESULTAT   :",
+            cell = new Cell(new Chunk("RESULTAT   : ",
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 11, Font.BOLD, Color.BLACK)));
             cell.setRowspan(4);
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -4054,8 +4098,8 @@ if (t > condition ) {
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Color.BLACK)));
             cell3 = new Cell(new Chunk(
                     "\n -L’erreur relative commise sur les volumes portés par le barème ci-après est"
-                            + "inférieure ou égale à + ou - 3/1100 pour une livraison de produit supérieure ou"
-                            + "égal à 50 cm",
+                    + "inférieure ou égale à + ou - 3/1100 pour une livraison de produit supérieure ou"
+                    + "égal à 50 cm",
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Color.BLACK)));
             cell2.setColspan(4);
             cell3.setColspan(4);
@@ -4075,9 +4119,20 @@ if (t > condition ) {
             document.newPage();
             document.add(Chunk.NEWLINE);
 
+            if (logo != null) {
+                Path cible = Paths.get("xxx.jpg");
+                Files.copy(logo, cible, StandardCopyOption.REPLACE_EXISTING);
+                Image img = Image.getInstance("xxx.jpg");
+
+                img.scaleAbsolute(50, 50);
+                img.setAlignment(Element.ALIGN_LEFT);
+                document.add(img);
+                Files.deleteIfExists(cible);
+            }
+
             p3 = new Paragraph(
                     "\n\n CERTIFICAT DE JAUGEAGE N°………… /" + date.getYear()
-                            + "/MINCOMMERCE/SG/DMQP/SDM/SIV",
+                    + "/MINCOMMERCE/SG/DMQP/SDM/SIV",
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.BOLD, Color.BLACK));
             p3.setAlignment(Element.ALIGN_CENTER);
             document.add(p3);
@@ -4097,7 +4152,7 @@ if (t > condition ) {
 
             cell2 = new Cell(new Chunk("NOM ET ADRESSE DU DEMANDEUR   ",
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Color.BLACK)));
-            cell3 = new Cell(new Chunk(":" + verifie(info, "agree"),
+            cell3 = new Cell(new Chunk(":  " + verifie(info, "agree"),
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.BOLD, Color.BLACK)));
             cell2.setHorizontalAlignment(Element.ALIGN_LEFT);
             cell3.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -4108,7 +4163,7 @@ if (t > condition ) {
 
             cell2 = new Cell(new Chunk("PROFESSION                    ",
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Color.BLACK)));
-            cell3 = new Cell(new Chunk(":" + "agree".toUpperCase(),
+            cell3 = new Cell(new Chunk(":  " + "agree".toUpperCase(),
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.BOLD, Color.BLACK)));
             cell2.setHorizontalAlignment(Element.ALIGN_LEFT);
             cell3.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -4119,7 +4174,7 @@ if (t > condition ) {
 
             cell2 = new Cell(new Chunk(
                     "EXPLOITANT DE LA  " + verifie(info, "type de la capacite") + "   :  "
-                            + verifie(info, "detenteur"),
+                    + verifie(info, "detenteur"),
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Color.BLACK)));
             cell3 = new Cell(new Chunk(" ",
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.BOLD, Color.BLACK)));
@@ -4132,7 +4187,7 @@ if (t > condition ) {
 
             cell2 = new Cell(new Chunk("DATE DES TRAVAUX              ",
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Color.BLACK)));
-            cell3 = new Cell(new Chunk(":" + verifie(info, "debut des travaux"),
+            cell3 = new Cell(new Chunk(":  " + verifie(info, "debut des travaux"),
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.BOLD, Color.BLACK)));
             cell2.setHorizontalAlignment(Element.ALIGN_LEFT);
             cell3.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -4143,7 +4198,7 @@ if (t > condition ) {
 
             cell2 = new Cell(new Chunk("LIEU DES OPERATIONS           ",
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Color.BLACK)));
-            cell3 = new Cell(new Chunk(":" + verifie(info, "lieu des operations"),
+            cell3 = new Cell(new Chunk(":  " + verifie(info, "lieu des operations"),
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.BOLD, Color.BLACK)));
             cell2.setHorizontalAlignment(Element.ALIGN_LEFT);
             cell3.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -4154,7 +4209,7 @@ if (t > condition ) {
 
             cell2 = new Cell(new Chunk("CHEF DES OPERATIONS           ",
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Color.BLACK)));
-            cell3 = new Cell(new Chunk(":" + verifie(info, "chef des operations"),
+            cell3 = new Cell(new Chunk(":  " + verifie(info, "chef des operations"),
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.BOLD, Color.BLACK)));
             cell2.setHorizontalAlignment(Element.ALIGN_LEFT);
             cell3.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -4175,9 +4230,9 @@ if (t > condition ) {
             table8.setSpacing(-1);
 
             cell2 = new Cell(new Chunk(
-                    "IMMATRICULATION DE LA " + verifie(info, "type de la capacite"),
+                    "IMMATRICULATION DE LA   " + verifie(info, "type de la capacite"),
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Color.BLACK)));
-            cell3 = new Cell(new Chunk(":" + verifie(info, "immatriculation"),
+            cell3 = new Cell(new Chunk(":  " + verifie(info, "immatriculation"),
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.BOLD, Color.BLACK)));
             cell2.setHorizontalAlignment(Element.ALIGN_LEFT);
             cell3.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -4188,7 +4243,7 @@ if (t > condition ) {
 
             cell2 = new Cell(new Chunk("NOMBRE DE COMPARTIMENTS       ",
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Color.BLACK)));
-            cell3 = new Cell(new Chunk(":" + verifie(info, "nombre compartiments"),
+            cell3 = new Cell(new Chunk(":  " + verifie(info, "nombre compartiments"),
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.BOLD, Color.BLACK)));
             cell2.setHorizontalAlignment(Element.ALIGN_LEFT);
             cell3.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -4199,7 +4254,7 @@ if (t > condition ) {
 
             cell2 = new Cell(new Chunk("CONSTRUCTEUR                  ",
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Color.BLACK)));
-            cell3 = new Cell(new Chunk(":" + verifie(info, "fabricant"),
+            cell3 = new Cell(new Chunk(":  " + verifie(info, "fabricant"),
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.BOLD, Color.BLACK)));
             cell2.setHorizontalAlignment(Element.ALIGN_LEFT);
             cell3.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -4210,7 +4265,7 @@ if (t > condition ) {
 
             cell2 = new Cell(new Chunk("NUMERO DE SERIE                 ",
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Color.BLACK)));
-            cell3 = new Cell(new Chunk(":" + verifie(info, "numero serie"),
+            cell3 = new Cell(new Chunk(":  " + verifie(info, "numero serie"),
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.BOLD, Color.BLACK)));
             cell2.setHorizontalAlignment(Element.ALIGN_LEFT);
             cell3.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -4221,7 +4276,7 @@ if (t > condition ) {
 
             cell2 = new Cell(new Chunk("ANNE DE FABRICATION                 ",
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Color.BLACK)));
-            cell3 = new Cell(new Chunk(":" + verifie(info, "annee fabrication"),
+            cell3 = new Cell(new Chunk(":  " + verifie(info, "annee fabrication"),
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.BOLD, Color.BLACK)));
             cell2.setHorizontalAlignment(Element.ALIGN_LEFT);
             cell3.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -4233,7 +4288,7 @@ if (t > condition ) {
             cell2 = new Cell(new Chunk("DIAMETRE NOMINAL             ",
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Color.BLACK)));
             cell3 = new Cell(
-                    new Chunk(":" + verifie(data, "diametre"),
+                    new Chunk(":  " + verifie(data, "diametre"),
                             FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Color.BLACK)));
             cell2.setHorizontalAlignment(Element.ALIGN_LEFT);
             cell3.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -4253,7 +4308,7 @@ if (t > condition ) {
             cell2 = new Cell(
                     new Chunk("FORME            ",
                             FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Color.BLACK)));
-            cell3 = new Cell(new Chunk(":"
+            cell3 = new Cell(new Chunk(":  "
                     + verifie(info, "forme de la capacite") + " " + verifie(info, "orientation")
                     + " A FOND "
                     + verifie(info, "fond capacite"),
@@ -4269,7 +4324,7 @@ if (t > condition ) {
                     new Chunk("ETANCHEITE       ",
                             FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Color.BLACK)));
             cell3 = new Cell(
-                    new Chunk(":" + verifie(info, "etancheite"),
+                    new Chunk(": " + verifie(info, "etancheite"),
                             FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.BOLD,
                                     Color.BLACK)));
             cell2.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -4283,7 +4338,7 @@ if (t > condition ) {
 
             document.add(new Paragraph(
                     "\n\n \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t  FAIT A "
-                            + verifie(info, "lieu des operations") + ", LE .....",
+                    + verifie(info, "lieu des operations") + ", LE .....",
                     FontFactory.getFont(FontFactory.TIMES_ROMAN, 12, Font.BOLD, Color.BLACK)));
 
             document.newPage();
@@ -4508,7 +4563,7 @@ if (t > condition ) {
         }
 
     }
-        
+
     public boolean synonymeFormeCapaciteMultiLangueForCube(String formeCapacite) {
 
         if (formeCapacite.equalsIgnoreCase("Kubisch") || formeCapacite.equalsIgnoreCase("Parallelepiped")
@@ -4519,8 +4574,6 @@ if (t > condition ) {
         }
 
     }
-    
-    
 
     public boolean synonymeFormeCapaciteMultiLangueForSphere(String formeCapacite) {
 
@@ -4536,8 +4589,8 @@ if (t > condition ) {
     public boolean synonymeFormeCapaciteMultiLangueForEllpsoide(String formeCapacite) {
 
         if (formeCapacite.equalsIgnoreCase("Ellipsoide") || formeCapacite.equalsIgnoreCase("Elliptical")
-                || formeCapacite.equalsIgnoreCase("Elliptisch") || formeCapacite.equalsIgnoreCase("Elliptique") || 
-                formeCapacite.equalsIgnoreCase("Forme Non Conventionnelle") || formeCapacite.equalsIgnoreCase("No Conventional Forms") ) {
+                || formeCapacite.equalsIgnoreCase("Elliptisch") || formeCapacite.equalsIgnoreCase("Elliptique")
+                || formeCapacite.equalsIgnoreCase("Forme Non Conventionnelle") || formeCapacite.equalsIgnoreCase("No Conventional Forms")) {
             return true;
         } else {
             return false;

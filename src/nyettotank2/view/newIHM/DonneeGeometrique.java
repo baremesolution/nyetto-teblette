@@ -23,7 +23,7 @@ import nyettotank2.metier.BaremeArtisan;
 
 public class DonneeGeometrique extends javax.swing.JPanel {
 
-    private static HashMap valueGeometryData = new HashMap();
+     private static HashMap valueGeometryData = new HashMap();
     private static HashMap<String, String> valueGeometryInformation = new HashMap();
     private static HashMap infoGenerale = new HashMap();
     private ButtonGroup btnGrpTrigonometrie = new ButtonGroup();
@@ -203,7 +203,13 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                         comboNatureFDValueMoindreCarree.setVisible(false);
                         labelNatureFlecheGaucheMoindreCarree.setVisible(false);
                         comboNatureFGValueMoindreCarree.setVisible(false);
-                        
+                       // fieldFlecheDroit.setText("");
+                       // fieldFlecheGauche.setText("");
+                        fieldFlecheGauche.setVisible(true);
+                        fieldFlecheDroit.setVisible(true);
+                        labelFlecheGauche.setVisible(true);
+                        labelFlecheDroite.setVisible(true);
+
                         
                 }
             }
@@ -213,7 +219,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
 
     class MaskFondForCalculIntegral implements ItemListener {
 
-        @Override
+          @Override
         public void itemStateChanged(ItemEvent e) {
 
             if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -239,7 +245,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
 
     class MaskFondForMoindreCarree implements ItemListener {
 
-        @Override
+       @Override
         public void itemStateChanged(ItemEvent e) {
             if (comboNatureFGValueMoindreCarree.getItemCount() == 0) {
                 return;
@@ -266,7 +272,6 @@ public class DonneeGeometrique extends javax.swing.JPanel {
             }
 
         }
-        //}
     }
 
     class ShowPanelByFormeCapacity implements ItemListener {
@@ -338,9 +343,8 @@ public class DonneeGeometrique extends javax.swing.JPanel {
 
       class ShowPanelByFormeCapacityV2 implements ItemListener {
 
-        @Override
+       @Override
         public void itemStateChanged(ItemEvent e) {
-            String methodeDeCalcul = MainView.getMethodCalculGeometrie();
 
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 if (comboFormeCapacite.getSelectedItem().toString().equalsIgnoreCase("cylindrique") || comboFormeCapacite.getSelectedItem().toString().equalsIgnoreCase("Cylindrical") || comboFormeCapacite.getSelectedItem().toString().equalsIgnoreCase("Zylindrisch")) {
@@ -348,39 +352,8 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                     panelFormeElliptique.setVisible(false);
                     panelRayonSphere.setVisible(false);
                     panelCoteCube.setVisible(false);
-
-                    if (methodeDeCalcul.equalsIgnoreCase("Calcul intégral")) {
-                        labelNatureFlecheDroite.setVisible(true);
-                        comboNatureFDValue.setVisible(true);
-                        labelNatureFlecheGauche.setVisible(true);
-                        comboNatureFGValue.setVisible(true);
-
-                        labelNatureFlecheDroiteMoindreCarree.setVisible(false);
-                        comboNatureFDValueMoindreCarree.setVisible(false);
-                        labelNatureFlecheGaucheMoindreCarree.setVisible(false);
-                        comboNatureFGValueMoindreCarree.setVisible(false);
-
-                    } else if (methodeDeCalcul.equalsIgnoreCase("Moindres carrées")) {
-                        labelNatureFlecheDroiteMoindreCarree.setVisible(true);
-                        comboNatureFDValueMoindreCarree.setVisible(true);
-                        labelNatureFlecheGaucheMoindreCarree.setVisible(true);
-                        comboNatureFGValueMoindreCarree.setVisible(true);
-
-                        labelFlecheGauche.setVisible(false);
-                        fieldFlecheGauche.setVisible(false);
-                        labelFlecheDroite.setVisible(false);
-                        fieldFlecheDroit.setVisible(false);
-
-                        labelNatureFlecheDroite.setVisible(false);
-                        comboNatureFDValue.setVisible(false);
-                        labelNatureFlecheGauche.setVisible(false);
-                        comboNatureFGValue.setVisible(false);
-                    }
-
                     labelDiametre.setVisible(true);
                     fieldDiametre.setVisible(true);
-//                    labelVolumeResiduel.setVisible(true);
-//                    fieldVolumeResiduel.setVisible(true);
                     labelLength.setVisible(true);
                     fieldLongueur.setVisible(true);
 
@@ -397,7 +370,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                     panelRayonSphere.setVisible(false);
                     panelCoteCube.setVisible(false);
 
-                } else if (comboFormeCapacite.getSelectedItem().toString().equalsIgnoreCase("cubique") || comboFormeCapacite.getSelectedItem().toString().equalsIgnoreCase("Cubic") || comboFormeCapacite.getSelectedItem().toString().equalsIgnoreCase("Kubisch")) {
+                } else if (comboFormeCapacite.getSelectedItem().toString().equalsIgnoreCase("Parallélépipède") || comboFormeCapacite.getSelectedItem().toString().equalsIgnoreCase("Parallelepiped") || comboFormeCapacite.getSelectedItem().toString().equalsIgnoreCase("Kubisch")) {
                    
                    Locale[] locale = {Locale.FRENCH, Locale.ENGLISH, Locale.GERMANY};
                    ResourceBundle val_fr = ResourceBundle.getBundle("Bombe_fr", locale[0]);
@@ -423,13 +396,13 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                     panelRayonSphere.setVisible(false);
                     panelCoteCube.setVisible(false);
 
-                } else {
+                } 
+                else {
                     panelFormeElliptique.setVisible(false);
                     panelData.setVisible(true);
                 }
             }
         }
-
     }
 
     
@@ -548,17 +521,17 @@ public class DonneeGeometrique extends javax.swing.JPanel {
         panelUniteLayout.setHorizontalGroup(
             panelUniteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelUniteLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelUniteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelUniteVolume, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelUniteHeight, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelFormsCapacity, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
-                    .addComponent(comboUniteLong, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(13, Short.MAX_VALUE)
+                .addGroup(panelUniteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(labelUniteVolume, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(comboUniteVolume, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(comboFormeCapacite, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelOriention, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(comboOrientationValue, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(comboUniteLong, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelOriention, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboOrientationValue, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelFormsCapacity, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboFormeCapacite, 0, 129, Short.MAX_VALUE)
+                    .addComponent(labelUniteHeight, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(10, 10, 10))
         );
         panelUniteLayout.setVerticalGroup(
             panelUniteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -651,34 +624,24 @@ public class DonneeGeometrique extends javax.swing.JPanel {
             panelDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelDataLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDataLayout.createSequentialGroup()
-                        .addComponent(fieldDiametre)
-                        .addContainerGap(1, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDataLayout.createSequentialGroup()
-                        .addGroup(panelDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(labelDiametre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(labelLength, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(fieldLongueur))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDataLayout.createSequentialGroup()
-                        .addGroup(panelDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(labelNatureFlecheGauche, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(comboNatureFGValue, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(labelNatureFlecheGaucheMoindreCarree, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(comboNatureFGValueMoindreCarree, javax.swing.GroupLayout.Alignment.LEADING, 0, 218, Short.MAX_VALUE))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDataLayout.createSequentialGroup()
-                        .addGroup(panelDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(labelNatureFlecheDroite, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(fieldFlecheDroit, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelFlecheGauche, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(fieldFlecheGauche, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comboNatureFDValue, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(labelNatureFlecheDroiteMoindreCarree, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(comboNatureFDValueMoindreCarree, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(labelFlecheDroite, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())))
+                .addGroup(panelDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(labelFlecheDroite, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fieldFlecheDroit)
+                    .addComponent(comboNatureFDValueMoindreCarree, 0, 150, Short.MAX_VALUE)
+                    .addComponent(labelNatureFlecheDroiteMoindreCarree, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fieldFlecheGauche)
+                    .addComponent(labelFlecheGauche, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboNatureFGValueMoindreCarree, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelNatureFlecheGaucheMoindreCarree, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboNatureFGValue, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fieldDiametre)
+                    .addComponent(fieldLongueur)
+                    .addComponent(labelLength, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelDiametre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelNatureFlecheGauche, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelNatureFlecheDroite, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboNatureFDValue, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
         panelDataLayout.setVerticalGroup(
             panelDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -700,7 +663,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(comboNatureFGValueMoindreCarree, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(labelFlecheGauche)
+                .addComponent(labelFlecheGauche, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(fieldFlecheGauche, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -715,7 +678,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                 .addComponent(labelFlecheDroite)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(fieldFlecheDroit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
+                .addGap(17, 17, 17))
         );
 
         formsfigurePanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -811,18 +774,14 @@ public class DonneeGeometrique extends javax.swing.JPanel {
             panelFormeElliptiqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelFormeElliptiqueLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelFormeElliptiqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelFormeElliptiqueLayout.createSequentialGroup()
-                        .addComponent(labelHauteur, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(8, 8, 8))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelFormeElliptiqueLayout.createSequentialGroup()
-                        .addGroup(panelFormeElliptiqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(fieldPetitAxe, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelPetitAxe, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(fieldHauteur, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(fieldGrandAxe, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelGrandAxe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())))
+                .addGroup(panelFormeElliptiqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(fieldPetitAxe)
+                    .addComponent(labelPetitAxe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelHauteur, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                    .addComponent(labelGrandAxe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fieldGrandAxe)
+                    .addComponent(fieldHauteur))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelFormeElliptiqueLayout.setVerticalGroup(
             panelFormeElliptiqueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -859,12 +818,12 @@ public class DonneeGeometrique extends javax.swing.JPanel {
         panelMethode.setLayout(panelMethodeLayout);
         panelMethodeLayout.setHorizontalGroup(
             panelMethodeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMethodeLayout.createSequentialGroup()
+            .addGroup(panelMethodeLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelMethodeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(comboMethodeValue, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelModeOperatoire, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGroup(panelMethodeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelModeOperatoire, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboMethodeValue, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelMethodeLayout.setVerticalGroup(
             panelMethodeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -920,17 +879,22 @@ public class DonneeGeometrique extends javax.swing.JPanel {
             .addGroup(panelOrientationLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelOrientationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelPositionY, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(fieldPositionx, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(labelPositionZ, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelPositionX, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(fieldPositiony)
-                    .addComponent(fieldPositionz)
-                    .addComponent(fieldInclineAngle)
-                    .addComponent(labelInclineAngle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
-                    .addComponent(jRadioBtnTrigonometrique, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jRadioBtnNonTrigonometrique, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelOrientationLayout.createSequentialGroup()
+                        .addGroup(panelOrientationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jRadioBtnTrigonometrique, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+                            .addComponent(fieldInclineAngle, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelInclineAngle, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelPositionX, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fieldPositionx, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelPositionY, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fieldPositiony, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fieldPositionz, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(panelOrientationLayout.createSequentialGroup()
+                        .addGroup(panelOrientationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelPositionZ, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jRadioBtnNonTrigonometrique))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         panelOrientationLayout.setVerticalGroup(
             panelOrientationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -951,9 +915,9 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                 .addComponent(labelPositionZ)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(fieldPositionz, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(12, 12, 12)
                 .addComponent(jRadioBtnTrigonometrique)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jRadioBtnNonTrigonometrique)
                 .addContainerGap(8, Short.MAX_VALUE))
         );
@@ -972,7 +936,9 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(panelCoteCubeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelCote, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(fieldCoteCube))
+                    .addGroup(panelCoteCubeLayout.createSequentialGroup()
+                        .addComponent(fieldCoteCube, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelCoteCubeLayout.setVerticalGroup(
@@ -999,7 +965,9 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(panelRayonSphereLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelRayon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(fieldRayonSphere))
+                    .addGroup(panelRayonSphereLayout.createSequentialGroup()
+                        .addComponent(fieldRayonSphere, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelRayonSphereLayout.setVerticalGroup(
@@ -1023,23 +991,23 @@ public class DonneeGeometrique extends javax.swing.JPanel {
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(5, 5, 5)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(panelUnite, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelOrientation, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelCoteCube, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelRayonSphere, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelMethode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(5, 5, 5)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelUnite, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelMethode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelOrientation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelCoteCube, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelRayonSphere, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(invalidFields, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(panelFormeElliptique, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(invalidFields, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(panelData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(10, 10, 10)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(formsfigurePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(14, 14, 14))
+                .addGap(10, 10, 10))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1076,7 +1044,10 @@ public class DonneeGeometrique extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1179,8 +1150,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
     }//GEN-LAST:event_drawActionPerformed
 
     public void dessinerFormeRayonCarre(String nature_fond_g, String nature_fond_d) {
-
-        if (synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d)) {
+         if (synonymeFormeCapaciteMultiLangueForHemispherique(nature_fond_d)) {
             nature_fond_d = "spherique";
         }
 
@@ -1204,12 +1174,11 @@ public class DonneeGeometrique extends javax.swing.JPanel {
             nature_fond_g = "elliptique";
         }
         dessinerForme(nature_fond_g, nature_fond_d);
-
     }
 
     public void remplirFlecheDroitOuGauche() {
 
-        if (Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldDiametre.getText()).matches() && 
+         if (Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldDiametre.getText()).matches() && 
                 Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldLongueur.getText()).matches() ) {
 
             float diametre = Float.parseFloat(fieldDiametre.getText());
@@ -1256,17 +1225,16 @@ public class DonneeGeometrique extends javax.swing.JPanel {
     }//GEN-LAST:event_fieldFlecheGaucheActionPerformed
 
     private void enrollActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enrollActionPerformed
-        String typeMethodeGeometiy = MainView.getMethodCalculGeometrie();
+        
+         String typeMethodeGeometiy = MainView.getMethodCalculGeometrie();
 
-          if( (!comboOrientationValue.getSelectedItem().toString().equalsIgnoreCase("Vertikal") || 
-                !comboOrientationValue.getSelectedItem().toString().equalsIgnoreCase("Vertical") ) && synonymeFormeCapaciteMultiLangueForCylindre(comboFormeCapacite.getSelectedItem().toString()) ){
+          if( ( !synonymeForOrientationVerticale( comboOrientationValue.getSelectedItem().toString() ) ) && synonymeFormeCapaciteMultiLangueForCylindre(comboFormeCapacite.getSelectedItem().toString()) ){
             saveDonneeGeometriqueByRayonCarreMethod();
         } else {
             saveDonneeGeometrique();
         }
           
           saveComboIndexActive();
-        
     }//GEN-LAST:event_enrollActionPerformed
 
     private void fieldHauteurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldHauteurActionPerformed
@@ -1384,22 +1352,23 @@ public class DonneeGeometrique extends javax.swing.JPanel {
             case "Cylindrical":
             case "Zylindrisch":
 
+                
                 if ((!synonymeFormeCapaciteMultiLangueForSphere(comboNatureFGValue.getSelectedItem().toString()) && Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldFlecheGauche.getText()).matches())) {
                     flecheGauche = true;
                     valueGeometryData.put("fleche cote gauche", fieldFlecheGauche.getText());
                 }
 
-                if ((!synonymeFormeCapaciteMultiLangueForSphere(comboNatureFDValue.getSelectedItem().toString()) && Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldFlecheDroit.getText()).matches())) {
-                    flecheDroite = true;
-                    valueGeometryData.put("fleche cote droit", fieldFlecheDroit.getText());
-                }
-
-                if (synonymeForNatureFlechePlatOfCylinder(comboNatureFDValue.getSelectedItem().toString())) {
+                  if (synonymeForNatureFlechePlatOfCylinder(comboNatureFDValue.getSelectedItem().toString())) {
                     valueGeometryData.put("fleche cote droit", "0");
                 }
 
                 if (synonymeForNatureFlechePlatOfCylinder(comboNatureFGValue.getSelectedItem().toString())) {
                     valueGeometryData.put("fleche cote gauche", "0");
+                }
+                
+                if ((!synonymeFormeCapaciteMultiLangueForSphere(comboNatureFDValue.getSelectedItem().toString()) && Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldFlecheDroit.getText()).matches())) {
+                    flecheDroite = true;
+                    valueGeometryData.put("fleche cote droit", fieldFlecheDroit.getText());
                 }
 
                 if (synonymeFormeCapaciteMultiLangueForSphere(comboNatureFGValue.getSelectedItem().toString())) {
@@ -1504,8 +1473,8 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                 break;
         }
     }
-
-    public void saveComboIndexActive(){
+    
+     public void saveComboIndexActive(){
     
          tabIndexComoBoxActve[0] = comboMethodeValue.getSelectedIndex();
         tabIndexComoBoxActve[1] = comboUniteLong.getSelectedIndex();
@@ -1518,7 +1487,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
         tabIndexComoBoxActve[8] = comboNatureFDValueMoindreCarree.getSelectedIndex();
     
     }
-    
+     
     private void saveDonneeGeometriqueByRayonCarreMethod() {
 
         infoGenerale.clear();
@@ -1616,10 +1585,10 @@ public class DonneeGeometrique extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(null, "Vos données ont bien été pris en compte!.", "Succès", JOptionPane.INFORMATION_MESSAGE);
 
     }
-
+      
     public void dessinerForme(String fondLeft, String fondRight) {
 
-        float flecheg = 0;
+ float flecheg = 0;
         float fleched = 0;
 
         BaremeArtisan baremeArtisan = new BaremeArtisan();
@@ -1648,7 +1617,6 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                         flecheg = baremeArtisan.convertToCentimeter(comboUniteLong.getSelectedItem().toString(), flecheg);
 
                         CylindreHorizontale cylindreHorizontale = new CylindreHorizontale(diametre, longueur, flecheg, fleched);
-//                    CylindreElliptique ellipticCylindric = new CylindreElliptique(diametre, longueur, diametre / 4, diametre / 4);
                         cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                         formsfigurePanel.add(cylindreHorizontale);
                     } else {
@@ -1879,7 +1847,6 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                         flecheg = baremeArtisan.convertToCentimeter(comboUniteLong.getSelectedItem().toString(), flecheg);
 
                         CylinderVerticale cylindreHorizontale = new CylinderVerticale(diametre, longueur, flecheg, fleched);
-//                    CylindreElliptique ellipticCylindric = new CylindreElliptique(diametre, longueur, diametre / 4, diametre / 4);
                         cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                         formsfigurePanel.add(cylindreHorizontale);
                     } else {
@@ -2113,7 +2080,6 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                             flecheg = baremeArtisan.convertToCentimeter(comboUniteLong.getSelectedItem().toString(), flecheg);
 
                             CylindreHorizontaleIncline cylindreHorizontale = new CylindreHorizontaleIncline(angle, diametre, longueur, flecheg, fleched);
-//                    CylindreElliptique ellipticCylindric = new CylindreElliptique(diametre, longueur, diametre / 4, diametre / 4);
                             cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                             formsfigurePanel.add(cylindreHorizontale);
                         } else {
@@ -2336,12 +2302,12 @@ public class DonneeGeometrique extends javax.swing.JPanel {
         formsfigurePanel.revalidate();
         // formsfigurePanel.updateUI();
         formsfigurePanel.repaint();
-
+        
     }
 
     public boolean synonymeForNatureFlecheConiqueOfCylinder(String formeCapacite) {
 
-        if (formeCapacite.equalsIgnoreCase("Conique") || formeCapacite.equalsIgnoreCase("Conical") || formeCapacite.equalsIgnoreCase("Konisch")) {
+       if (formeCapacite.equalsIgnoreCase("Conique") || formeCapacite.equalsIgnoreCase("Conical") || formeCapacite.equalsIgnoreCase("Konisch")) {
             return true;
         } else {
             return false;
@@ -2350,16 +2316,16 @@ public class DonneeGeometrique extends javax.swing.JPanel {
 
     public boolean synonymeFormeCapaciteMultiLangueForCylindre(String formeCapacite) {
 
-        if (formeCapacite.equalsIgnoreCase("Cylindrique") || formeCapacite.equalsIgnoreCase("Cylindrical") || formeCapacite.equalsIgnoreCase("Zylindrisch")) {
+         if (formeCapacite.equalsIgnoreCase("Cylindrique") || formeCapacite.equalsIgnoreCase("Cylindrical") || formeCapacite.equalsIgnoreCase("Zylindrisch")) {
             return true;
         } else {
             return false;
         }
-
+ 
     }
     
     public boolean synonymeFormeCapaciteMultiLangueForFormeNonConventionnelle(String formeCapacite) {
-
+   
         if (formeCapacite.equalsIgnoreCase("Forme Non Conventionnelle") || formeCapacite.equalsIgnoreCase("No Conventional Forms")) {
             return true;
         } else {
@@ -2370,17 +2336,16 @@ public class DonneeGeometrique extends javax.swing.JPanel {
 
     public boolean synonymeFormeCapaciteMultiLangueForCube(String formeCapacite) {
 
-        if (formeCapacite.equalsIgnoreCase("Kubisch") || formeCapacite.equalsIgnoreCase("Parallélépipède") || formeCapacite.equalsIgnoreCase("Parallelepiped")) {
+       if (formeCapacite.equalsIgnoreCase("Kubisch") || formeCapacite.equalsIgnoreCase("Parallélépipède") || formeCapacite.equalsIgnoreCase("Parallelepiped")) {
             return true;
         } else {
             return false;
         }
-
     }
 
     public boolean synonymeFormeCapaciteMultiLangueForSphere(String formeCapacite) {
 
-        if (formeCapacite.equalsIgnoreCase("Sphärisch") || formeCapacite.equalsIgnoreCase("Spherical") || formeCapacite.equalsIgnoreCase("Spherique")) {
+         if (formeCapacite.equalsIgnoreCase("Sphärisch") || formeCapacite.equalsIgnoreCase("Spherical") || formeCapacite.equalsIgnoreCase("Spherique")) {
             return true;
         } else {
             return false;
@@ -2400,7 +2365,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
 
     public boolean synonymeElliptiqueMultiLangue(String formeCapacite) {
 
-        if (formeCapacite.equalsIgnoreCase("Ellipsoide") || formeCapacite.equalsIgnoreCase("Elliptical") || formeCapacite.equalsIgnoreCase("Elliptisch") || formeCapacite.equalsIgnoreCase("Elliptique")
+         if (formeCapacite.equalsIgnoreCase("Ellipsoide") || formeCapacite.equalsIgnoreCase("Elliptical") || formeCapacite.equalsIgnoreCase("Elliptisch") || formeCapacite.equalsIgnoreCase("Elliptique")
                 || formeCapacite.equalsIgnoreCase("torispherique") || formeCapacite.equalsIgnoreCase("hemispherique") || formeCapacite.equalsIgnoreCase("bomber")
                 || formeCapacite.equalsIgnoreCase("hemiSpherical") || formeCapacite.equalsIgnoreCase("halbkugelformig") || formeCapacite.equalsIgnoreCase("torispheric") || formeCapacite.equalsIgnoreCase("torispharisch")
                 || formeCapacite.equalsIgnoreCase("Forme Non Conventionnelle") || formeCapacite.equalsIgnoreCase("No Conventional Forms")) {
@@ -2423,7 +2388,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
 
     public boolean synonymeFormeCapaciteMultiLangueForHemispherique(String formeCapacite) {
 
-        if (formeCapacite.equalsIgnoreCase("hemispherique") || formeCapacite.equalsIgnoreCase("hemiSpherical") || formeCapacite.equalsIgnoreCase("halbkugelformig")) {
+         if (formeCapacite.equalsIgnoreCase("hemispherique") || formeCapacite.equalsIgnoreCase("hemiSpherical") || formeCapacite.equalsIgnoreCase("halbkugelformig")) {
             return true;
         } else {
             return false;
@@ -2433,7 +2398,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
 
     public boolean synonymeFormeCapaciteMultiLangueForToriSpherique(String formeCapacite) {
 
-        if (formeCapacite.equalsIgnoreCase("torispherique") || formeCapacite.equalsIgnoreCase("torispheric") || formeCapacite.equalsIgnoreCase("torispharisch")) {
+         if (formeCapacite.equalsIgnoreCase("torispherique") || formeCapacite.equalsIgnoreCase("torispheric") || formeCapacite.equalsIgnoreCase("torispharisch")) {
             return true;
         } else {
             return false;
@@ -2443,7 +2408,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
 
     private boolean synonymeForOrientationOblique(String formeCapacite) {
 
-        if (formeCapacite.equalsIgnoreCase("Oblique") || formeCapacite.equalsIgnoreCase("Schräg")) {
+          if (formeCapacite.equalsIgnoreCase("Oblique") || formeCapacite.equalsIgnoreCase("Schräg")) {
             return true;
         } else {
             return false;
@@ -2453,7 +2418,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
 
     public boolean synonymeForNatureFlechePlatOfCylinder(String formeCapacite) {
 
-        if (formeCapacite.equalsIgnoreCase("Plat") || formeCapacite.equalsIgnoreCase("Flat") || formeCapacite.equalsIgnoreCase("Flach")) {
+           if (formeCapacite.equalsIgnoreCase("Plat") || formeCapacite.equalsIgnoreCase("Flat") || formeCapacite.equalsIgnoreCase("Flach")) {
             return true;
         } else {
             return false;
@@ -2524,7 +2489,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
     private javax.swing.JPanel panelUnite;
     // End of variables declaration//GEN-END:variables
 
-    public void traductionLabel() {
+     public void traductionLabel() {
         Locale[] locale = {Locale.FRENCH, Locale.ENGLISH, Locale.GERMANY};
         ResourceBundle val_fr = ResourceBundle.getBundle("Bombe_fr", locale[0]);
         ResourceBundle val_en = ResourceBundle.getBundle("Bombe_en", locale[1]);
@@ -2627,22 +2592,22 @@ public class DonneeGeometrique extends javax.swing.JPanel {
         }
 
         comboNatureFDValueMoindreCarree.removeAllItems();
-        for (int i = 1; i <= 7; i++) {
+        for (int i = 1; i <= 6; i++) {
             String key = "fleche_carre" + i;
             String fondTraduit = valeurs.getString(key);
             comboNatureFDValueMoindreCarree.addItem(fondTraduit);
         }
 
         comboNatureFGValueMoindreCarree.removeAllItems();
-        for (int i = 1; i <= 7; i++) {
+        for (int i = 1; i <= 6; i++) {
             String key = "fleche_carre" + i;
             String fondTraduit = valeurs.getString(key);
             comboNatureFGValueMoindreCarree.addItem(fondTraduit);
         }
         updateComboIndex();
     }
-
-    public void updateComboIndex() {
+     
+       public void updateComboIndex() {
         String methodCalculGeometrie = MainView.getMethodCalculGeometrie();
 
         comboMethodeValue.setSelectedIndex(tabIndexComoBoxActve[0]);
@@ -2687,20 +2652,20 @@ public class DonneeGeometrique extends javax.swing.JPanel {
             labelFlecheGauche.setVisible(true);
             labelFlecheDroite.setVisible(true);
 
-             if (tabIndexComoBoxActve[5] == 1) {
-
-                fieldFlecheGauche.setVisible(false);
-             } else {
+             if (tabIndexComoBoxActve[5] == 0 || tabIndexComoBoxActve[5] == 3) {
 
                 fieldFlecheGauche.setVisible(true);
-             }
-
-             if (tabIndexComoBoxActve[6] == 1) {
-
-                fieldFlecheDroit.setVisible(false);
              } else {
 
+                fieldFlecheGauche.setVisible(false);
+             }
+
+             if (tabIndexComoBoxActve[6] == 0 || tabIndexComoBoxActve[6] == 3) {
+
                 fieldFlecheDroit.setVisible(true);
+             } else {
+
+                fieldFlecheDroit.setVisible(false);
              }
         
         }
@@ -2710,8 +2675,24 @@ public class DonneeGeometrique extends javax.swing.JPanel {
             fieldFlecheDroit.setVisible(false);
             labelFlecheGauche.setVisible(false);
             fieldFlecheGauche.setVisible(false);
+            
+              if (tabIndexComoBoxActve[7] >= 5 ) {
+
+                fieldFlecheGauche.setVisible(true);
+             } else {
+
+                fieldFlecheGauche.setVisible(false);
+             }
+
+             if (tabIndexComoBoxActve[8] >= 5) {
+
+                fieldFlecheDroit.setVisible(true);
+             } else {
+
+                fieldFlecheDroit.setVisible(false);
+             }
+            
         }
 
     }
-
 }

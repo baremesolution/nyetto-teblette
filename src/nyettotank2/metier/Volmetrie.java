@@ -1,5 +1,7 @@
 package nyettotank2.metier;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -8,7 +10,6 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import java.io.FileOutputStream;
 import java.time.format.DateTimeFormatter;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -88,7 +89,7 @@ public class Volmetrie {
                     ordonne.add(i, myLine.get(i).getVolume());
                 }
 
-                ordonne.add(0,0d);
+                ordonne.add(0, 0d);
                 abcisse.add(0, (float) 0.00);
 
                 float lastHeight = bareme.convertToCentimeter(unit, abcisse.get(abcisse.size() - 1));
@@ -205,15 +206,54 @@ public class Volmetrie {
                 cell15.setCellStyle(styleHeader);
                 sheet.addMergedRegion(new CellRangeAddress(footerRow.getRowNum(), footerRow.getRowNum() + 1, 12, 14));
 
-                // Sauvegarde 
-                String filePath = System.getProperty("user.home") + "/Documents/" + nom + ".xls";
+//                // Sauvegarde 
+//                String filePath = System.getProperty("user.home") + "/Documents/" + nom + ".xls";
+//                FileOutputStream fileOutputStream = new FileOutputStream(filePath);
+//                workbook.write(fileOutputStream);
+//                fileOutputStream.close();
+//                workbook.close();
+//
+//                location.showMessageDialog(null, "Votre FICHIER SE TROUVE DANS \n  " + filePath, "LOCALISATION DU FICHIER",
+//                        JOptionPane.INFORMATION_MESSAGE);
+//
+//                String documentDirectory = System.getProperty("user.home") + "/Documents/";
+//                String nyettofDirectory = documentDirectory + "NyettoftTank_files/";
+//
+//                // Créer le répertoire si nécessaire
+//                File nyettofFile = new File(nyettofDirectory);
+//                if (!nyettofFile.exists()) {
+//                    nyettofFile.mkdirs();
+//                }
+//                String filePath = nyettofDirectory + nom + ".xls";
+//
+//                JOptionPane.showMessageDialog(null, "Votre FICHIER SE TROUVE DANS \n  " + filePath, "LOCALISATION DU FICHIER",
+//                        JOptionPane.INFORMATION_MESSAGE);
+
+                // Définir les répertoires pour le document et le sous-dossier NyettoftTank_files
+                String documentDirectory = System.getProperty("user.home") + "/Documents/";
+                String nyettofDirectory = documentDirectory + "NyettoftTank_files/";
+
+                // Créer le répertoire NyettoftTank_files si nécessaire
+                File nyettofFile = new File(nyettofDirectory);
+                if (!nyettofFile.exists()) {
+                    nyettofFile.mkdirs();
+                }
+
+                // Construire le chemin complet du fichier
+                String filePath = nyettofDirectory + nom + ".xls";
+
+                // Écrire le fichier Excel à l'emplacement spécifié
                 FileOutputStream fileOutputStream = new FileOutputStream(filePath);
                 workbook.write(fileOutputStream);
+
+                // Fermer les flux pour éviter les fuites de mémoire
                 fileOutputStream.close();
                 workbook.close();
 
+                // Afficher un message de confirmation à l'utilisateur
                 location.showMessageDialog(null, "Votre FICHIER SE TROUVE DANS \n  " + filePath, "LOCALISATION DU FICHIER",
                         JOptionPane.INFORMATION_MESSAGE);
+
 
             } catch (IOException e) {
                 location.showMessageDialog(null, e.getMessage(), "Message d'erreur".toUpperCase(), JOptionPane.ERROR_MESSAGE);

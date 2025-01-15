@@ -11,27 +11,38 @@ public class Sline {
 
     private final List<Float> mX;
     private final List<Double> mY;
-    private JOptionPane opt = new JOptionPane();
-    private UnivariateFunction function = null;
+    private final UnivariateFunction function;
 
     public Sline(List<Float> x, List<Double> y) {
-        if (x == null || y == null || x.size() != y.size() || x.size() < 2) {
-            JOptionPane.showMessageDialog(null, "Il doit y avoir au moins deux points de contrôles  et les tableaux doivent être de longueur égale.", "", JOptionPane.ERROR_MESSAGE);
+        if (x == null || y == null || x.size() != y.size() || x.size() < 3) {
+            JOptionPane.showMessageDialog(null, "Il doit y avoir au moins trois points de contrôles, et les tableaux doivent être de longueur égale.", "", JOptionPane.ERROR_MESSAGE);
+            throw new IllegalArgumentException("Données invalides pour l'interpolation.");
         }
 
         double[] abcisse = new double[x.size()];
         double[] ordonne = new double[x.size()];
 
         for (int i = 0; i < x.size(); i++) {
-            abcisse[i] = Double.valueOf(x.get(i));
-            ordonne[i] = Double.valueOf(y.get(i));
+            abcisse[i] = x.get(i);
+            ordonne[i] = y.get(i);
         }
 
         mX = x;
         mY = y;
         UnivariateInterpolator interpolator = new SplineInterpolator();
         function = interpolator.interpolate(abcisse, ordonne);
+    }
 
+    public UnivariateFunction getFunction() {
+        return function;
+    }
+
+    public List<Float> getX() {
+        return mX;
+    }
+
+    public List<Double> getY() {
+        return mY;
     }
 
     public double interpolate(float x) {

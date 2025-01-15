@@ -28,7 +28,7 @@ public class Parallelipipede extends JPanel {
      public void paintComponent(Graphics area) {
         //Vous verrez cette phrase chaque fois que la méthode sera
         Graphics2D g = (Graphics2D) area;
-        int heightWindow = this.getHeight() , widthWindow = this.getWidth() ;
+            int heightWindow = this.getHeight() , widthWindow = this.getWidth() ;
         int referenceBasY = heightWindow - 20, referenceBasX = 20;
         float longueurTransform = traceLineOrArcOnHorizontal( longueur, "longueur" );
         float largeurTransform = traceLineOrArcOnHorizontal( largeur, "largueur" );
@@ -42,7 +42,7 @@ public class Parallelipipede extends JPanel {
        
          float[] dash21 = {1f, 1f, 1f};
         BasicStroke bs31 = new BasicStroke(2f, BasicStroke.CAP_SQUARE,
-                BasicStroke.CAP_SQUARE, 1.0f, dash21, 2f);
+                BasicStroke.CAP_SQUARE, 1.0f, dash21, 1f);
 
         g.setColor(Color.BLACK);
         g.setStroke(bs31);
@@ -50,7 +50,20 @@ public class Parallelipipede extends JPanel {
         area.drawLine(referenceBasX, referenceBasY, (int) referenceBasX + 220, (int) (referenceBasY - 150));
         area.drawLine((int) (referenceBasX + longueurTransform), referenceBasY, (int) ( referenceBasX + 220 + longueurTransform), (int) (referenceBasY - 150));
         
-       
+       g.setColor(Color.RED);
+       float positionLongueurAbcisse = referenceBasX + longueurTransform/2 ;
+       float positionLongueurOrdonne = hauteurTransform + (referenceBasY - hauteurTransform) + 15;
+       float positionHauteurAbcisse = referenceBasX + 220 + longueurTransform - 40 ;
+       float positionFauteurOrdonne = hauteurTransform + (referenceBasY )/2 + 20;
+       float positionLargeurAbcisse = referenceBasX + 130 + longueurTransform;
+     //  float positionLargeurOrdonne = (referenceBasY - hauteurTransform - 75) + (referenceBasY - hauteurTransform) + hauteurTransform;
+       float positionLargeurOrdonne = referenceBasY - 75 ;
+
+       g.drawString("Longueur = " + this.longueur, positionLongueurAbcisse , positionLongueurOrdonne);
+            g.drawString("Largeur = " + this.largeur, positionLargeurAbcisse , positionLargeurOrdonne);
+            g.drawString("Hauteur = " + this.hauteur, positionHauteurAbcisse , positionFauteurOrdonne);
+
+        
         //float[] dash1 = { 2f, 0f, 2f };
         //BasicStroke bs2 = new BasicStroke(1, BasicStroke.CAP_BUTT,
         //                BasicStroke.JOIN_ROUND, 1.0f, dash1, 2f);

@@ -68,6 +68,17 @@ public class ZoneGeometrie extends JPanel {
             }
 
         }
+        
+        
+        if( synonymeForOrientationOblique( info.get("orientation").toString() ) && synonymeFormeCapaciteMultiLangueForCylindre(formeCapacite) ){
+            
+                float angleInclinaison = Float.parseFloat(data.get("angle inclinaison").toString());
+                float sinusAngle = (float) Math.sin(Math.PI*angleInclinaison/180);
+                float cosinusAngle = (float) Math.cos(Math.PI*angleInclinaison/180);
+                diametreUnite = Float.parseFloat(data.get("longueur").toString())*sinusAngle + diametreUnite*cosinusAngle;
+
+            
+            }
 
         diametreUnite = bareme.convertToCentimeter(uniteHeight, diametreUnite);
 
@@ -152,6 +163,16 @@ public class ZoneGeometrie extends JPanel {
     public boolean synonymeFormeCapaciteMultiLangueForEllpsoide(String formeCapacite) {
 
         if (formeCapacite.equalsIgnoreCase("Ellipsoide") || formeCapacite.equalsIgnoreCase("Elliptical") || formeCapacite.equalsIgnoreCase("Elliptisch") || formeCapacite.equalsIgnoreCase("Elliptique")) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+    
+    private boolean synonymeForOrientationOblique(String formeCapacite) {
+
+        if (formeCapacite.equalsIgnoreCase("Oblique") || formeCapacite.equalsIgnoreCase("Schräg")) {
             return true;
         } else {
             return false;

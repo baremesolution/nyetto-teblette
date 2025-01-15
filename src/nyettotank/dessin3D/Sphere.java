@@ -32,12 +32,13 @@ public class Sphere extends JPanel {
         
                 g.drawArc((int) (this.getWidth()/2 - rayon) , (int) (this.getHeight()/2 - rayon), (int) (2*rayon), (int) (2*rayon), 0, 360);
 
+                area.drawLine((int) ( ( this.getWidth() - 2*rayon )/2 ) , (int) (( this.getHeight() ) /2), (int) ( ( this.getWidth() + 2*rayon )/2 ) , (int) (( this.getHeight() ) /2));
 
-        float[] dash21 = {2f, 2f, 2f};
-        BasicStroke bs31 = new BasicStroke(3.5f, BasicStroke.JOIN_ROUND,
-                BasicStroke.JOIN_ROUND, 1.0f, dash21, 2f);
 
-        g.setColor(Color.BLACK);
+        float[] dash21 = {1f, 1f, 1f};
+        BasicStroke bs31 = new BasicStroke(2f, BasicStroke.JOIN_ROUND,
+                BasicStroke.JOIN_ROUND, 1.0f, dash21, 1f);
+
         g.setStroke(bs31);
 
         //g.rotate(Math.PI * 20 / 180);
@@ -46,9 +47,11 @@ public class Sphere extends JPanel {
     
       
         //dessin fleche
-        g.drawArc((int) (this.getWidth()/2 - rayon ) , (int) (this.getHeight()/2 - 10 ), (int) (2*rayon), 20, 0, 360);
+        g.drawArc((int) (this.getWidth()/2 - rayon ) , (int) (this.getHeight()/2 - 10), (int) (2*rayon), 20, 0, 360);
 
-        
+                g.setColor(Color.RED);
+            g.drawString("rayon = " + rayon, (int) (( this.getWidth() )/2 - rayon) , (int) (( this.getHeight() ) /2) + (int) (rayon) + 10);
+
         //float[] dash1 = { 2f, 0f, 2f };
         //BasicStroke bs2 = new BasicStroke(1, BasicStroke.CAP_BUTT,
         //                BasicStroke.JOIN_ROUND, 1.0f, dash1, 2f);

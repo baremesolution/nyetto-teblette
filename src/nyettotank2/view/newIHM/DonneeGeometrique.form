@@ -16,7 +16,11 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="mainPanel" alignment="0" max="32767" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="mainPanel" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -37,26 +41,26 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="panelUnite" max="32767" attributes="0"/>
-                      <Component id="panelMethode" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                      <Component id="panelUnite" alignment="0" max="32767" attributes="0"/>
                       <Component id="panelOrientation" alignment="0" max="32767" attributes="0"/>
-                      <Component id="panelCoteCube" max="32767" attributes="0"/>
-                      <Component id="panelRayonSphere" max="32767" attributes="0"/>
+                      <Component id="panelCoteCube" alignment="0" max="32767" attributes="0"/>
+                      <Component id="panelRayonSphere" alignment="0" max="32767" attributes="0"/>
+                      <Component id="panelMethode" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="panelData" max="32767" attributes="0"/>
-                      <Component id="panelFormeElliptique" max="32767" attributes="0"/>
-                      <Component id="invalidFields" max="32767" attributes="0"/>
+                      <Component id="invalidFields" alignment="0" min="-2" pref="156" max="-2" attributes="0"/>
+                      <Component id="panelFormeElliptique" alignment="0" max="32767" attributes="0"/>
+                      <Component id="panelData" alignment="0" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="formsfigurePanel" max="32767" attributes="0"/>
                       <Component id="panelButton" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -112,19 +116,19 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="labelUniteVolume" max="32767" attributes="0"/>
-                          <Component id="labelUniteHeight" max="32767" attributes="0"/>
-                          <Component id="labelFormsCapacity" alignment="0" pref="188" max="32767" attributes="0"/>
-                          <Component id="comboUniteLong" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace pref="13" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="labelUniteVolume" alignment="0" min="-2" pref="117" max="-2" attributes="0"/>
                           <Component id="comboUniteVolume" alignment="0" max="32767" attributes="0"/>
-                          <Component id="comboFormeCapacite" alignment="0" max="32767" attributes="0"/>
-                          <Component id="labelOriention" alignment="0" max="32767" attributes="0"/>
-                          <Component id="comboOrientationValue" alignment="0" max="32767" attributes="0"/>
+                          <Component id="comboUniteLong" alignment="0" max="32767" attributes="0"/>
+                          <Component id="labelOriention" alignment="0" min="-2" pref="114" max="-2" attributes="0"/>
+                          <Component id="comboOrientationValue" max="32767" attributes="0"/>
+                          <Component id="labelFormsCapacity" alignment="0" max="32767" attributes="0"/>
+                          <Component id="comboFormeCapacite" alignment="0" pref="129" max="32767" attributes="0"/>
+                          <Component id="labelUniteHeight" alignment="0" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -275,44 +279,27 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="fieldDiametre" max="32767" attributes="0"/>
-                              <EmptySpace pref="1" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="labelDiametre" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="labelLength" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="fieldLongueur" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="labelNatureFlecheGauche" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="comboNatureFGValue" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="labelNatureFlecheGaucheMoindreCarree" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="comboNatureFGValueMoindreCarree" alignment="0" pref="218" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="labelNatureFlecheDroite" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="fieldFlecheDroit" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="labelFlecheGauche" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="fieldFlecheGauche" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="comboNatureFDValue" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="labelNatureFlecheDroiteMoindreCarree" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="comboNatureFDValueMoindreCarree" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="labelFlecheDroite" alignment="0" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                          </Group>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="labelFlecheDroite" alignment="0" max="32767" attributes="0"/>
+                          <Component id="fieldFlecheDroit" alignment="0" max="32767" attributes="0"/>
+                          <Component id="comboNatureFDValueMoindreCarree" alignment="0" pref="150" max="32767" attributes="0"/>
+                          <Component id="labelNatureFlecheDroiteMoindreCarree" alignment="0" max="32767" attributes="0"/>
+                          <Component id="fieldFlecheGauche" alignment="0" max="32767" attributes="0"/>
+                          <Component id="labelFlecheGauche" alignment="0" max="32767" attributes="0"/>
+                          <Component id="comboNatureFGValueMoindreCarree" alignment="0" max="32767" attributes="0"/>
+                          <Component id="labelNatureFlecheGaucheMoindreCarree" alignment="0" max="32767" attributes="0"/>
+                          <Component id="comboNatureFGValue" alignment="0" max="32767" attributes="0"/>
+                          <Component id="fieldDiametre" alignment="0" max="32767" attributes="0"/>
+                          <Component id="fieldLongueur" alignment="0" max="32767" attributes="0"/>
+                          <Component id="labelLength" alignment="0" max="32767" attributes="0"/>
+                          <Component id="labelDiametre" alignment="1" max="32767" attributes="0"/>
+                          <Component id="labelNatureFlecheGauche" alignment="1" max="32767" attributes="0"/>
+                          <Component id="labelNatureFlecheDroite" alignment="0" max="32767" attributes="0"/>
+                          <Component id="comboNatureFDValue" alignment="0" max="32767" attributes="0"/>
                       </Group>
+                      <EmptySpace pref="10" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -336,7 +323,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="comboNatureFGValueMoindreCarree" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="labelFlecheGauche" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelFlecheGauche" min="-2" pref="16" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="fieldFlecheGauche" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -351,7 +338,7 @@
                       <Component id="labelFlecheDroite" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="fieldFlecheDroit" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -615,24 +602,17 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="labelHauteur" max="32767" attributes="0"/>
-                              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="fieldPetitAxe" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="labelPetitAxe" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="fieldHauteur" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="fieldGrandAxe" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="labelGrandAxe" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                          </Group>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="fieldPetitAxe" max="32767" attributes="0"/>
+                          <Component id="labelPetitAxe" alignment="0" max="32767" attributes="0"/>
+                          <Component id="labelHauteur" alignment="0" pref="150" max="32767" attributes="0"/>
+                          <Component id="labelGrandAxe" alignment="0" max="32767" attributes="0"/>
+                          <Component id="fieldGrandAxe" alignment="0" max="32767" attributes="0"/>
+                          <Component id="fieldHauteur" alignment="0" max="32767" attributes="0"/>
                       </Group>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -710,13 +690,13 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="comboMethodeValue" max="32767" attributes="0"/>
-                          <Component id="labelModeOperatoire" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="labelModeOperatoire" min="-2" pref="110" max="-2" attributes="0"/>
+                          <Component id="comboMethodeValue" min="-2" pref="132" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -780,21 +760,30 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="labelPositionY" max="32767" attributes="0"/>
-                          <Component id="fieldPositionx" alignment="1" max="32767" attributes="0"/>
-                          <Component id="labelPositionZ" alignment="0" max="32767" attributes="0"/>
-                          <Component id="labelPositionX" alignment="0" max="32767" attributes="0"/>
-                          <Component id="fieldPositiony" alignment="0" max="32767" attributes="0"/>
-                          <Component id="fieldPositionz" alignment="0" max="32767" attributes="0"/>
-                          <Component id="fieldInclineAngle" max="32767" attributes="0"/>
-                          <Component id="labelInclineAngle" alignment="1" pref="188" max="32767" attributes="0"/>
-                          <Component id="jRadioBtnTrigonometrique" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jRadioBtnNonTrigonometrique" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="jRadioBtnTrigonometrique" alignment="0" pref="136" max="32767" attributes="0"/>
+                                  <Component id="fieldInclineAngle" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="labelInclineAngle" alignment="0" min="-2" pref="122" max="-2" attributes="0"/>
+                                  <Component id="labelPositionX" alignment="0" min="-2" pref="114" max="-2" attributes="0"/>
+                                  <Component id="fieldPositionx" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="labelPositionY" alignment="0" min="-2" pref="114" max="-2" attributes="0"/>
+                                  <Component id="fieldPositiony" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="fieldPositionz" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="labelPositionZ" min="-2" pref="124" max="-2" attributes="0"/>
+                                  <Component id="jRadioBtnNonTrigonometrique" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -817,9 +806,9 @@
                       <Component id="labelPositionZ" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="fieldPositionz" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                       <Component id="jRadioBtnTrigonometrique" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jRadioBtnNonTrigonometrique" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="8" max="32767" attributes="0"/>
                   </Group>
@@ -904,7 +893,10 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="labelCote" max="32767" attributes="0"/>
-                          <Component id="fieldCoteCube" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="fieldCoteCube" min="-2" pref="129" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -951,7 +943,10 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="labelRayon" max="32767" attributes="0"/>
-                          <Component id="fieldRayonSphere" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="fieldRayonSphere" min="-2" pref="129" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>

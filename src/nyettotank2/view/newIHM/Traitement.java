@@ -20,7 +20,7 @@ import nyettotank2.metier.WordFile;
 import nyettotank2.metier.ZModel;
 
 public class Traitement extends javax.swing.JPanel {
-
+    
     private JOptionPane option = new JOptionPane();
     private ZModel zModel = null;
     private JPanel jPanel7 = new JPanel();
@@ -31,6 +31,7 @@ public class Traitement extends javax.swing.JPanel {
     private BaremeArtisan bareme = new BaremeArtisan();
 
     public Traitement() {
+        
         initComponents();
         traductionLabel();
         btnDocumentWord.setVisible(false);
@@ -119,24 +120,27 @@ public class Traitement extends javax.swing.JPanel {
         donneesTraitementLayout.setHorizontalGroup(
             donneesTraitementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(donneesTraitementLayout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addGroup(donneesTraitementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(15, 15, 15)
+                .addGroup(donneesTraitementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(donneesTraitementLayout.createSequentialGroup()
                         .addGroup(donneesTraitementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(tableNom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(typeValeurVolume, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(certificatNom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(32, 32, 32)
                         .addGroup(donneesTraitementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tableNomValue, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(typeVolumeValue, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(certificatNomValue, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(donneesTraitementLayout.createSequentialGroup()
+                                .addGap(7, 7, 7)
+                                .addComponent(typeVolumeValue, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(donneesTraitementLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(donneesTraitementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(certificatNomValue, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tableNomValue, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(donneesTraitementLayout.createSequentialGroup()
                         .addComponent(nombreDivisions, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(nombreDivisionsValue, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(2, 2, 2)))
-                .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                        .addComponent(nombreDivisionsValue, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(10, 10, 10))
         );
         donneesTraitementLayout.setVerticalGroup(
             donneesTraitementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,9 +159,9 @@ public class Traitement extends javax.swing.JPanel {
                     .addComponent(typeVolumeValue, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(donneesTraitementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nombreDivisionsValue, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nombreDivisions, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(29, Short.MAX_VALUE))
+                    .addComponent(nombreDivisions, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nombreDivisionsValue, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         listBoutons.setBackground(new java.awt.Color(51, 51, 51));
@@ -245,7 +249,7 @@ public class Traitement extends javax.swing.JPanel {
         listBoutonsLayout.setHorizontalGroup(
             listBoutonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, listBoutonsLayout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
+                .addContainerGap(10, Short.MAX_VALUE)
                 .addGroup(listBoutonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnDocumentWord, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnDocumentPDF, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -253,7 +257,7 @@ public class Traitement extends javax.swing.JPanel {
                     .addComponent(btnGenererCourbe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(height_volumeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(propertiesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28))
+                .addGap(10, 10, 10))
         );
         listBoutonsLayout.setVerticalGroup(
             listBoutonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -279,7 +283,7 @@ public class Traitement extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         resultatEnLitres.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        resultatEnLitres.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        resultatEnLitres.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         resultatEnLitres.setText("Resultat en litre");
 
         resultatEnLitresValue.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -293,7 +297,7 @@ public class Traitement extends javax.swing.JPanel {
 
         resultatEnBaril.setBackground(new java.awt.Color(0, 102, 0));
         resultatEnBaril.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        resultatEnBaril.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        resultatEnBaril.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         resultatEnBaril.setText("Resultat en baril");
 
         resultatEnM3Value.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -304,7 +308,7 @@ public class Traitement extends javax.swing.JPanel {
         });
 
         resultatEnM3.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        resultatEnM3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        resultatEnM3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         resultatEnM3.setText("Resultat en m3");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -312,43 +316,44 @@ public class Traitement extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 597, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(resultatEnLitresValue)
-                    .addComponent(resultatEnLitres, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(resultatEnM3, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(resultatEnLitres, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(94, 94, 94)
+                        .addComponent(resultatEnM3, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(resultatEnBaril, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(resultatEnM3Value, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addComponent(resultatEnBarilValue, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(resultatEnBaril, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(resultatEnLitresValue, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(67, 67, 67)
+                                .addComponent(resultatEnM3Value, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(resultatEnBarilValue, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(17, 17, 17))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(resultatEnLitres, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(resultatEnBaril)
-                    .addComponent(resultatEnM3))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(resultatEnM3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(resultatEnLitres, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(resultatEnBaril, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(resultatEnLitresValue)
-                    .addComponent(resultatEnBarilValue, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(resultatEnM3Value))
-                .addGap(42, 42, 42))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(resultatEnLitresValue, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(resultatEnM3Value, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(resultatEnBarilValue, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(38, 38, 38))
         );
 
         javax.swing.GroupLayout resultatsLayout = new javax.swing.GroupLayout(resultats);
@@ -375,11 +380,11 @@ public class Traitement extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, allPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(allPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(resultats, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(donneesTraitement, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(donneesTraitement, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(resultats, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(10, 10, 10)
                 .addComponent(listBoutons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
         allPanelLayout.setVerticalGroup(
             allPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -425,7 +430,7 @@ public class Traitement extends javax.swing.JPanel {
 
     private void propertiesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_propertiesButtonActionPerformed
 
-        String cle = MainView.getTypeDonne();
+          String cle = MainView.getTypeDonne();
 
         if (cle.equalsIgnoreCase("Volumetrique")) {
             HashMap allVolumetrieProperties = getUnionInfoGeneraleTakeFromPanelVolumetryAndDonneeGeneraleVolumetry();
@@ -446,7 +451,7 @@ public class Traitement extends javax.swing.JPanel {
 
     private void height_volumeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_height_volumeButtonActionPerformed
 
-        String cle = MainView.getTypeDonne();
+         String cle = MainView.getTypeDonne();
 
         if (cle.equalsIgnoreCase("Volumetrique")) {
 
@@ -487,7 +492,7 @@ public class Traitement extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDocumentWordMouseClicked
 
     private void btnDocumentWordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDocumentWordActionPerformed
-        WordFile wordFile = new WordFile();
+         WordFile wordFile = new WordFile();
 
         String cle = MainView.getTypeDonne();
 
@@ -592,9 +597,10 @@ public class Traitement extends javax.swing.JPanel {
     private void btnDocumentPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDocumentPDFActionPerformed
         String cle = MainView.getTypeDonne();
         InputStream signatureStream = InfoTypeView.getSignatureInputStream();
+         InputStream logoStream = InfoTypeView.getLogoInputStream();
         List<Float> abcisse = new ArrayList();
         List<Double> ordonne = new ArrayList();
-
+        
         if (cle.equalsIgnoreCase("Volumetrique")) {
             HashMap pdf = getUnionInfoGeneraleTakeFromPanelVolumetryAndDonneeGeneraleVolumetry();
             HashMap<String, String> dataFieldVolumetry = getVolumetryDataField();
@@ -614,7 +620,7 @@ public class Traitement extends javax.swing.JPanel {
             if (certificatNomValue.getText().length() > 2) {
                 pdf.put("certificat", certificatNomValue.getText());
                 try {
-                    bareme.certificat_with_head(pdf, dataFieldVolumetry, signatureStream, "volumetrie", abcisse, ordonne);
+                    bareme.certificat_with_head(pdf, dataFieldVolumetry, logoStream, signatureStream, "volumetrie", abcisse, ordonne);
                 } catch (Exception ex) {
                     Logger.getLogger(Traitement.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -630,7 +636,7 @@ public class Traitement extends javax.swing.JPanel {
             if (certificatNomValue.getText().length() > 2) {
                 pdf.put("certificat", certificatNomValue.getText());
                 try {
-                    bareme.certificat_with_head(pdf, dataFieldGeometry, signatureStream, "geometrie", null, null);
+                    bareme.certificat_with_head(pdf, dataFieldGeometry,logoStream, signatureStream, "geometrie", null, null);
                 } catch (Exception ex) {
                     Logger.getLogger(Traitement.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -640,7 +646,6 @@ public class Traitement extends javax.swing.JPanel {
             }
         }
 
-
     }//GEN-LAST:event_btnDocumentPDFActionPerformed
 
     private void btnGenererCourbeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGenererCourbeMouseClicked
@@ -648,6 +653,7 @@ public class Traitement extends javax.swing.JPanel {
     }//GEN-LAST:event_btnGenererCourbeMouseClicked
 
     private void btnGenererCourbeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenererCourbeActionPerformed
+     
         List<Float> abcisse = new ArrayList();
         List<Double> ordonne = new ArrayList();
         String cle = MainView.getTypeDonne();
@@ -673,8 +679,7 @@ public class Traitement extends javax.swing.JPanel {
             DataResumeDialog courbe = dataResumeDialog.AfficherCourbeGeometrique(allGeneralProperties, dataFieldGeometry);
             courbe.setVisible(true);
         }
-
-
+        
     }//GEN-LAST:event_btnGenererCourbeActionPerformed
 
     private void tableNomValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tableNomValueActionPerformed
@@ -742,7 +747,7 @@ public class Traitement extends javax.swing.JPanel {
 
         return unionInfoGenerale;
     }
-
+    
     public HashMap getUnionInfoGeneralTakeFromPanelGeometryAndDonneesGeneraleGeometry() {
         HashMap<String, String> infoGeneralFromDonneesGeneralesGeometrique = DonneeGeometrique.getValueGeometryInfoGenerale();
         HashMap<String, String> infoGeneraleFromInfoType = InfoTypeView.getInfoTypeData();
@@ -789,7 +794,8 @@ public class Traitement extends javax.swing.JPanel {
         return unionInfoGenerale;
 
     }
-
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel allPanel;
     private javax.swing.JButton btnDocumentExcel;

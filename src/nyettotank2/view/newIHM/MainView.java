@@ -1,32 +1,32 @@
 package nyettotank2.view.newIHM;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import nyettotank2.utilitaires.ConfigureImageButton;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Insets;
+import javax.swing.JOptionPane;
 
 public class MainView extends javax.swing.JFrame {
-
-    private static String chooseLanguage = "FRANCAIS";
+    
+     private static String chooseLanguage = "FRANCAIS";
     private static String activeMenu = "";
     private static String chooseISO = "";
     private static String choosePays = "Cameroun";
@@ -49,7 +49,8 @@ public class MainView extends javax.swing.JFrame {
 
     public MainView() {
         initComponents();
-        ConfigureImageButton.sterchImage(logo);
+        
+         ConfigureImageButton.sterchImage(logo);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/nyettoTankFtLogo.png")));
         this.setTitle("NyettoFT Tank Solution");
@@ -58,8 +59,7 @@ public class MainView extends javax.swing.JFrame {
         this.setResizable(false);
         this.setVisible(true);
 
-       // panelOfCalculMethod.setVisible(false);
-
+        // panelOfCalculMethod.setVisible(false);
         DefaultColor = new Color(255, 255, 254);
         ClickedColor = new Color(218, 180, 57);
         btnTraitement.setEnabled(false);
@@ -77,7 +77,6 @@ public class MainView extends javax.swing.JFrame {
 
 //        buttonGroupForGeometrie.add(jRadioButtonCalculIntegral);
 //        buttonGroupForGeometrie.add(jRadioButtonMoindresCarrees);
-
         bgPays.add(menuCameroun);
         bgPays.add(menuGabon);
         bgPays.add(menuTchad);
@@ -119,22 +118,21 @@ public class MainView extends javax.swing.JFrame {
         jRadioButtonVolumetrique.addActionListener(new ActionListennerDonneeSurSite());
 
 //        jRadioButtonCalculIntegral.addActionListener(new ActionListennerMethodCalcul());
-  //      jRadioButtonMoindresCarrees.addActionListener(new ActionListennerMethodCalcul());
-        
-        labelCopyright.setText( "Copyright IPE Sarl " + LocalDate.now().getYear()  );
+        //      jRadioButtonMoindresCarrees.addActionListener(new ActionListennerMethodCalcul());
+        labelCopyright.setText("Copyright IPE Sarl " + LocalDate.now().getYear());
 
-       // threadAnimation.start();
+        threadAnimation.start();
 
     }
 
     private void setMenuItemIcon(JMenuItem menuItem, String imagePath) {
-        ImageIcon icon = new ImageIcon(getClass().getResource(imagePath));
+         ImageIcon icon = new ImageIcon(getClass().getResource(imagePath));
         ImageIcon resizedIcon = redimensionnementIcon(icon, 15, 15);
         menuItem.setIcon(resizedIcon);
     }
 
     private ImageIcon redimensionnementIcon(ImageIcon imageIcon, int nouvelleLargeur, int nouvelleHauteur) {
-        Image image = imageIcon.getImage().getScaledInstance(nouvelleLargeur, nouvelleHauteur, Image.SCALE_SMOOTH);
+       Image image = imageIcon.getImage().getScaledInstance(nouvelleLargeur, nouvelleHauteur, Image.SCALE_SMOOTH);
         return new ImageIcon(image);
     }
 
@@ -481,7 +479,6 @@ public class MainView extends javax.swing.JFrame {
     }//GEN-LAST:event_menuExitActionPerformed
 
     private void btnInfoTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfoTypeActionPerformed
-        threadAnimation.stop();
         activeMenu = "info type";
 //        container.setLayout(new GridBagLayout());
 //        container.removeAll();
@@ -505,7 +502,7 @@ public class MainView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnInfoTypeActionPerformed
 
     private void btnInfoCapaciteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInfoCapaciteActionPerformed
-        threadAnimation.stop();
+          threadAnimation.stop();
         activeMenu = "info capacite";
 //        panelOfCalculMethod.setVisible(false);
 //        container.setLayout(new BorderLayout());
@@ -529,8 +526,8 @@ public class MainView extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnInfoCapaciteActionPerformed
 
-    private void btnTraitementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTraitementActionPerformed
-        threadAnimation.stop();
+    private void btnTraitementActionPerformed(java.awt.event.ActionEvent evt) {                                              
+           threadAnimation.stop();
         activeMenu = "traitement";
         container.setLayout(new GridBagLayout());
         container.removeAll();
@@ -552,7 +549,7 @@ public class MainView extends javax.swing.JFrame {
 //        container.add(dataScrollPane, BorderLayout.CENTER);
 //        container.updateUI();
 
-    }//GEN-LAST:event_btnTraitementActionPerformed
+    }
 
     private void menuCamerounActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCamerounActionPerformed
 
@@ -593,7 +590,7 @@ public class MainView extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTraitementMouseClicked
 
     private void accueilMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accueilMenuActionPerformed
-        container.setLayout(new FlowLayout());
+       container.setLayout(new FlowLayout());
         container.removeAll();
         container.add(homePage);
         container.repaint();
@@ -601,7 +598,7 @@ public class MainView extends javax.swing.JFrame {
     }//GEN-LAST:event_accueilMenuActionPerformed
 
     private void menuPageGardeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPageGardeActionPerformed
-        container.setLayout(new BorderLayout());
+       container.setLayout(new BorderLayout());
         container.removeAll();
         container.add(homePage, BorderLayout.CENTER);
         container.repaint();
@@ -609,7 +606,7 @@ public class MainView extends javax.swing.JFrame {
     }//GEN-LAST:event_menuPageGardeActionPerformed
 
     private void jRadioButtonGeometriqueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioButtonGeometriqueMouseClicked
-        btnInfoType.setBackground(DefaultColor);
+         btnInfoType.setBackground(DefaultColor);
         btnInfoType.setForeground(Color.BLACK);
         btnInfoCapacite.setBackground(DefaultColor);
         btnInfoCapacite.setForeground(Color.BLACK);
@@ -624,7 +621,7 @@ public class MainView extends javax.swing.JFrame {
     }//GEN-LAST:event_jRadioButtonVolumetriqueActionPerformed
 
     private void jRadioButtonVolumetriqueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioButtonVolumetriqueMouseClicked
-        btnInfoType.setBackground(DefaultColor);
+   btnInfoType.setBackground(DefaultColor);
         btnInfoType.setForeground(Color.BLACK);
         btnInfoCapacite.setBackground(DefaultColor);
         btnInfoCapacite.setForeground(Color.BLACK);
@@ -700,11 +697,10 @@ public class MainView extends javax.swing.JFrame {
             jRadioButtonGeometrique.setText(valeurs.getString("typeData1"));
             jRadioButtonVolumetrique.setText(valeurs.getString("typeData2"));
             labelDonneeSurSite.setText(valeurs.getString("donneSurSite"));
-//            jRadioButtonCalculIntegral.setText(valeurs.getString("calcul1"));
-  //          jRadioButtonMoindresCarrees.setText(valeurs.getString("calcul2"));
+
         }
     }
-
+    
     class ActionListennerDonneeSurSiteV2 implements ActionListener {
 
         @Override
@@ -716,48 +712,20 @@ public class MainView extends javax.swing.JFrame {
 
                 //panelOfCalculMethod.setVisible(false);
                 //jRadioButtonCalculIntegral.setSelected(true);
-                
-                
                 btnTraitement.setEnabled(true);
-                    container.setLayout(new BorderLayout());
+                container.setLayout(new BorderLayout());
 
-                    container.removeAll();
-                    donneeGeometrique.traductionLabel();
-                    dataScrollPane = new JScrollPane(donneeGeometrique);
-                    donneeGeometrique.updateComboIndex();
-                    container.add(dataScrollPane, BorderLayout.CENTER);
-                
-
-//                if (jRadioButtonCalculIntegral.isSelected()) {
-//                                    System.out.println("le bouton geometrique est actif   ");
-//
-//                    methodCalcul = "Calcul intégral";
-//                    btnTraitement.setEnabled(true);
-//                    container.setLayout(new BorderLayout());
-//
-//                    container.removeAll();
-//                    donneeGeometrique.traductionLabel();
-//                    dataScrollPane = new JScrollPane(donneeGeometrique);
-//                    donneeGeometrique.updateComboIndex();
-//                    container.add(dataScrollPane, BorderLayout.CENTER);
-//                } else {
-//                    jRadioButtonCalculIntegral.setSelected(false);
-//
-//                }
-
-//                container.setLayout(new BorderLayout());
-//
-//                container.removeAll();
-//                donneeGeometrique.traductionLabel();
-//                dataScrollPane = new JScrollPane(donneeGeometrique);
-//                container.add(dataScrollPane, BorderLayout.CENTER);
+                container.removeAll();
+                donneeGeometrique.traductionLabel();
+                dataScrollPane = new JScrollPane(donneeGeometrique);
+                donneeGeometrique.updateComboIndex();
+                container.add(dataScrollPane, BorderLayout.CENTER);
 
             } else if (jRadioButtonVolumetrique.isSelected()) {
                 threadAnimation.stop();
                 activeMenu = "volumetrique";
                 typeDonneData = "volumetrique";
 
-//                panelOfCalculMethod.setVisible(false);
                 btnTraitement.setEnabled(true);
 
                 container.setLayout(new BorderLayout());
@@ -767,22 +735,11 @@ public class MainView extends javax.swing.JFrame {
                 container.add(dataScrollPane, BorderLayout.CENTER);
                 container.updateUI();
 
-//                container.setLayout(new GridBagLayout());
-//
-//                container.removeAll();
-//                donneeVolumetrie.traductionLabel();
-//                container.add(donneeVolumetrie,
-//                        new GridBagConstraints(0, 0, 1, 1, 0, 0,
-//                                GridBagConstraints.CENTER,
-//                                GridBagConstraints.CENTER,
-//                                new Insets(0, 0, 0, 0), 0, 0));
             }
-            //container.revalidate();
-            //container.repaint();
         }
 
     }
-
+    
     class ActionListennerDonneeSurSite implements ActionListener {
 
         @Override
@@ -819,7 +776,7 @@ public class MainView extends javax.swing.JFrame {
 
     }
     
-     class ActionListennerMenuPays implements ActionListener {
+    class ActionListennerMenuPays implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -836,7 +793,7 @@ public class MainView extends javax.swing.JFrame {
             }
         }
     }
-
+    
     private Thread threadAnimation = new Thread() {
         public void run() {
 
@@ -850,24 +807,18 @@ public class MainView extends javax.swing.JFrame {
                     //
                     couvertureImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/imageinsertion.png"))); // NOI18N
                     Thread.sleep(1000);
-                    System.out.println("un");
                     couvertureImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/imageinsertion1.png"))); // NOI18N
-                    System.out.println("deux");
                     Thread.sleep(1000);
                     couvertureImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/tank.jpg"))); // NOI18N
-                    System.out.println("trois");
                     Thread.sleep(1000);
                     couvertureImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/imageinsertion3.png"))); // NOI18N
-                    System.out.println("quatre");
                     Thread.sleep(1000);
                     couvertureImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/imageinsertion4.jpeg"))); // NOI18N
-                    System.out.println("cinq");
                     Thread.sleep(1000);
-                    couvertureImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/imageinsertion5.jpeg"))); // NOI18N
-                    System.out.println("six");
+                    couvertureImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/imageinsertion5.png"))); // NOI18N
                     Thread.sleep(1000);
-                    couvertureImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/imageinsertion6.jpeg"))); // NOI18N
-                    System.out.println("sept");
+                    couvertureImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/imageinsertion6.png"))); // NOI18N
+                    Thread.sleep(1000);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(MainView.class.getName()).log(Level.SEVERE, null, ex);
                 }
