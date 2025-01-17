@@ -27,16 +27,10 @@ public class DonneesVolumetriques extends javax.swing.JPanel {
 
     public DonneesVolumetriques() {
         initComponents();
-        invalidFields.setText("");
-      invalidFields.setText("");
+     
         mainPanel.setLayout(new FlowLayout());
         mainPanel.removeAll();
         mainPanel.add(allPanel);
-
-        FormValidator.setupRealTimeValidation(txtHauteur, invalidFields);
-        FormValidator.setupRealTimeValidation(txtVolume, invalidFields);
-        FormValidator.setupRealTimeValidation(fieldVolumeResiduel, invalidFields);
-        FormValidator.setupRealTimeValidation(fieldDiametre, invalidFields);
 
         btnInsertDataIntoTable.addActionListener(new ActionListener() {
             @Override
@@ -53,9 +47,9 @@ public class DonneesVolumetriques extends javax.swing.JPanel {
                     }
 
                     addDataInTable(volume, hauteur);
-                    invalidFields.setText("");
+                  //  invalidFields.setText("");
                 } else {
-                    invalidFields.setText("Champs obligatoires");
+                   // invalidFields.setText("Champs obligatoires");
                 }
                 txtVolume.setText("");
                 txtHauteur.setText("");
@@ -133,7 +127,6 @@ public class DonneesVolumetriques extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         labelModeOperatoire = new javax.swing.JLabel();
         comboMethodeValue = new javax.swing.JComboBox<>();
-        invalidFields = new javax.swing.JLabel();
 
         mainPanel.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -375,11 +368,6 @@ public class DonneesVolumetriques extends javax.swing.JPanel {
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        invalidFields.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        invalidFields.setForeground(new java.awt.Color(204, 0, 51));
-        invalidFields.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        invalidFields.setText("Champs invalides");
-
         javax.swing.GroupLayout allPanelLayout = new javax.swing.GroupLayout(allPanel);
         allPanel.setLayout(allPanelLayout);
         allPanelLayout.setHorizontalGroup(
@@ -393,8 +381,6 @@ public class DonneesVolumetriques extends javax.swing.JPanel {
                 .addGroup(allPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(allPanelLayout.createSequentialGroup()
                         .addComponent(btnDeleteLine, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(48, 48, 48)
-                        .addComponent(invalidFields, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(enroll, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -416,8 +402,7 @@ public class DonneesVolumetriques extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(allPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(enroll, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDeleteLine, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(invalidFields))
+                    .addComponent(btnDeleteLine, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(44, Short.MAX_VALUE))
         );
 
@@ -472,14 +457,34 @@ public class DonneesVolumetriques extends javax.swing.JPanel {
     }
 
     private void enrollActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enrollActionPerformed
-        saveDonneeVolumetrique();
+        valueVolumetryInfo.clear();
+        valueVolumetryData.clear();
+
+        valueVolumetryData.put("mode operatoire", comboMethodeValue.getSelectedItem().toString());
+
+        if (Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldDiametre.getText()).matches()) {
+            valueVolumetryData.put("diametre", fieldDiametre.getText());
+        } 
+
+        if (fieldVolumeResiduel.getText().length() > 1) {
+            valueVolumetryData.put("volume residuel", fieldVolumeResiduel.getText());
+        } else {
+            valueVolumetryData.put("volume residuel", "0");
+        }
+        valueVolumetryInfo.put("unite de volume", comboUnitVolume.getSelectedItem().toString());
+        valueVolumetryInfo.put("unite des hauteurs", comboUnitHeight.getSelectedItem().toString());
+        valueVolumetryInfo.put("orientation", comboOrientation.getSelectedItem().toString());
+        valueVolumetryInfo.put("forme capacite", comboFormeCapacity.getSelectedItem().toString());
+
+        JOptionPane.showMessageDialog(null, "Vos données ont bien été pris en compte!.", "Succès", JOptionPane.INFORMATION_MESSAGE);
+        //  saveDonneeVolumetrique();
     }//GEN-LAST:event_enrollActionPerformed
 
     private void comboMethodeValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboMethodeValueActionPerformed
 
     }//GEN-LAST:event_comboMethodeValueActionPerformed
 
-    private void saveDonneeVolumetrique() {
+    public void saveDonneeVolumetrique() {
         valueVolumetryData.clear();
 
         valueVolumetryData.put("mode operatoire", comboMethodeValue.getSelectedItem().toString());
@@ -496,7 +501,7 @@ public class DonneesVolumetriques extends javax.swing.JPanel {
             valueVolumetryData.put("volume residuel", "0");
             //return;
         }
-
+        System.out.println("bonjour");
         valueVolumetryInfo.clear();
         valueVolumetryInfo.put("unite de volume", comboUnitVolume.getSelectedItem().toString());
         valueVolumetryInfo.put("unite des hauteurs", comboUnitHeight.getSelectedItem().toString());
@@ -519,7 +524,6 @@ public class DonneesVolumetriques extends javax.swing.JPanel {
     private javax.swing.JButton enroll;
     private javax.swing.JTextField fieldDiametre;
     private javax.swing.JTextField fieldVolumeResiduel;
-    private javax.swing.JLabel invalidFields;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
