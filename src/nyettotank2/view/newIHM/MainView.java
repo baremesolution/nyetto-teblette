@@ -15,6 +15,8 @@ import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import nyettotank2.utilitaires.ConfigureImageButton;
+import nyettotank2.utilitaires.ManageInternationalize;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -46,6 +48,7 @@ public class MainView extends javax.swing.JFrame {
     Color DefaultColor, ClickedColor;
     private ButtonGroup buttonGroupForTypeData = new ButtonGroup();
     private ButtonGroup buttonGroupForGeometrie = new ButtonGroup();
+        private ManageInternationalize manageInternationalize = new ManageInternationalize();
 
     public MainView() {
         initComponents();
@@ -53,7 +56,7 @@ public class MainView extends javax.swing.JFrame {
          ConfigureImageButton.sterchImage(logo);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/nyettoTankFtLogo.png")));
-        this.setTitle("NyettoFT Tank Solution");
+        this.setTitle("Nyettoft Tank");
         this.setLocationRelativeTo(null);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setResizable(false);
@@ -472,7 +475,7 @@ public class MainView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void menuExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuExitActionPerformed
-        int option = JOptionPane.showConfirmDialog(this, "Êtes-vous sûr de vouloir quitter l'application?", "Quitter l'application", JOptionPane.YES_NO_OPTION);
+        int option = JOptionPane.showConfirmDialog(this, manageInternationalize.translate("message_close_application"), manageInternationalize.translate("confirm_close_application"), JOptionPane.YES_NO_OPTION);
         if (option == JOptionPane.YES_OPTION) {
             System.exit(0);
         }

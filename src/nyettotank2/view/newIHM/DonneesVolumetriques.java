@@ -16,6 +16,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import nyettotank2.metier.Line;
 import nyettotank2.utilitaires.FormValidator;
+import nyettotank2.utilitaires.ManageInternationalize;
 
 public class DonneesVolumetriques extends javax.swing.JPanel {
 
@@ -457,8 +458,20 @@ public class DonneesVolumetriques extends javax.swing.JPanel {
     }
 
     private void enrollActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enrollActionPerformed
-        valueVolumetryInfo.clear();
+                saveDonneeVolumetrique();
+    }//GEN-LAST:event_enrollActionPerformed
+
+    private void comboMethodeValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboMethodeValueActionPerformed
+
+    }//GEN-LAST:event_comboMethodeValueActionPerformed
+
+    private void saveDonneeVolumetrique() {
+        
+        if( data.size()>=2 ){
+         
         valueVolumetryData.clear();
+        valueVolumetryInfo.clear();
+
 
         valueVolumetryData.put("mode operatoire", comboMethodeValue.getSelectedItem().toString());
 
@@ -471,46 +484,21 @@ public class DonneesVolumetriques extends javax.swing.JPanel {
         } else {
             valueVolumetryData.put("volume residuel", "0");
         }
+
         valueVolumetryInfo.put("unite de volume", comboUnitVolume.getSelectedItem().toString());
         valueVolumetryInfo.put("unite des hauteurs", comboUnitHeight.getSelectedItem().toString());
         valueVolumetryInfo.put("orientation", comboOrientation.getSelectedItem().toString());
         valueVolumetryInfo.put("forme capacite", comboFormeCapacity.getSelectedItem().toString());
 
-        JOptionPane.showMessageDialog(null, "Vos données ont bien été pris en compte!.", "Succès", JOptionPane.INFORMATION_MESSAGE);
-        //  saveDonneeVolumetrique();
-    }//GEN-LAST:event_enrollActionPerformed
-
-    private void comboMethodeValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboMethodeValueActionPerformed
-
-    }//GEN-LAST:event_comboMethodeValueActionPerformed
-
-    public void saveDonneeVolumetrique() {
-        valueVolumetryData.clear();
-
-        valueVolumetryData.put("mode operatoire", comboMethodeValue.getSelectedItem().toString());
-
-        if (Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldDiametre.getText()).matches()) {
-            valueVolumetryData.put("diametre", fieldDiametre.getText());
-        } else {
-            return;
+        JOptionPane.showMessageDialog(null, manageInternationalize.translate("enroll_message_data_window_infotype"), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
+        
         }
-
-        if (fieldVolumeResiduel.getText().length() > 1) {
-            valueVolumetryData.put("volume residuel", fieldVolumeResiduel.getText());
-        } else {
-            valueVolumetryData.put("volume residuel", "0");
-            //return;
+        else {
+         JOptionPane.showMessageDialog(null, manageInternationalize.translate("length_table_less_two"),
+                        manageInternationalize.translate("code_error_message").toUpperCase(), JOptionPane.ERROR_MESSAGE);
         }
-        System.out.println("bonjour");
-        valueVolumetryInfo.clear();
-        valueVolumetryInfo.put("unite de volume", comboUnitVolume.getSelectedItem().toString());
-        valueVolumetryInfo.put("unite des hauteurs", comboUnitHeight.getSelectedItem().toString());
-        valueVolumetryInfo.put("orientation", comboOrientation.getSelectedItem().toString());
-        valueVolumetryInfo.put("forme capacite", comboFormeCapacity.getSelectedItem().toString());
-
-        JOptionPane.showMessageDialog(null, "Vos données ont bien été pris en compte!.", "Succès", JOptionPane.INFORMATION_MESSAGE);
-    }
-    
+        
+     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel allPanel;
@@ -543,6 +531,9 @@ public class DonneesVolumetriques extends javax.swing.JPanel {
     private javax.swing.JTextField txtHauteur;
     private javax.swing.JTextField txtVolume;
     // End of variables declaration//GEN-END:variables
+
+
+    private ManageInternationalize manageInternationalize = new ManageInternationalize();
 
      public void traductionLabel() {
         Locale[] locale = {Locale.FRENCH, Locale.ENGLISH, Locale.GERMANY};

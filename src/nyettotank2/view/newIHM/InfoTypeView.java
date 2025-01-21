@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 //import nyettotank2.model.InfoType;
 import nyettotank2.utilitaires.ConfigureImageButton;
+import nyettotank2.utilitaires.ManageInternationalize;
 
 public class InfoTypeView extends javax.swing.JPanel {
 
@@ -570,22 +571,21 @@ public class InfoTypeView extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAddLogoMouseClicked
 
     private void btnAddLogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddLogoActionPerformed
-          ConfigureImageButton configureImageButton = new ConfigureImageButton();
-    InputStream previousLogoImage = logoImage; // Save the previous image stream
-
-    try {
-        File logoFile = configureImageButton.showImage(btnAddLogo, logoLabel, 150, 150, logoLabel.getIcon() != null);
-        if (logoFile.getAbsolutePath() != null) {
-            logoImage = logoFile.toURI().toURL().openStream();
-            if (previousLogoImage != null) {
-                previousLogoImage.close();
-            }
+     
+        ConfigureImageButton configureImageButton = new ConfigureImageButton();
+        InputStream previousLogoImage = logoImage; // Save the previous image stream
+    
+        try {
+            File logoFile = configureImageButton.showImageLogo(btnAddLogo, logoLabel, 150, 150, logoLabel.getIcon() != null);
+            if (logoFile.getAbsolutePath() != null) {
+                logoImage = logoFile.toURI().toURL().openStream();
+                if (previousLogoImage != null) {
+                    previousLogoImage.close();
+                }
+            } 
+        } catch (IOException ex) {
+                showImageErrorDialog( manageInternationalize.translate("success_save_logo_image") + ex.getMessage());
         }
-        
-    } catch (IOException ex) {
-        Logger.getLogger(InfoTypeView.class.getName()).log(Level.SEVERE, "Erreur lors du chargement de l'image du logo", ex);
-        showImageErrorDialog(ex.getMessage() + " - " + ex.getCause());
-    }
     }//GEN-LAST:event_btnAddLogoActionPerformed
 
     private void logoLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoLabelMouseClicked
@@ -597,11 +597,12 @@ public class InfoTypeView extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAddsignatureMouseClicked
 
     private void btnAddsignatureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddsignatureActionPerformed
+       
         ConfigureImageButton configureImageButton = new ConfigureImageButton();
         InputStream previousSignatureImage = signatureImage; // Sauvegarde de l'image précédente
 
         try {
-            File signatureFile = configureImageButton.showImage(btnAddsignature, signatureLabel, 150, 150, signatureLabel.getIcon() != null);
+            File signatureFile = configureImageButton.showImageSignature(btnAddsignature, signatureLabel, 150, 150, signatureLabel.getIcon() != null);
 
             if (signatureFile != null) {
                 if (previousSignatureImage != null) {
@@ -610,8 +611,7 @@ public class InfoTypeView extends javax.swing.JPanel {
                 signatureImage = signatureFile.toURI().toURL().openStream();
             }
         } catch (IOException ex) {
-            Logger.getLogger(InfoTypeView.class.getName()).log(Level.SEVERE, "Erreur lors du chargement de l'image de la signature", ex);
-            showImageErrorDialog("Erreur lors du chargement de l'image de la signature: " + ex.getMessage());
+            showImageErrorDialog( manageInternationalize.translate("success_save_signature_image") + ex.getMessage());
         }
     }//GEN-LAST:event_btnAddsignatureActionPerformed
 
@@ -721,7 +721,7 @@ public class InfoTypeView extends javax.swing.JPanel {
         jPanel5.setBackground(ClickedColor);
     }//GEN-LAST:event_detenteurValueMouseClicked
 
-     public void saveInfoType() throws IOException {
+    public void saveInfoType() throws IOException {
         String chefOperation = chefOperationValue.getText().toString();
         String lieuOperation = lieuOperationValue.getText().toString();
         String detenteur = detenteurValue.getText().toString();
@@ -754,7 +754,7 @@ public class InfoTypeView extends javax.swing.JPanel {
             if (signatureFile != null) {
                 configureImageButton.saveImage(signatureFile, signature);
             }
-           
+        
             if (chefOperationValue.getText().length() > 2) {
                 infoGenerale.put("chef des operations", chefOperation);
             }
@@ -772,15 +772,17 @@ public class InfoTypeView extends javax.swing.JPanel {
             }
             infoGenerale.put("debut des travaux", debutTravaux);
             infoGenerale.put("fin des travaux", finTravaux);
-            JOptionPane.showMessageDialog(null, "Vos données ont bien été pris en compte!.", "Succès", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, manageInternationalize.translate("enroll_message_data_window_infotype"), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Aucune information n'a été renseignée.", "Succès", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, manageInternationalize.translate("not_information_provide"), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
         }
     }
-     
+    
     private void showImageErrorDialog(String message) {
-        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, message, manageInternationalize.translate("code_error_message"), JOptionPane.ERROR_MESSAGE);
     }
+
+    private ManageInternationalize manageInternationalize = new ManageInternationalize();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel adresseClient;

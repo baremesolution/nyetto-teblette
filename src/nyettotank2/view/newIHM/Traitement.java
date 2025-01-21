@@ -18,6 +18,7 @@ import nyettotank2.metier.Line;
 import nyettotank2.metier.Volmetrie;
 import nyettotank2.metier.WordFile;
 import nyettotank2.metier.ZModel;
+import nyettotank2.utilitaires.ManageInternationalize;
 
 public class Traitement extends javax.swing.JPanel {
     
@@ -26,8 +27,9 @@ public class Traitement extends javax.swing.JPanel {
     private JPanel jPanel7 = new JPanel();
     private JPanel panelFigure = new JPanel();
     private String typeDonnee = MainView.getTypeDonne();
+    private ManageInternationalize manageInternationalize = new ManageInternationalize();
 
-    private DataResumeDialog dataResumeDialog = new DataResumeDialog(null, "recapitulatif des données saisies".toUpperCase(), true);
+    private DataResumeDialog dataResumeDialog = new DataResumeDialog(null, manageInternationalize.translate("reacp_input_datas") .toUpperCase(), true);
     private BaremeArtisan bareme = new BaremeArtisan();
 
     public Traitement() {
@@ -451,14 +453,16 @@ public class Traitement extends javax.swing.JPanel {
 
     private void height_volumeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_height_volumeButtonActionPerformed
 
-         String cle = MainView.getTypeDonne();
+        String cle = MainView.getTypeDonne();
 
         if (cle.equalsIgnoreCase("Volumetrique")) {
 
             HashMap<String, String> height_volume = getUnionInfoGeneraleTakeFromPanelVolumetryAndDonneeGeneraleVolumetry();
             HashMap<String, String> dataFieldVolumetry = getVolumetryDataField();
-            List<Line> line = DonneesVolumetriques.getData();
-            double lastLineVolume = line.get(line.size() - 1).getVolume();
+            List<Line> lines = DonneesVolumetriques.getData();
+            if( lines.size()>=1 ){
+            
+             double lastLineVolume = lines.get(lines.size() - 1).getVolume();
 
             height_volume.put("nombre divisions", nombreDivisionsValue.getSelectedItem().toString());
             lastLineVolume = bareme.convertVolumeUnitCourentTocm(height_volume.get("unite de volume").toString(), lastLineVolume);
@@ -467,7 +471,10 @@ public class Traitement extends javax.swing.JPanel {
             resultatEnM3Value.setText(String.valueOf(bareme.convertToVolumeDesired("m3", lastLineVolume)));
             resultatEnLitresValue.setText(String.valueOf(lastLineVolume));
 
-            dataResumeDialog.ViewTableHeightToVolumeVolumetrie(height_volume, dataFieldVolumetry, line);
+            dataResumeDialog.ViewTableHeightToVolumeVolumetrie(height_volume, dataFieldVolumetry, lines);
+            
+            }
+           
 
         } else if (cle.equalsIgnoreCase("geometrique")) {
 
@@ -479,8 +486,8 @@ public class Traitement extends javax.swing.JPanel {
 
                 dataResumeDialog.ViewTableHeightToVolumeGeometrie(allGeneralProperties, dataFieldGeometry, resultatEnLitresValue, resultatEnBarilValue, resultatEnM3Value);
             } else {
-                option.showMessageDialog(null, "veuillez renseiger vos chams en fonction de la forme de capacité precedemment choisie",
-                        "Message d'erreur".toUpperCase(), JOptionPane.ERROR_MESSAGE);
+                option.showMessageDialog(null, manageInternationalize.translate("provide_obligatories_field"),
+                        manageInternationalize.translate("code_error_message").toUpperCase(), JOptionPane.ERROR_MESSAGE);
             }
 
         }
@@ -539,6 +546,7 @@ public class Traitement extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDocumentExcelMouseClicked
 
     private void btnDocumentExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDocumentExcelActionPerformed
+     
         String cle = MainView.getTypeDonne();
 
         if (cle.equalsIgnoreCase("Volumetrique")) {
@@ -557,12 +565,12 @@ public class Traitement extends javax.swing.JPanel {
                 if (excel.containsKey("nombre divisions")) {
                     vol.genererTableVolumetrie(excel, dataFieldVolumetry, myLine);
                 } else {
-                    option.showMessageDialog(null, "veiller renseigner la longueur, le diametre dans l'onglet donnée géométrique".toUpperCase(),
-                            "Message d'erreur".toUpperCase(), JOptionPane.ERROR_MESSAGE);
+                    option.showMessageDialog(null,  manageInternationalize.translate("obligatories_field_length_diameter").toUpperCase(),
+                             manageInternationalize.translate("code_error_message").toUpperCase(), JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-                option.showMessageDialog(null, "veiller renseigner le nom de la table avec au moins 3 caracteres".toUpperCase(),
-                        "Message d'erreur".toUpperCase(), JOptionPane.ERROR_MESSAGE);
+                option.showMessageDialog(null, manageInternationalize.translate("incorrect_table_name").toUpperCase(),
+                        manageInternationalize.translate("code_error_message").toUpperCase(), JOptionPane.ERROR_MESSAGE);
             }
 
         } else if (cle.equalsIgnoreCase("geometrique")) {
@@ -579,12 +587,12 @@ public class Traitement extends javax.swing.JPanel {
                 if (excel.containsKey("longueur") || excel.containsKey("diametre") || excel.containsKey("nombre divisions") || dataFieldGeometry.containsKey("fleche cote gauche") || dataFieldGeometry.containsKey("fleche cote droit")) {
                     bareme.genererTableForGeometrie(excel, dataFieldGeometry);
                 } else {
-                    option.showMessageDialog(null, "veiller renseigner la longueur, le diametre dans l'onglet donnée géométrique".toUpperCase(),
-                            "Message d'erreur".toUpperCase(), JOptionPane.ERROR_MESSAGE);
+                    option.showMessageDialog(null, manageInternationalize.translate("obligatories_field_length_diameter").toUpperCase(),
+                             manageInternationalize.translate("code_error_message").toUpperCase(), JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-                option.showMessageDialog(null, "veiller renseigner le nom de la table avec au moins 3 caracteres".toUpperCase(),
-                        "Message d'erreur".toUpperCase(), JOptionPane.ERROR_MESSAGE);
+                   option.showMessageDialog(null, manageInternationalize.translate("incorrect_table_name").toUpperCase(),
+                        manageInternationalize.translate("code_error_message").toUpperCase(), JOptionPane.ERROR_MESSAGE);
             }
         }
 
@@ -595,6 +603,7 @@ public class Traitement extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDocumentPDFMouseClicked
 
     private void btnDocumentPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDocumentPDFActionPerformed
+      
         String cle = MainView.getTypeDonne();
         InputStream signatureStream = InfoTypeView.getSignatureInputStream();
          InputStream logoStream = InfoTypeView.getLogoInputStream();
@@ -625,8 +634,9 @@ public class Traitement extends javax.swing.JPanel {
                     Logger.getLogger(Traitement.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
-                option.showMessageDialog(null, "veiller renseigner le nom du certificat avec au moins 3 caracteres".toUpperCase(),
-                        "Message d'erreur".toUpperCase(), JOptionPane.ERROR_MESSAGE);
+                option.showMessageDialog(null, manageInternationalize.translate("incorrect_cerficicat_name").toUpperCase(),
+                        manageInternationalize.translate("code_error_message").
+                                toUpperCase(), JOptionPane.ERROR_MESSAGE);
             }
 
         } else if (cle.equalsIgnoreCase("Geometrique")) {
@@ -641,8 +651,8 @@ public class Traitement extends javax.swing.JPanel {
                     Logger.getLogger(Traitement.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
-                option.showMessageDialog(null, "veuillez renseigner le nom du certificat avec au moins 3 caractères".toUpperCase(),
-                        "Message d'erreur".toUpperCase(), JOptionPane.ERROR_MESSAGE);
+                option.showMessageDialog(null, manageInternationalize.translate("incorrect_cerficicat_name").toUpperCase(),
+                        manageInternationalize.translate("code_error_message").toUpperCase(), JOptionPane.ERROR_MESSAGE);
             }
         }
 
@@ -825,6 +835,7 @@ public class Traitement extends javax.swing.JPanel {
     private javax.swing.JLabel typeValeurVolume;
     private javax.swing.JComboBox<String> typeVolumeValue;
     // End of variables declaration//GEN-END:variables
+
 
     public void traductionLabel() {
 

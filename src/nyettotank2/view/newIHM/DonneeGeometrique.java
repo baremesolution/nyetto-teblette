@@ -18,6 +18,7 @@ import nyettotank2.dessin3D.vertical.CylinderVerticale;
 import nyettotank2.utilitaires.FormValidator;
 import nyettotank.dessin3D.*;
 import nyettotank2.metier.BaremeArtisan;
+import nyettotank2.utilitaires.ManageInternationalize;
 //import nyettotank.dessin3D;
 
 
@@ -1056,6 +1057,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void drawActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drawActionPerformed
+       
         if (synonymeFormeCapaciteMultiLangueForCylindre(comboFormeCapacite.getSelectedItem().toString().toLowerCase())) {
 
             //if (!MainView.getMethodCalculGeometrie().equalsIgnoreCase("Moindres carrées")) {
@@ -1099,7 +1101,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                     dessinerFormeRayonCarre(nature_fond_g, nature_fond_d);
 
                 } else {
-                    JOptionPane.showMessageDialog(null, "la valeur du diametre ou de la longueur que vous avez entrer ne correspond pas à celle d'un nombre .  ", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, manageInternationalize.translate("values_length_or_diameter_not_matches_number"), manageInternationalize.translate("code_error_message").toUpperCase(), JOptionPane.ERROR_MESSAGE);
 
                 }
 
@@ -1147,6 +1149,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
         formsfigurePanel.revalidate();
         formsfigurePanel.repaint();
         }
+       
     }//GEN-LAST:event_drawActionPerformed
 
     public void dessinerFormeRayonCarre(String nature_fond_g, String nature_fond_d) {
@@ -1178,7 +1181,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
 
     public void remplirFlecheDroitOuGauche() {
 
-         if (Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldDiametre.getText()).matches() && 
+        if (Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldDiametre.getText()).matches() && 
                 Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldLongueur.getText()).matches() ) {
 
             float diametre = Float.parseFloat(fieldDiametre.getText());
@@ -1204,7 +1207,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
             }
 
         } else {
-            JOptionPane.showMessageDialog(null, "la valeur du diametre ou du raon que vous avez entrer ne correspond pas a un nombre .  ", "Erreur", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "  ", manageInternationalize.translate("code_error_message"), JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -1423,9 +1426,10 @@ public class DonneeGeometrique extends javax.swing.JPanel {
             valueGeometryData.put("valeur trigonometrique", btnGrpTrigonometrie.getSelection().toString());
             
             if( !angleInclinaison && !positionZ && !positionY && !positionX )
-                JOptionPane.showMessageDialog(null, "Une erreur s'est produite. Veuillez vérifier les valeurs du formulaire de vos champs qui correspondent à l'orientation oblique de la capacite. \n Parmi lesquels : l'angle d'inclinaison et les différentes positions en X, Y et Z", "Erreur", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_value_matches_oblic_orientation") +  " \n " + manageInternationalize.translate("incorrect_value_matches_oblic_orientation_end"), 
+                            manageInternationalize.translate("code_error_message"), JOptionPane.ERROR_MESSAGE);
             if( !angleInclinaison )
-                JOptionPane.showMessageDialog(null, "Une erreur s'est produite. La valeur de l'angle d'inclinaison n'est pas correcte. ", "Erreur", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_value_angle_inclinaison"), manageInternationalize.translate("code_error_message"), JOptionPane.ERROR_MESSAGE);
 
             //}
         }
@@ -1435,9 +1439,9 @@ public class DonneeGeometrique extends javax.swing.JPanel {
             case "Cubic":
             case "Kubisch":
                 if (!longueur || !largeur || !hauteur) {
-                    JOptionPane.showMessageDialog(null, "Une erreur s'est produite. Veuillez vérifier vos champs", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, manageInternationalize.translate("please_full_fields"), manageInternationalize.translate("code_error_message"), JOptionPane.ERROR_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Vos données ont bien été pris en compte!.", "Succès", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, manageInternationalize.translate("enroll_message_data_window_infotype"), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                 }
 
                 break;
@@ -1446,9 +1450,9 @@ public class DonneeGeometrique extends javax.swing.JPanel {
             case "Spherical":
             case "Sphärisch":
                 if (!rayonSphere) {
-                    JOptionPane.showMessageDialog(null, "Une erreur s'est produite. Veuillez vérifier vos champs", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, manageInternationalize.translate("please_full_fields"), manageInternationalize.translate("code_error_message"), JOptionPane.ERROR_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Vos données ont bien été pris en compte!.", "Succès", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null,manageInternationalize.translate("enroll_message_data_window_infotype"), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                 }
                 break;
 
@@ -1456,9 +1460,9 @@ public class DonneeGeometrique extends javax.swing.JPanel {
             case "Elliptical":
             case "Elliptisch":
                 if (!hauteur || !grandAxe || !petitAxe) {
-                    JOptionPane.showMessageDialog(null, "Une erreur s'est produite. Veuillez vérifier vos champs", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, manageInternationalize.translate("please_full_fields"), manageInternationalize.translate("code_error_message"), JOptionPane.ERROR_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Vos données ont bien été pris en compte!.", "Succès", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, manageInternationalize.translate("enroll_message_data_window_infotype"), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                 }
                 break;
 
@@ -1466,14 +1470,15 @@ public class DonneeGeometrique extends javax.swing.JPanel {
             case "Cylindrical":
             case "Zylindrisch":
                 if (!longueur && !diametre) {
-                    JOptionPane.showMessageDialog(null, "Une erreur s'est produite. Veuillez vérifier vos champs", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, manageInternationalize.translate("please_full_fields"), manageInternationalize.translate("code_error_message"), JOptionPane.ERROR_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Vos données ont bien été pris en compte!.", "Succès", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, manageInternationalize.translate("enroll_message_data_window_infotype"), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                 }
                 break;
         }
     }
-    
+
+   
      public void saveComboIndexActive(){
     
          tabIndexComoBoxActve[0] = comboMethodeValue.getSelectedIndex();
@@ -1503,7 +1508,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
             if ( Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldFlecheGauche.getText()).matches()) {
             valueGeometryData.put("fleche cote gauche", fieldFlecheGauche.getText());
             } else
-                        JOptionPane.showMessageDialog(null, "la valeur de la fleche gauche que vous avez entrer ne correspond pas a un nombre .  ", "Erreur", JOptionPane.ERROR_MESSAGE);        
+                        JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_value_fleche_gauche"),  manageInternationalize.translate("code_error_message"), JOptionPane.ERROR_MESSAGE);        
         }
         
         
@@ -1512,7 +1517,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
             if ( Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldFlecheDroit.getText()).matches()) {
             valueGeometryData.put("fleche cote droit", fieldFlecheDroit.getText());
             } else
-                        JOptionPane.showMessageDialog(null, "la valeur de la fleche droite que vous avez entrer ne correspond pas a un nombre .  ", "Erreur", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_value_fleche_droite"),  manageInternationalize.translate("code_error_message"), JOptionPane.ERROR_MESSAGE);
 
         
         }
@@ -1522,7 +1527,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
             if( Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldFlecheDroit.getText()).matches() )
                     valueGeometryData.put("fleche cote droit", fieldFlecheDroit.getText());
             else
-                                        JOptionPane.showMessageDialog(null, "la valeur de la fleche droite que vous avez entrer ne correspond pas a un nombre .  ", "Erreur", JOptionPane.ERROR_MESSAGE);
+                                        JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_value_fleche_droite"),  manageInternationalize.translate("code_error_message"), JOptionPane.ERROR_MESSAGE);
 
         }
         
@@ -1531,7 +1536,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
             if ( Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldFlecheGauche.getText()).matches()) {
             valueGeometryData.put("fleche cote gauche", fieldFlecheGauche.getText());
             } else
-                        JOptionPane.showMessageDialog(null, "la valeur de la fleche gauche que vous avez entrer ne correspond pas a un nombre .  ", "Erreur", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_value_fleche_gauche"),  manageInternationalize.translate("code_error_message"), JOptionPane.ERROR_MESSAGE);
 
         
         }
@@ -1550,13 +1555,13 @@ public class DonneeGeometrique extends javax.swing.JPanel {
 
             valueGeometryData.put("longueur", fieldLongueur.getText());
         } else
-                                    JOptionPane.showMessageDialog(null, "la valeur de la longueur que vous avez entrer ne correspond pas a un nombre .  ", "Erreur", JOptionPane.ERROR_MESSAGE);
+                                    JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_value_longueur"),  manageInternationalize.translate("code_error_message"), JOptionPane.ERROR_MESSAGE);
 
 
         if (Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldDiametre.getText()).matches()) {
             valueGeometryData.put("diametre", fieldDiametre.getText());
         } else
-                                    JOptionPane.showMessageDialog(null, "la valeur du diametre que vous avez entrer ne correspond pas a un nombre .  ", "Erreur", JOptionPane.ERROR_MESSAGE);
+                                    JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_value_diametre"),  manageInternationalize.translate("code_error_message"), JOptionPane.ERROR_MESSAGE);
 
 
         if (synonymeForOrientationOblique(comboOrientationValue.getSelectedItem().toString())) {
@@ -1582,13 +1587,14 @@ public class DonneeGeometrique extends javax.swing.JPanel {
         infoGenerale.put("nature fond gauche", comboNatureFDValueMoindreCarree.getSelectedItem().toString().toUpperCase());
         infoGenerale.put("nature fond droite", comboNatureFGValueMoindreCarree.getSelectedItem().toString().toUpperCase());
 
-        JOptionPane.showMessageDialog(null, "Vos données ont bien été pris en compte!.", "Succès", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, manageInternationalize.translate("enroll_message_data_window_infotype"), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
 
     }
-      
+
+  
     public void dessinerForme(String fondLeft, String fondRight) {
 
- float flecheg = 0;
+        float flecheg = 0;
         float fleched = 0;
 
         BaremeArtisan baremeArtisan = new BaremeArtisan();
@@ -1617,10 +1623,11 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                         flecheg = baremeArtisan.convertToCentimeter(comboUniteLong.getSelectedItem().toString(), flecheg);
 
                         CylindreHorizontale cylindreHorizontale = new CylindreHorizontale(diametre, longueur, flecheg, fleched);
+//                    CylindreElliptique ellipticCylindric = new CylindreElliptique(diametre, longueur, diametre / 4, diametre / 4);
                         cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                         formsfigurePanel.add(cylindreHorizontale);
                     } else {
-                        JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                     }
 
                 } 
@@ -1643,7 +1650,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                         cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                         formsfigurePanel.add(cylindreHorizontale);
                     } else {
-                        JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                     }
 
                 } else if (synonymeForNatureFlechePlatOfCylinder(fondRight)) {
@@ -1672,7 +1679,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                             cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                             formsfigurePanel.add(cylindreHorizontale);
                         } else {
-                            JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                         }
 
                     } else if (synonymeForNatureFlecheConiqueOfCylinder(fondRight)) {
@@ -1686,7 +1693,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                             cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                             formsfigurePanel.add(cylindreHorizontale);
                         } else {
-                            JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                         }
 
                     }
@@ -1709,7 +1716,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                             cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                             formsfigurePanel.add(cylindreHorizontale);
                         } else {
-                            JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                         }
 
                     } else if (synonymeForNatureFlecheConiqueOfCylinder(fondLeft)) {
@@ -1723,7 +1730,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                             cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                             formsfigurePanel.add(cylindreHorizontale);
                         } else {
-                            JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                         }
 
                     }
@@ -1741,7 +1748,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                             cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                             formsfigurePanel.add(cylindreHorizontale);
                         } else {
-                            JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                         }
 
                     } else if (synonymeForNatureFlecheConiqueOfCylinder(fondLeft)) {
@@ -1758,7 +1765,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                             cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                             formsfigurePanel.add(cylindreHorizontale);
                         } else {
-                            JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                         }
 
                     }
@@ -1777,7 +1784,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                             cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                             formsfigurePanel.add(cylindreHorizontale);
                         } else {
-                            JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                         }
 
                     } else if (synonymeForNatureFlecheConiqueOfCylinder(fondRight)) {
@@ -1794,7 +1801,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                             cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                             formsfigurePanel.add(cylindreHorizontale);
                         } else {
-                            JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                         }
 
                     }
@@ -1810,7 +1817,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                         cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                         formsfigurePanel.add(cylindreHorizontale);
                     } else {
-                        JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                     }
 
                 } else if (synonymeFormeCapaciteMultiLangueForSphere(fondLeft) && synonymeForNatureFlecheConiqueOfCylinder(fondRight)) {
@@ -1825,7 +1832,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                         cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                         formsfigurePanel.add(cylindreHorizontale);
                     } else {
-                        JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                     }
 
                 }
@@ -1847,10 +1854,11 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                         flecheg = baremeArtisan.convertToCentimeter(comboUniteLong.getSelectedItem().toString(), flecheg);
 
                         CylinderVerticale cylindreHorizontale = new CylinderVerticale(diametre, longueur, flecheg, fleched);
+//                    CylindreElliptique ellipticCylindric = new CylindreElliptique(diametre, longueur, diametre / 4, diametre / 4);
                         cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                         formsfigurePanel.add(cylindreHorizontale);
                     } else {
-                        JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                     }
 
                 } else if (synonymeFormeCapaciteMultiLangueForSphere(fondRight)) {
@@ -1872,7 +1880,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                         cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                         formsfigurePanel.add(cylindreHorizontale);
                     } else {
-                        JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                     }
 
                 } else if (synonymeForNatureFlechePlatOfCylinder(fondRight)) {
@@ -1902,7 +1910,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                             cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                             formsfigurePanel.add(cylindreHorizontale);
                         } else {
-                            JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                         }
 
                     } 
@@ -1917,7 +1925,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                             cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                             formsfigurePanel.add(cylindreHorizontale);
                         } else {
-                            JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                         }
 
                     }
@@ -1940,7 +1948,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                             cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                             formsfigurePanel.add(cylindreHorizontale);
                         } else {
-                            JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null,manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                         }
 
                     } else if (synonymeForNatureFlecheConiqueOfCylinder(fondLeft)) {
@@ -1954,7 +1962,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                             cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                             formsfigurePanel.add(cylindreHorizontale);
                         } else {
-                            JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                         }
 
                     }
@@ -1972,7 +1980,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                             cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                             formsfigurePanel.add(cylindreHorizontale);
                         } else {
-                            JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null,manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                         }
 
                     } else if (synonymeForNatureFlecheConiqueOfCylinder(fondLeft)) {
@@ -1989,7 +1997,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                             cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                             formsfigurePanel.add(cylindreHorizontale);
                         } else {
-                            JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                         }
 
                     }
@@ -2007,7 +2015,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                             cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                             formsfigurePanel.add(cylindreHorizontale);
                         } else {
-                            JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null,manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                         }
 
                     } else if (synonymeForNatureFlecheConiqueOfCylinder(fondRight)) {
@@ -2024,7 +2032,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                             cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                             formsfigurePanel.add(cylindreHorizontale);
                         } else {
-                            JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                         }
 
                     }
@@ -2040,7 +2048,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                         cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                         formsfigurePanel.add(cylindreHorizontale);
                     } else {
-                        JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                     }
 
                 } else if (synonymeFormeCapaciteMultiLangueForSphere(fondLeft) && synonymeForNatureFlecheConiqueOfCylinder(fondRight)) {
@@ -2054,14 +2062,15 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                         cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                         formsfigurePanel.add(cylindreHorizontale);
                     } else {
-                        JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                     }
 
                 }
 
             }
 
-        } else if (synonymeForOrientationOblique(formeRecipentSelectionne)) {
+        }
+        else if (synonymeForOrientationOblique(formeRecipentSelectionne)) {
 
             if (Pattern.compile("[0-9]+\\.[\\d]+|\\d+").matcher(fieldInclineAngle.getText()).matches()) {
 
@@ -2080,10 +2089,11 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                             flecheg = baremeArtisan.convertToCentimeter(comboUniteLong.getSelectedItem().toString(), flecheg);
 
                             CylindreHorizontaleIncline cylindreHorizontale = new CylindreHorizontaleIncline(angle, diametre, longueur, flecheg, fleched);
+//                    CylindreElliptique ellipticCylindric = new CylindreElliptique(diametre, longueur, diametre / 4, diametre / 4);
                             cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                             formsfigurePanel.add(cylindreHorizontale);
                         } else {
-                            JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                         }
 
                     } else if (synonymeFormeCapaciteMultiLangueForSphere(fondRight)) {
@@ -2105,7 +2115,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                             cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                             formsfigurePanel.add(cylindreHorizontale);
                         } else {
-                            JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null,manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                         }
 
                     } else if (synonymeForNatureFlechePlatOfCylinder(fondRight)) {
@@ -2134,7 +2144,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                                 cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                                 formsfigurePanel.add(cylindreHorizontale);
                             } else {
-                                JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                             }
 
                         } else if (synonymeForNatureFlecheConiqueOfCylinder(fondRight)) {
@@ -2148,7 +2158,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                                 cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                                 formsfigurePanel.add(cylindreHorizontale);
                             } else {
-                                JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                             }
 
                         }
@@ -2171,7 +2181,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                                 cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                                 formsfigurePanel.add(cylindreHorizontale);
                             } else {
-                                JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(null,manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                             }
 
                         } else if (synonymeForNatureFlecheConiqueOfCylinder(fondLeft)) {
@@ -2185,7 +2195,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                                 cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                                 formsfigurePanel.add(cylindreHorizontale);
                             } else {
-                                JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                             }
 
                         }
@@ -2203,7 +2213,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                                 cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                                 formsfigurePanel.add(cylindreHorizontale);
                             } else {
-                                JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                             }
 
                         } else if (synonymeForNatureFlecheConiqueOfCylinder(fondLeft)) {
@@ -2220,7 +2230,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                                 cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                                 formsfigurePanel.add(cylindreHorizontale);
                             } else {
-                                JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                             }
 
                         }
@@ -2239,7 +2249,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                                 cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                                 formsfigurePanel.add(cylindreHorizontale);
                             } else {
-                                JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(null,manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                             }
 
                         } else if (synonymeForNatureFlecheConiqueOfCylinder(fondRight)) {
@@ -2256,7 +2266,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                                 cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                                 formsfigurePanel.add(cylindreHorizontale);
                             } else {
-                                JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                             }
 
                         }
@@ -2272,7 +2282,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                             cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                             formsfigurePanel.add(cylindreHorizontale);
                         } else {
-                            JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                         }
 
                     } else if (synonymeFormeCapaciteMultiLangueForSphere(fondLeft) && synonymeForNatureFlecheConiqueOfCylinder(fondRight)) {
@@ -2287,7 +2297,7 @@ public class DonneeGeometrique extends javax.swing.JPanel {
                             cylindreHorizontale.setPreferredSize(new Dimension(600, 500));
                             formsfigurePanel.add(cylindreHorizontale);
                         } else {
-                            JOptionPane.showMessageDialog(null, "les valeurs de la fleche sont incorrectes.".toUpperCase(), "Succès", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null,manageInternationalize.translate("incorrect_values_fleches").toUpperCase(), manageInternationalize.translate("success"), JOptionPane.INFORMATION_MESSAGE);
                         }
 
                     }
@@ -2302,9 +2312,10 @@ public class DonneeGeometrique extends javax.swing.JPanel {
         formsfigurePanel.revalidate();
         // formsfigurePanel.updateUI();
         formsfigurePanel.repaint();
-        
+
     }
 
+   
     public boolean synonymeForNatureFlecheConiqueOfCylinder(String formeCapacite) {
 
        if (formeCapacite.equalsIgnoreCase("Conique") || formeCapacite.equalsIgnoreCase("Conical") || formeCapacite.equalsIgnoreCase("Konisch")) {
@@ -2488,6 +2499,9 @@ public class DonneeGeometrique extends javax.swing.JPanel {
     private javax.swing.JPanel panelRayonSphere;
     private javax.swing.JPanel panelUnite;
     // End of variables declaration//GEN-END:variables
+
+
+    private ManageInternationalize manageInternationalize = new ManageInternationalize();
 
      public void traductionLabel() {
         Locale[] locale = {Locale.FRENCH, Locale.ENGLISH, Locale.GERMANY};
