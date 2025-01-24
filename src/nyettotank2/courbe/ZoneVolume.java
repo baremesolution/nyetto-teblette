@@ -14,6 +14,7 @@ import nyettotank2.utilitaires.ManageInternationalize;
  * @author Cynthia
  */
 
+ 
  public class ZoneVolume extends JPanel {
 
     private List<Float> x;
@@ -39,7 +40,7 @@ import nyettotank2.utilitaires.ManageInternationalize;
         g.drawLine(470, 450, 50, 450);
         g.drawLine(50, 450, 50, 30);
 
-        g.drawString(manageInternationalize.translate("hauteur") +"(" + uniteHeight.toUpperCase() + ")", 475, 450);
+        g.drawString(manageInternationalize.translate("hauteur") +"(cm)", 475, 450);
         g.drawString(manageInternationalize.translate("volume") +"(" + uniteVolume.toUpperCase() + ")", 60, 30);
 
         Graphics2D area = (Graphics2D) g;
